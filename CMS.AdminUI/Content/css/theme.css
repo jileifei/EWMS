@@ -1,0 +1,120 @@
+body {
+	background: url("../img/bg.jpg") repeat-x top rgb(247, 246, 240); color: rgb(32, 32, 32);
+}
+a {
+	color: rgb(164, 55, 8);
+}
+a:visited {
+	color: rgb(164, 55, 8);
+}
+input {
+	border: 1px solid rgb(232, 231, 225);
+}
+select {
+	border: 1px solid rgb(232, 231, 225);
+}
+#header h2 {
+	color: rgb(255, 255, 255);
+}
+#content {
+	background: rgb(255, 255, 255);
+}
+#sidebar {
+	background: rgb(255, 255, 255);
+}
+#sidebar h3 {
+	background: rgb(247, 246, 240); border-bottom-color: rgb(232, 231, 225); border-bottom-width: 1px; border-bottom-style: solid;
+}
+#topmenu a {
+	background: rgb(189, 63, 9); color: rgb(247, 246, 240);
+}
+#topmenu a:visited {
+	background: rgb(189, 63, 9); color: rgb(247, 246, 240);
+}
+#topmenu a:hover {
+	color: rgb(255, 255, 255);
+}
+#topmenu .current a {
+	background: url("../img/bg_menu_red.jpg") repeat-x top rgb(255, 255, 255); color: rgb(153, 52, 0); border-right-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-right-width: 1px; border-left-width: 1px; border-right-style: solid; border-left-style: solid;
+}
+#topmenu .current a:hover {
+	background: url("../img/bg_menu_red.jpg") repeat-x top rgb(255, 255, 255); color: rgb(153, 52, 0); border-right-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-right-width: 1px; border-left-width: 1px; border-right-style: solid; border-left-style: solid;
+}
+#topmenu .current a:visited {
+	background: url("../img/bg_menu_red.jpg") repeat-x top rgb(255, 255, 255); color: rgb(153, 52, 0); border-right-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-right-width: 1px; border-left-width: 1px; border-right-style: solid; border-left-style: solid;
+}
+#top-panel {
+	background: rgb(255, 255, 255);
+}
+table {
+	
+}
+td {
+	border: 1px solid rgb(232, 231, 225);
+}
+th {
+	border: 1px solid rgb(232, 231, 225);
+}
+thead {
+	background: rgb(247, 246, 240);
+}
+#styleswitcher {
+	background: rgb(255, 255, 255);
+}
+#footer {
+	background: rgb(255, 255, 255);
+}
+#box {
+	border: 1px solid rgb(232, 231, 225);
+}
+#box h3 {
+	background: rgb(247, 246, 240); color: rgb(164, 55, 8); border-bottom-color: rgb(232, 231, 225); border-bottom-width: 1px; border-bottom-style: solid;
+}
+form#form fieldset {
+	border: 1px solid rgb(232, 231, 225);
+}
+form#form legend {
+	background: url("../img/form_red.gif") repeat-x left rgb(255, 255, 255); border: 1px solid rgb(232, 231, 225); color: rgb(164, 55, 8);
+}
+form#form input {
+	background: url("../img/form_red.gif") repeat-x left top rgb(255, 255, 255); border: 1px solid rgb(232, 231, 225);
+}
+form#form textarea {
+	background: url("../img/form_red.gif") repeat-x left bottom rgb(255, 255, 255); border: 1px solid rgb(232, 231, 225);
+}
+form#form option {
+	background: rgb(255, 255, 255);
+}
+form#form optgroup {
+	background: rgb(232, 231, 225);
+}
+form#form optgroup option {
+	
+}
+form#form #button1 {
+	color: rgb(204, 0, 0);
+}
+form#form #button2 {
+	color: rgb(204, 0, 0);
+}
+form#form #button1:hover {
+	color: rgb(0, 0, 0);
+}
+form#form #button2:hover {
+	color: rgb(0, 0, 0);
+}
+#infobox {
+	border: 1px solid rgb(232, 231, 225);
+}
+#infobox h3 {
+	background: rgb(247, 246, 240); color: rgb(164, 55, 8); border-bottom-color: rgb(232, 231, 225); border-bottom-width: 1px; border-bottom-style: solid;
+}
+#rightnow {
+	border: 1px solid rgb(232, 231, 225);
+}
+#rightnow .reallynow {
+	background: rgb(247, 246, 240); color: rgb(164, 55, 8);
+}
+#rightnow h3 {
+	background: rgb(247, 246, 240); border-bottom-color: rgb(232, 231, 225); border-bottom-width: 1px; border-bottom-style: solid;
+}

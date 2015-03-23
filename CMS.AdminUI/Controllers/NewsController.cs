@@ -67,7 +67,7 @@ namespace CMS.AdminUI.Controllers
                 {
                     if (string.IsNullOrEmpty(newsEntity.Author))
                     {
-                        newsEntity.Author = "星联科技";
+                        newsEntity.Author = "梦都酒家";
                     }
                     if (newsEntity.SortID == null)
                     {
@@ -155,7 +155,7 @@ namespace CMS.AdminUI.Controllers
                 {
                     if (string.IsNullOrEmpty(newsEntity.Author))
                     {
-                        newsEntity.Author = "星联科技";
+                        newsEntity.Author = "梦都酒家";
                     }
                     if (newsEntity.SortID == null)
                     {

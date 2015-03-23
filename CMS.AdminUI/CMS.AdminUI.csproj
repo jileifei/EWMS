@@ -268,6 +268,11 @@
     <Content Include="Content\css\pager.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\styletable.css" />
+    <Content Include="Content\css\theme.css" />
+    <Content Include="Content\css\theme1.css" />
+    <Content Include="Content\css\theme2.css" />
+    <Content Include="Content\css\theme3.css" />
+    <Content Include="Content\css\theme4.css" />
     <Content Include="Content\Dynatree\icons.gif" />
     <Content Include="Content\Dynatree\images\cut.png" />
     <Content Include="Content\Dynatree\images\door.png" />
