@@ -1,0 +1,459 @@
+@CHARSET "UTF-8";
+
+/* 
+IE都能识别*;标准浏览器(如Firefox,Opera,Netscape)不能识别*；
+IE6能识别*，但不能识别 !important,IE7能识别*，也能识别!important;
+FF不能识别*，但能识别!important; 
+*/ /* -- SWFUpload Object Styles ------------------------------- */
+.swfupload {
+	vertical-align: top;
+	border-bottom: 1px solid silver;
+}
+
+.theFont {
+	font-family: 宋体, Arial, Verdana;
+	font: normal 13px tahoma, verdana, helvetica;
+}
+
+/* -- shade div Styles ------------------------------- */
+.vinSwfUpload_context_shade {
+	z-index: 1000;
+	background-color: silver;
+	position: absolute;
+	_position: absolute;
+	filter: Alpha(Opacity = 30);
+	/* IE */
+	-moz-opacity: 0.3;
+	/* Moz + FF */
+	opacity: 0.3;
+}
+
+.vinSwfUpload_context_shade_tip {
+	z-index: 1000;
+	font-size: 18px;
+	color: #000000;
+}
+
+/* Clear Fix */
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+/* Hide from IE Mac \*/
+.clearfix {
+	display: block;
+}
+
+/* End hide from IE Mac */ /* end of clearfix */
+.msgmask {
+	z-index: 1000;
+	position: relative;
+	text-align: center;
+}
+
+.vinSwfUpload_context {
+	position: relative;
+	border: solid 1px silver;
+	font: normal 13px 宋体;
+	white-space: nowrap;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+}
+
+.vinSwfUpload_context_title {
+	position: relative;
+	border-bottom: 1px solid silver;
+	background-color: #EFEFEF;
+	height: 25px;
+	white-space: nowrap;
+}
+
+.vinSwfUpload_context_editContent {
+	position: relative;
+	min-height: 80px;
+	white-space: nowrap;
+}
+
+.vinSwfUpload_context td,th,li,p,span,textarea,div,h1,h2,h3 {
+	font-family: "宋体", Arial, Verdana;
+	font-size: 12px;
+	color: #000000;
+}
+
+.vinSwfUpload_context ul,li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.vinSwfUpload_context img,table {
+	border: 0;
+}
+
+.vinSwfUpload_context img {
+	vertical-align: middle;
+}
+
+.vinSwfUpload_context a:focus {
+	-moz-outline-style: none;
+}
+
+.vinSwfUpload_context a {
+	text-decoration: none;
+	outline: none;
+}
+
+.toolbar {
+	width: 100%;
+	height: 24px;
+}
+
+.toolbar ul {
+	float: left;
+	padding: 1px 1px 0 3px;
+	padding: 2px 2px 0 5px;
+}
+
+.toolbar li {
+	float: left;
+}
+
+.toolbar li a {
+	color: #000;
+	display: block;
+	text-decoration: none;
+	padding: 2px 4px 2px 4px;
+}
+
+.toolbar_a_out {
+	cursor: default;
+	color: #000;
+	display: block;
+	text-decoration: none;
+	padding: 2px 4px 2px 4px;
+}
+
+.upload_filed {
+	color: red;
+}
+
+.toolbar_a_hover {
+	color: #000;
+	cursor: pointer;
+	text-decoration: none;
+	padding: 2px 4px 2px 4px;
+	background-color: #C8D6E0;
+}
+
+.toolbar li a img {
+	vertical-align: bottom;
+	vertical-align: middle;
+}
+
+.toolbar-line-hide {
+	width: 8px;
+	height: 20px;
+	background: url(../images/toobar-line.png) no-repeat center center;
+	display: none;
+}
+
+.toolbar-line {
+	width: 8px;
+	height: 20px;
+	background: url(../images/toobar-line.png) no-repeat center center;
+}
+
+/*带有文字适用*/
+.toolbar li a span {
+	margin-left: 5px;
+}
+
+/*工具栏下拉菜单小箭头*/
+.toolbar-more {
+	padding-bottom: 2px; *
+	margin-top: 5px;
+	margin-left: 2px;
+}
+
+.files_content {
+	overflow: hidden;
+}
+
+.files_header {
+	border-bottom: 1px solid silver;
+	background-color: #EFEFEF;
+	height: 23px;
+	background: url("../images/bg.png") repeat-x 0px 0px !important;
+	/*Style for FF*/
+	background: url("../images/bg.png") repeat-x 1px 0px;
+	/* Style for IE */
+}
+
+.vinSwfUpload_swfupload_files_content {
+	overflow: auto;
+}
+
+.files_item {
+	border-bottom: 1px solid silver;
+	background-color: #FFFFFF;
+	height: 23px;
+}
+
+.files_header div {
+	float: left;
+	display: inline; /*IE下再理解为5px*/
+	text-align: center;
+}
+
+.file_thumbnail {
+	
+}
+
+.file_sequence_header {
+	width: 20px;
+	height: 100%;
+	border-right: 1px solid silver;
+}
+
+/* 
+IE都能识别*;标准浏览器(如Firefox,Opera,Netscape)不能识别*；
+IE6能识别*，但不能识别 !important,IE7能识别*，也能识别!important;
+FF不能识别*，但能识别!important; 
+*/
+.file_sequence_header input {
+	margin-top: 2px; ! important;margin-top: 5px;
+	margin-top: 2px;
+	margin-bottom: 1px;
+}
+
+.file_name_header {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	width: 225px;
+	border-right: 1px solid silver;
+}
+
+.file_size_header {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	border-right: 1px solid silver;
+	width: 70px;
+}
+
+.file_type_header {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	border-right: 1px solid silver;
+	width: 80px;
+}
+
+.file_rate_header {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	border-right: 1px solid silver;
+	width: 105px;
+}
+
+.file_state_header {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	border-right: 1px solid silver;
+	width: 80px;
+}
+
+.files_item_over {
+	background-color: #FDF7DC;
+}
+
+.files_item_select {
+	background-color: #EFEFEF;
+}
+
+.files_item div {
+	float: left;
+	display: inline; /*IE下再理解为5px*/
+	text-align: center;
+}
+
+.file_sequence {
+	width: 20px;
+	height: 100%;
+	border-right: 1px solid silver;
+}
+
+.file_sequence input {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 2px; *
+	margin-bottom: 1px;
+}
+
+.file_name {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	width: 225px;
+	line-height:18px;
+	overflow:hidden;
+}
+
+.file_size {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	width: 70px;
+}
+
+.file_type {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	width: 80px;
+}
+
+.file_rate {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	width: 105px;
+	height: 16px;
+	text-align: center; ! important;
+	margin-left: auto; ! important;
+	margin-right: auto;
+	vertical-align: middle;
+}
+
+.file_state {
+	margin-top: 2px; ! important;
+	margin-top: 5px; *
+	margin-top: 5px;
+	width: 80px;
+}
+
+/* -- 以下是进度条的style -- */
+.process-bar {
+	width: 100px;
+	display: inline-block; *
+	zoom: 1;
+	margin: 0px;
+	padding: 0px;
+	margin-left: 5px; *
+	margin-left: 2px;
+}
+
+.pb-wrapper {
+	border: 1px solid gray;
+	border-style: solid none;
+	position: relative;
+	background: #cfd0d2;
+	width: 100%;
+}
+
+.pb-container {
+	border: 1px solid gray;
+	border-style: none solid;
+	height: 8px; *
+	height: 8px; /*IE*/
+	position: relative;
+	left: -1px;
+	margin-right: -2px;
+	font: 1px/ 0 arial;
+	padding: 1px;
+	width: 98px; !
+	important: width :   98px; /*IE6,FF*/ *
+	padding: 0px;; /*IE*/ *
+	width: 102px; /*IE*/
+}
+
+/* 
+IE都能识别*;标准浏览器(如Firefox,Opera,Netscape)不能识别*；
+IE6能识别*，但不能识别 !important,IE7能识别*，也能识别!important;
+FF不能识别*，但能识别!important; 
+*/
+.pb-highlight {
+	position: absolute;
+	left: 0;
+	top: 0;
+	_top: 1px; *
+	top: 0px;
+	width: 100%;
+	filter: alpha(opacity =   60);
+	/* Moz + FF */
+	opacity: 0.6;
+	/* IE */
+	-moz-opacity: 0.6;
+	height: 5px; *
+	height: 5px; /*IE*/
+	-height: 5px; /*IE*/
+	background: white;
+	font-size: 1px;
+	line-height: 0;
+	z-index: 1; !
+	important: width :   98px; /*IE6,FF*/ *
+	padding: 0px;; /*IE*/ *
+	width: 102px; /*IE*/
+}
+
+.pb-text {
+	width: 100%; *
+	width: 102px; /*IE*/
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+	font: 10px/ 12px arial;
+}
+
+.pb-value {
+	height: 100%;
+	width: 50%;
+	background: #19d73d;
+}
+
+.pb-text {
+	color: black;
+	font: 10px/ 12px arial
+}
+
+.progressWrapper {width: 565px;overflow: hidden;}
+.progressContainer {overflow: hidden;}
+/* Message */
+.message {margin: 1em 0;padding: 10px 20px;border: solid 1px #FFDD99;background-color: #FFFFCC;overflow: hidden;}
+/* Error */
+.red {border: solid 1px #B50000;background-color: #FFEBEB;}
+/* Current */
+.green {border: solid 1px #DDF0DD;background-color: #EBFFEB;}
+/* Complete */
+.blue {border: solid 1px #E5E5E5;background-color: #E5E5E5;}
+
+.progressName,.progressSize,.progressType {font-size: 12px;color: #555;height: 22px;text-align: left;white-space: nowrap;overflow: hidden;float:left;}
+.progressName{width: 222px;margin-bottom:2px;padding-left:2px;border-left: solid 1px #ccc;border-bottom: solid 1px #ccc;border-right: solid 1px #ccc;}
+.progressSize{width: 68px;margin-bottom:2px;padding-left:2px;border-bottom: solid 1px #ccc;border-right: solid 1px #ccc;}
+.progressType{width: 78px;margin-bottom:2px;padding-left:2px;border-bottom: solid 1px #ccc;border-right: solid 1px #ccc;}
+
+.progressBarComplete,.progressBarError {width: 100%;border-bottom: solid 1px #A20808;border-right: solid 1px #A20808;}
+.progressBarComplete {width: 100%;background-color: green;visibility: hidden;}
+.progressBarError {width: 100%;background-color: red;visibility: hidden;}
+.progressBarStatus {width: 78px;font-size: 12px;text-align: center;white-space: nowrap;height: 22px;float:left;margin-bottom:2px;padding-left:2px;border-bottom: solid 1px #ccc;border-right: solid 1px #ccc;}
+.progressBarInProgress{width: 105px;height:22px;border-bottom: solid 1px #ccc;border-right: solid 1px #ccc;float:left;}
+.progressFlow{width:0%;background-color: green;height:21px;}
+
+a.progressCancel {}
+a.progressCancel:hover {background-position: 0px 0px;}
+
+/* -- SWFUpload Object Styles ------------------------------- */
+.swfupload {vertical-align: top;}

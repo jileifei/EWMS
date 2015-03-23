@@ -1,0 +1,287 @@
+﻿@{
+    ViewBag.Title = "用户反馈";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<CMS.Domain.FeedBack>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.easyui.min.js")"></script>
+<link href="@Url.Content("~/Content/css/styletable.css")" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .leftInfo ul {
+        margin-left: 10px;
+    }
+
+        .leftInfo ul li {
+            line-height: 20px;
+        }
+</style>
+@section submenu{
+    @*<ul>
+            <li><h3><a href="#" class="house">反馈信息类型</a></h3>
+                <ul>
+                    <li><a href="/feedback/index/0/1" class="report">建议反馈</a></li>
+                    <li><a href="/feedback/index/0/2" class="report">业务反馈</a></li>
+                    <li><a href="/feedback/index/0/3" class="report">投诉信息</a></li>
+                </ul>
+            </li>
+        </ul>*@
+}
+<div id="content">
+    <div id="box">
+        <h3>业务反馈</h3>
+
+        <table width="100%">
+            <tr>
+                <td>
+                    <div style="margin:5px;">
+                        <div style="width:200px;text-align:left;float:left; margin:10px;">
+                            全 选<input type="checkbox" value="全选" id="checkAll" />&nbsp;&nbsp;&nbsp;
+                            <img src="/Content/img/icons/page_white_edit.png" title="审核通过" width="16" height="16" alt="" />
+                            <a href="javascript:void(0);" id="AuditById">审核通过</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <img src="/Content/img/icons/user_delete.png" title="删除" width="16" height="16" alt="" />
+                            <a href="javascript:void(0);" id="deletedById">删除</a>
+                        </div>
+                        <div style="width:350px;text-align:right;float:right;">
+                            @* @using (Html.BeginForm("Index", "FeedBack", FormMethod.Post, new { id = "theForm1" }))
+                                {*@
+                            <span>审核状态: </span>
+
+                            @Html.DropDownList("replyStatus", new[]{
+                               new SelectListItem{Text="未审核",Value="0"},
+                               new SelectListItem{Text="已审核",Value="1"},
+                               }, new { onchange = "changeStatus(2)" })
+
+
+                            @*<span>回复状态: </span>
+                            @Html.DropDownList("StatusList", new[]{
+                               new SelectListItem{Text="未回复",Value="0"},
+                               new SelectListItem{Text="已回复",Value="2"},
+                               }, new { onchange = "changeStatus(1)" })*@
+
+
+                            @*//} *@
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+        @foreach (CMS.Domain.FeedBack info in Model)
+        {
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th style="width:5%;">
+                            <input type="checkbox" name="checkComment" value="@info.Id" />
+                        </th>
+                        <th>
+                        </th>
+                        <th style="width:30%; text-align:right;">
+                            @if (info.Status == 0)
+                            {
+                                <a href="javascript:void(0);" onclick="AuditComment('@info.Id');">
+                                    <img src="/Content/img/icons/page_white_edit.png" title="审核通过" width="16" height="16" alt="" />
+                                </a>
+                                <a href="javascript:void(0);" onclick="Deleted('@info.Id');">
+                                    <img src="/Content/img/icons/user_delete.png" title="删除" width="16" height="16" alt="" />
+                                </a>
+                                @*<a href="javascript:void(0);" onclick="SendMailInit('@info.Id','@info.Email')"><img src="/Content/img/mail.gif" alt="邮件回复" title="邮件回复" width="16" height="16" /></a>*@
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0);" onclick="Deleted('@info.Id');">
+                                    <img src="/Content/img/icons/user_delete.png" title="删除" width="16" height="16" alt="" />
+                                </a>
+                                @*<a href="javascript:void(0);" onclick="SendMailInit('@info.Id','@info.Email')"><img src="/Content/img/mail.gif" alt="邮件回复" title="邮件回复" width="16" height="16" /></a>*@
+                            }
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center" style="width:7%">
+                            反馈：
+                        </td>
+                        <td>
+                            <p>
+                                @info.Message
+                        </p>
+                    </td>
+                    <td rowspan="2" class="leftInfo">
+                        <ul style="margin-left:10px;">
+                            <li>留言人：@info.UserName</li>
+                            @*<li>性别：@{if (info.Gender == "1")
+                                {<span>男</span>}
+                                else
+                                {<span>女</span>}}</li>*@
+                            @*<li>Email：@info.Email</li>
+                                <li>IP：@info.Ip</li>*@
+                            <li>Email：@info.Mobile</li>
+                            <li>公司名称：@info.CompanyName</li>
+                            <li>地址：@info.Address</li>
+                            <li>留言时间：@info.CreateTime.ToString("yyyy-MM-dd")</li>
+                            <li>
+                                审核状态： @if (info.Status == 0)
+                                {
+                                    <span>未审核</span>
+                                }
+                                else
+                                {
+                                    <span>已审核</span>
+                                }
+                            </li>
+
+                            @*<li>邮件回复：@if (string.IsNullOrEmpty(info.ReplyMessae))
+                                {
+                                         <span>暂时无邮件回复</span>
+                                }
+                                else
+                                {
+                                             <span>已自动邮件回复</span>
+                                }</li>*@
+                        </ul>
+                    </td>
+                </tr>
+                @*<tr>
+                    <td align="center">
+                        回复：
+                    </td>
+                    @*<td>
+                        @if(string.IsNullOrEmpty(info.ReplyMessae))
+                                          {
+                                                  <span>暂时还没有回复</span>
+                                          }
+                                          else
+                                          {
+                                                      <span>@info.ReplyMessae</span>
+                                          }
+                        </td>*@
+                    @*<td>
+                        @{string idContent = "replayContent" + @info.Id;
+                        }
+                        @if (info.Status == 0)
+                        {
+                            <textarea cols="50" rows="3" name="replayContent" disabled="disabled"></textarea><a href="javascript:void(0);" onclick="return ReplayContent('-10000','@info.Email')" class="easyui-linkbutton">回复</a>
+                        }
+                        @if (info.Status == 2)
+                        {
+                            string idEdit = "edit" + @info.Id;
+                            string idReplay = "replay" + @info.Id;
+                            <div id="@idEdit">
+                                @info.ReplyMessae
+                                <a href="javascript:void(0);" onclick="EditContent('@info.Id')" class="easyui-linkbutton">修改</a>
+                                <a href="javascript:void(0);" onclick="DeleteReplay('@info.Id')" class="easyui-linkbutton">删除</a>
+                            </div>
+                            <div id="@idReplay" style="display:none">
+                                <textarea cols="50" rows="3" name="replayContent" id="@idContent" onkeyup="this.value=this.value.replace(/[\\\/“”]/,'')" onclick="if(this.value == '暂时还没有回复，请输入回复内容') this.value='';" onblur="if(this.value=='') this.value='暂时还没有回复，请输入回复内容';" onmouseover="this.focus();this.select();">@info.ReplyMessae</textarea>
+                                <a href="javascript:void(0);" onclick="return ReplayContent('@info.Id','@info.Email')" class="easyui-linkbutton">回复</a>
+                            </div>
+                        }
+                        else if (info.Status == 1)
+                        {
+                            //string idContent = "replayContent" + @info.Id;
+                            <textarea cols="50" rows="3" name="replayContent" id="@idContent" onkeyup="this.value=this.value.replace(/[\\\/“”]/,'')" onclick="if(this.value == '暂时还没有回复，请输入回复内容') this.value='';" onblur="if(this.value=='') this.value='暂时还没有回复，请输入回复内容';" onmouseover="this.focus();this.select();">暂时还没有回复，请输入回复内容</textarea>
+                            <a href="javascript:void(0);" onclick="return ReplayContent('@info.Id','@info.Email')" class="easyui-linkbutton">回复</a>
+                        }
+                    </td>*@
+                @*</tr>*@
+            </tbody>
+        </table>
+        }
+
+        <div id="pager">
+            @Html.Pager(Model, null, "Paging", null)
+        </div>
+    </div>
+</div>
+<div id="dialogviewMsg" title="系统提示" style="display:none; width:240px; height:110px; text-align:center; padding-top:20px;">
+    <span id="messageShow"></span>
+</div>
+
+@*<div id="MailDialog" style="display:none; width:500px;">
+    <table>
+        <tr>
+            <td style="width:60px;" align="right">发信人：</td>
+            <td>
+                <input type="text" name="sendName" id="sendName" readonly="readonly" />&nbsp;&nbsp;<span id="typeNameMsg"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">密码：</td>
+            <td>
+                <input type="text" name="passWord" id="passWord" />&nbsp;&nbsp;<span id="passWordMsg"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">SMTP：</td>
+            <td>
+                <input type="text" name="smtp" id="smtp" value="smtp.sina.com" readonly="readonly" />&nbsp;&nbsp;<span id="smtpMsg"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">收信人：</td>
+            <td>
+                <input type="text" name="receive" id="receive" />&nbsp;&nbsp;<span id="receiveMsg"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">主题：</td>
+            <td>
+                <input type="text" name="title" id="title" />&nbsp;&nbsp;<span id="titleMsg"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">内容：</td>
+            <td>
+                <textarea name="content" style="width:350px;height:300px;" id="MailContent"></textarea>&nbsp;&nbsp;<span id="contentMsg"></span>
+            </td>
+        </tr>
+    </table>
+</div>*@
+@*<script type="text/javascript" src="../../Scripts/kindeditor/kindeditor-min.js"></script>
+    <script type="text/javascript" src="../../Scripts/kindeditor/lang/zh_CN.js"></script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/page/feedback.js")"></script>
+<script language="javascript" type="text/javascript">
+    var messageTypeID = @ViewData["messageType"];
+    //    var editor;
+    //    KindEditor.ready(function (K) {
+    //        editor = K.create('textarea[name="content"]', {
+    //
+    //        });
+    //    });
+</script>
+<script type="text/javascript">
+    var status=@ViewData["status"];
+    if(status==1)
+    {
+        $("#replyStatus").get(0).selectedIndex=1;
+    }
+    if(status==2)
+    {
+        $("#StatusList").get(0).selectedIndex=1;
+    }
+    function changeStatus(ty)
+    {
+        var mt=messageTypeID;
+        if(ty=="1")
+        {
+            var sid=$('#StatusList').val();
+            window.location.href="/feedback/index/"+sid+"/"+mt+"/1";
+        }
+        else
+        {
+            var sid=$('#replyStatus').val();
+            window.location.href="/feedback/index/"+sid+"/"+mt+"/1";
+        }
+    }
+</script>
+
+
+

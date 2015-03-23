@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "修改密码";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section submenu{
+    <ul>
+        <li><h3><a href="/role/" class="house">角色权限</a></h3>
+            <ul>
+                <li><a href="/module/">模块管理</a></li>
+                <li><a href="/role/" class="report">角色定义</a></li>
+                 
+            </ul>
+        </li>
+	</ul>  
+}
+<div id="content">
+    <div id="box">
+        <h3>修改密码</h3>
+        <table width="100%">
+			<tbody>
+				<tr>
+                    <td class="a-right" style="width:80px;">旧&nbsp;密&nbsp;码：</td>
+                    <td><input type="password" id="txtOldPwd" /></td>
+                </tr>
+                <tr>
+                    <td class="a-right">新&nbsp;密&nbsp;码：</td>
+                    <td><input type="password" id="txtNewPwd" /></td>
+                </tr>
+                <tr>
+                    <td class="a-right">再输一遍：</td>
+                    <td><input type="password" id="txtConfPwd" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button id="btnSave">确定</button></td>
+                </tr>
+			</tbody>
+		</table>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#btnSave").click(function () {
+            var oldpassword = $.trim($('#txtOldPwd').val());
+            var newpassword = $.trim($('#txtNewPwd').val());
+            var renewpassword = $.trim($('#txtConfPwd').val());
+            if (oldpassword.length == 0) {
+                alert('请输入旧密码');
+                return false;
+            }
+            else if (newpassword.length == 0) {
+                alert('请输入新的密码');
+                return false;
+            }
+            else if (renewpassword.length == 0) {
+                alert('请输入确认密码');
+                return false;
+            }
+            else if (newpassword != renewpassword) {
+                alert("两次输入的密码不一致");
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/User/EditPwdAjax/',
+                data: { oldpwd: oldpassword, newpwd: newpassword },
+                cache: false,
+                success: function (data) {
+                    var e = eval("(" + data + ")");
+                    if (e.result == 'success') {
+                        alert('密码修改成功');
+                    }
+                    else if (e.result == 'failure') {
+                        alert('密码修改失败，请确认您输入的旧密码是否正确');
+                    }
+                    else if (e.result == 'error') {
+                        alert('密码修改失败，系统出现异常请稍后再试');
+                    }
+                },
+                error: function (xhr) {
+                    throw new Error('数据源访问错误' + '\n' + xhr.responseText);
+                }
+            });
+        })
+    });
+</script>

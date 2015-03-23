@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "发表新闻";
+}
+@model CMS.Domain.NewsDoc
+           
+@section submenu{
+    <ul>
+        <li><h3><a href="@Url.Action("Index", "News")" class="house">文章管理</a></h3>
+            <ul>
+                <li><a href="@Url.Action("Post", "News")">添加文章</a></li>
+                <li><a href="@Url.Action("Recycle", "News")">回收站</a></li>
+            </ul>
+        </li>
+	</ul>  
+}
+
+<div id="content">
+    <div id="box">
+        <h3>发表新闻</h3>
+        @using (Html.BeginForm("PostNews","News",FormMethod.Post,new Dictionary<string,object>(){{"id","frmPost"}}))
+        {
+        <table width='100%' align=center cellpadding="3" cellspacing="1" class="tableborder">
+            <tr>
+                <td width='10%' height=25 bgcolor='ffffff'>标题(*)</td>
+                <td bgcolor='ffffff'>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr> 
+                      <td height="25" bgcolor="#FFFFFF">
+                        @Html.TextBoxFor(m => m.Title, new Dictionary<string, object>() { { "id", "txtTitle" }, { "name", "Title" }, { "size", "60" }, { "class", "" } })
+	                    <input type="button" name="btnAddTwTitle" id="btnAddTwTitle" value="图文"/> 
+                      </td>
+                    </tr>
+                    <tr> 
+                      <td height="25" bgcolor="#FFFFFF">属性： @Html.CheckBox("IsBold", false, new Dictionary<string, object>() { { "id", "chbIsBold" } })粗体
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;颜色: <input name="TitleColor" id="txtTitleColor" type="text" size="10"/>
+                      </td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height="25" bgcolor="#ffffff">副标题</td>
+                <td bgcolor='ffffff'>@Html.TextBoxFor(m => m.SubTitle, new Dictionary<string, object>() { { "id", "txtSubTitle" }, { "name", "SubTitle" }, { "size", "60" }, { "class", "" } })</td>
+            </tr>
+            <tr>
+                <td height="25" bgcolor="#ffffff">特殊属性</td>
+                <td bgcolor="#ffffff">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td height="25" bgcolor="#FFFFFF">信息属性：
+                          @Html.CheckBox("IsRecommend", false, new Dictionary<string, object>() { { "id", "chbIsRecommend" } })推荐
+	                      &nbsp;&nbsp; @Html.CheckBox("IsTop", false, new Dictionary<string, object>() { { "id", "chbIsTop" } })置顶
+	                    </td>
+                      </tr>
+                      <tr> 
+                        <td height="25" bgcolor="#FFFFFF">关&nbsp;&nbsp;键&nbsp;&nbsp;字:                   
+                          @Html.TextBoxFor(m => m.Tags, new Dictionary<string, object>() { { "id", "txtTags" }, { "name", "Tags" }, { "size", "45" }, { "class", "" } })
+                          <font color="#666666">(多个关键字之间请用&quot;,&quot;格开)</font></td>
+                      </tr>
+                      @*<tr> 
+                        <td height="25" bgcolor="#FFFFFF">外部链接:  
+                          @Html.TextBoxFor(m => m.Linkurl, new Dictionary<string, object>() { { "id", "txtLinkUrl" }, { "name", "Linkurl" }, { "size", "45" }, { "class", "" } })
+                          <font color="#666666">(填写后信息连接地址将为此链接)</font></td>
+                      </tr>*@
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">作者</td>
+                <td bgcolor='ffffff'>@Html.TextBoxFor(m => m.Author, new Dictionary<string, object>() { { "id", "txtAuthor" }, { "size", "45" }, { "name", "Author" }, { "class", "" } })</td>
+            </tr>
+            <tr>
+                <td height="25">来源</td>
+                <td>@Html.TextBoxFor(m => m.Source, new Dictionary<string, object>() { { "id", "txtSource" }, { "name", "Source" }, { "size", "45" }, { "class", "" } })</td>
+            </tr>
+            <tr>
+                <td height="25">内容简介</td>
+                <td>@Html.TextArea("Summary", new { cols = "68", rows = "5", id = "txtSummary" })</td>
+            </tr>
+            <tr>
+                <td height="25">新闻内容(*)</td>
+                <td>@Html.TextArea("Content", new { cols = "68", rows = "10", id = "fckContent" })</td>
+            </tr>
+            <tr>
+                <td height="25">标题图片</td>
+                <td>@Html.TextBoxFor(m => m.SmallImageUrl, new Dictionary<string, object>() { { "id", "txtSmallImageUrl" }, { "name", "SmallImageUrl" }, { "size", "45" }, { "class", "" } })<a id="aSelImg" title="上传图片" onclick="UploadImgDialog('aSelImg', 'txtSmallImageUrl')" href="javascript:void(0);"><img src="/content/img/changeimg.gif" alt="上传图片" border="0" align="absbottom"/></a></td>
+            </tr>
+            <tr>
+                <td height="25">发布时间</td>
+                <td><input name="PublicTime" id="txtPublisDate" type="text" value="@ViewData["PublisDate"]"/><input type="button" id="btnSetPublishDate" name="btnSetPublishDate" value="设为当前时间"/></td>
+            </tr>
+            <tr>
+                <td>所属栏目</td>
+                <td><input type="text" class="easyui-combotree" name="ChannelName" id="txtChannelName" style="width:180px;" /><input type="hidden" id="txtChannelID" name="ChannelID" /></td>
+            </tr>
+            <tr>
+                <td>审核状态</td>
+                <td><input type="radio" name="IsAuditing" value="1" checked />已审核&nbsp;<input type="radio" value="0" name="IsAuditing" />待审核</td>
+            </tr>
+            <tr>
+                <td>排 序 值</td>
+                <td>@Html.TextBoxFor(m => m.SortID, new Dictionary<string, object>() { { "id", "txtSortID" }, { "name", "SortID" }, { "size", "45" }, { "class", "" } })</td>
+            </tr>
+            <tr>
+                <td>所属专题</td>
+                <td>
+                    <input type="text" id="txtSpecialName" name="txtSpecialName" class="input-txt"/>&nbsp;<img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selSpecial" title="选择专题" alt="选择专题" />
+                    @Html.HiddenFor(m => m.SpecialID, new Dictionary<string, object>() { { "id", "txtSpecialID" }, { "name", "SpecialID" }, { "value", "0" }, { "size", "45" }, { "class", "" } })
+                    @Html.HiddenFor(m => m.SpecialChannelID, new Dictionary<string, object>() { { "id", "txtSpecialChannelID" }, { "name", "SpecialChannelID" }, { "value", "0" }, { "size", "45" }, { "class", "" } })
+                </td>
+            </tr>
+            <tr>
+                <td height="25" colspan="2"><button type="button" name="btnPost" id="btnPost"> 提 交 </button> &nbsp;&nbsp;&nbsp;<button type="reset" name="btnReset"> 重 置 </button></td>
+            </tr>
+        </table>
+        }
+    </div>
+</div>
+<script type="text/javascript" src="/scripts/jquery.form.js"></script>
+<script type="text/javascript" src="/content/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/scripts/excolor/jquery.modcoder.excolor.js"></script>
+<script type="text/javascript" src="/scripts/jquery.glob.js"></script>
+<script type="text/javascript" src="/scripts/jquery.date.extend.js"></script>
+<script type="text/javascript" src="/scripts/uploadimg.js"></script>
+<script type="text/javascript" src="/scripts/page/news.post.js"></script>

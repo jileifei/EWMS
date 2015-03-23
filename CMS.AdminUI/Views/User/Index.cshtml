@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CMS.Domain
+@using Webdiyer.WebControls.Mvc
+@model CMS.AdminUI.Models.UserPageModel
+<link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+@section submenu{
+    <ul>
+        <li><h3><a href="@Url.Action("Index", "Role")" class="house">角色权限</a></h3>
+            <ul>
+                <li><a href="@Url.Action("Index", "Module")" class="manage">模块管理</a></li>
+                <li><a href="@Url.Action("Index", "Role")" class="report">角色定义</a></li>
+                 
+            </ul>
+        </li>
+	</ul>  
+}
+<div id="content">
+    <div id="box">
+        <h3>系统用户管理</h3>
+        <div style="margin:5px;"><a href="javascript:void(0);" id="aAddUser"><img src="@Url.Content("~/Content/img/icons/user_add.png")" style="vertical-align:middle;" width="16" height="16" align="middle" />添加用户</a></div>
+        <table width="100%">
+			<thead>
+				<tr style="height:22px;">
+                    <th width="40px"><a href="#">ID</a></th>
+                    <th><a href="javascript:void(0);">用户名</a></th>
+                    <th><a href="javascript:void(0);">真实姓名</a></th>
+                    <th width="70px"><a href="javascript:void(0);">部门</a></th>
+                    <th><a href="javascript:void(0);">Email</a></th>
+                    <th width="120px"><a href="javascript:void(0);">创建时间</a></th>
+                    <th width="60px"><a href="javascript:void(0);">操作</a></th>
+                </tr>
+			</thead>
+			<tbody>
+            @foreach (UserInfo item in Model.PageList)
+            { 
+				<tr>
+                    <td class="a-center">@item.ID</td>
+                    <td><a href="javascript:void(0);">@item.UserName</a></td>
+                    <td>@item.RealName</td>
+                    <td>@item.Department</td>
+                    <td>@item.Email</td>
+                    <td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td align="center">
+                    <a href="javascript:void(0);" onclick="EditInit('@item.ID');"><img src="@Url.Content("~/Content/img/icons/user_edit.png")" title="修改用户" width="16" height="16" />
+                    </a>
+                    <a href="javascript:void(0);" onclick="DelUser('@item.ID','@item.UserName');"><img src="@Url.Content("~/Content/img/icons/user_delete.png")" title="删除用户" width="16" height="16" />
+                    </a>
+                    </td>
+                </tr>
+            }
+			</tbody>
+		</table>
+        <div id="pager">@Html.Pager(Model.PageList, new PagerOptions { PageIndexParameterName = "PageIndex",NumericPagerItemCount=10})</div>
+    </div>
+</div>
+
+<div id="divDialog" style="display:none;">
+       @using (Html.BeginForm("Create", "User", FormMethod.Post, new Dictionary<string, object>() { { "id", "frmAdd" } }))
+       {
+    <table width="100%">
+        <tbody>
+			<tr>
+                <td class="a-right" style="width:80px;">用户名：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().UserName, new Dictionary<string, object>() { { "id", "txtUserName" }, { "name", "UserName" }, { "tabindex", "1" } })</td>
+                <td style="width:150px;">@Html.ValidationMessageFor(m => new UserInfo().UserName)</td>
+            </tr>
+            <tr>
+                <td class="a-right">登录密码：</td>
+                <td>@Html.PasswordFor(m => new UserInfo().Password, new Dictionary<string, object>() { { "id", "txtPassword" }, { "name", "Password" }, { "tabindex", "2" } })
+                </td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().Password)</td>
+            </tr>
+            <tr>
+                <td class="a-right">真实姓名：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().RealName, new Dictionary<string, object>() { { "id", "txtRealName" }, { "name", "RealName" }, { "tabindex", "3" } })</td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().RealName)</td>
+            </tr>
+            <tr>
+                <td class="a-right">所在部门：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().Department, new Dictionary<string, object>() { { "id", "txtDepartment" }, { "name", "Department" }, { "tabindex", "4" } })</td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().Department)</td>
+            </tr>
+            <tr>
+                <td class="a-right">Email：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().Email, new Dictionary<string, object>() { { "id", "txtEmail" }, { "name", "Email" }, { "tabindex", "5" } })</td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().Email)</td>
+            </tr>
+            <tr>
+                <td class="a-right">用户状态：</td>
+                <td><input type="radio" name="Status" value="1" />在职&nbsp;<input type="radio" name="Status" value="0" />离职</td>
+                <td></td>
+            </tr>
+		</tbody>
+    </table>
+       }
+</div>
+<div id="divEditDialog" style="display:none;">
+        @using (Html.BeginForm("Create", "User", FormMethod.Post, new Dictionary<string, object>() { { "id", "frmEdit" } }))
+        {
+    <table width="100%">
+        <tbody>
+			<tr>
+                <td class="a-right" style="width:80px;">用户名：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().UserName, new Dictionary<string, object>() { { "id", "txtEditUserName" }, { "name", "UserName" }, { "tabindex", "1" } })</td>
+                <td style="width:150px;">@Html.ValidationMessageFor(m => new UserInfo().UserName)</td>
+            </tr>
+            <tr>
+                <td class="a-right">真实姓名：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().RealName, new Dictionary<string, object>() { { "id", "txtEditRealName" }, { "name", "RealName" }, { "tabindex", "3" } })</td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().RealName)</td>
+            </tr>
+            <tr>
+                <td class="a-right">所在部门：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().Department, new Dictionary<string, object>() { { "id", "txtEditDepartment" }, { "name", "Department" }, { "tabindex", "4" } })</td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().Department)</td>
+            </tr>
+            <tr>
+                <td class="a-right">Email：</td>
+                <td>@Html.TextBoxFor(m => new UserInfo().Email, new Dictionary<string, object>() { { "id", "txtEditEmail" }, { "name", "Email" }, { "tabindex", "5" } })</td>
+                <td>@Html.ValidationMessageFor(m => new UserInfo().Email)</td>
+            </tr>
+            <tr>
+                <td class="a-right">用户状态：</td>
+                <td><input type="radio" name="EditStatus" value="1" />在职&nbsp;<input type="radio" name="EditStatus" value="0" />离职</td>
+                <td></td>
+            </tr>
+		</tbody>
+    </table>
+        }
+</div>
+<script src="/Scripts/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script src="/Scripts/page/user.page.js" type="text/javascript"></script>

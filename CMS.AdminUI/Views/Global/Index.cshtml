@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "全局变量管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CMS.Domain
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<CMS.Domain.GlobalVariable>
+<link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+@section submenu{
+    <ul>
+        <li><h3><a href="@Url.Action("Index", "Template")" class="house">模板管理</a></h3>
+            <ul>
+                <li><a href="@Url.Action("Index", "DataBlock")" class="manage">数据块管理</a></li>
+                <li><a href="@Url.Action("Index", "Global")" class="pagenew">全局变量管理</a></li>
+                <li><a href="@Url.Action("Index", "PagerSet")" class="pagenew">分页信息设置</a></li>
+            </ul>
+        </li>
+	</ul>  
+}
+<div id="content">
+    <div id="box">
+        <h3>全局变量管理</h3>
+        <div style="margin:5px;"><a href="/Global/Add/"><img src="@Url.Content("~/Content/img/icons/cog.png")" style="vertical-align:middle;" width="16" height="16" align="middle" />新建全局变量</a></div>
+        <table width="100%">
+			<thead>
+				<tr style="height:22px;">
+                    <th width="40px"><a href="#">ID</a></th>
+                    <th width="280px"><a href="javascript:void(0);">变量名称</a></th>
+                    <th width="150px"><a href="javascript:void(0);">英文名称</a></th>
+                    <th><a href="javascript:void(0);">创建时间</a></th>
+                    <th width="80px"><a href="javascript:void(0);">操作</a></th>
+                </tr>
+			</thead>
+			<tbody>
+            @foreach (GlobalVariable item in Model)
+            { 
+				<tr>
+                    <td class="a-center">@item.GlobalID</td>
+                    <td><a href="javascript:void(0);">@item.GlobalName</a></td>
+                    <td>@item.EnName</td>
+                    <td>@item.AddDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td align="center">
+                    <a href="/Global/Edit/?GlobalID=@item.GlobalID"><img src="@Url.Content("~/Content/img/edit.png")" title="修改" width="16" height="16" />
+                    </a>
+                    <a href="javascript:void(0);" onclick="DelGlobal('@item.GlobalID','@item.GlobalName');"><img src="@Url.Content("~/Content/img/cancel.png")" title="删除" width="16" height="16" />
+                    </a>
+                    </td>
+                </tr>
+            }
+			</tbody>
+		</table>
+        <div id="pager">@Html.Pager(Model, new PagerOptions { PageIndexParameterName = "PageIndex", NumericPagerItemCount = 10 })</div>
+    </div>
+</div>
+<script type="text/javascript" src="/scripts/page/global.page.js"></script>
