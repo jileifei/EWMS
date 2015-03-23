@@ -1,0 +1,71 @@
+﻿@{ViewBag.Title = "模块管理";}
+@model CMS.Domain.ModuleInfo
+
+<link href="/Content/Dynatree/ui.dynatree.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/Dynatree/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
+@section submenu{
+    <ul>
+        <li><h3><a href="@Url.Action("Index", "Role")" class="house">角色权限</a></h3>
+            <ul>
+                <li><a href="@Url.Action("Index", "Module")" class="manage">模块管理</a></li>
+                <li><a href="@Url.Action("Index", "Role")" class="report">角色定义</a></li>
+                 
+            </ul>
+        </li>
+	</ul> 
+}
+<div id="content">
+    <div id="box">
+        <h3>模块管理</h3>
+        <div style="margin:5px 0px 5px 5px;">说明：右键节点可以添加子节点，修改当前节点，删除当前节点，拖动节点进行排序移动。</div>
+        <div class="bd" id="divLayout">
+            <div id="divTree"></div>
+        </div>
+        <div id="divDialog" style="display:none;">
+        @using (Html.BeginForm())
+        {
+        <table width="99%">
+            <tr>
+                <td align="right" width="120">模块名称：</td>
+                <td width="250">@Html.TextBoxFor(m => m.ModuleName, new Dictionary<string, object>() { { "id", "txtModuleName" }, { "name", "ModuleName" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.ModuleName)</td>
+            </tr>
+            <tr>
+                <td align="right">模块URL：</td>
+                <td>@Html.TextBoxFor(m => m.ModuleUrl, new Dictionary<string, object>() { { "id", "txtModuleUrl" }, { "name", "ModuleUrl" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.ModuleUrl)</td>
+            </tr>
+            <tr>
+                <td align="right">排&nbsp;&nbsp;&nbsp;&nbsp;序：</td>
+                <td>@Html.TextBoxFor(m => m.SortID, new Dictionary<string, object>() { { "id", "txtSortID" }, { "name", "SortID" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.SortID)</td>
+            </tr>
+            <tr>
+                <td align="right">模块状态：</td>
+                <td><input type="radio" name="radioStatus" value="1" checked />启用&nbsp;<input type="radio" value="2" name="radioStatus" />停用</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right">模块描述：</td>
+                <td>@Html.TextAreaFor(m => m.Description, new Dictionary<string, object>() { { "id", "txtDescription" }, { "name", "Description" }, { "cols", "40" }, { "rows", "3" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.Description)</td>
+            </tr>
+        </table>
+        }
+        </div>
+    </div>
+</div>
+<ul id="ulTreeHandle" class="contextMenu">
+	<li class="icon-add"><a href="#add">添加</a></li>
+    <li class="icon-edit"><a href="#edit">编辑</a></li>
+    <li class="icon-close"><a href="#del">删除</a></li>
+</ul>
+<script src="/Scripts/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.dynatree.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.contextmenu-custom.js" type="text/javascript"></script>
+<script src="/scripts/page/page.common.js" type="text/javascript"></script>
+<script src="/Scripts/page/module.page.js" type="text/javascript"></script>
+
+

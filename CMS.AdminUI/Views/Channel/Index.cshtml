@@ -1,0 +1,98 @@
+﻿@{ViewBag.Title = "栏目管理";}
+@model CMS.Domain.ChannelInfo
+
+<link href="/Content/Dynatree/ui.dynatree.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/Dynatree/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
+@section submenu{
+
+}
+<div id="content">
+    <div id="box">
+        <h3>栏目管理</h3>
+        <div style="margin:5px 0px 5px 5px;">说明：右键节点可以添加子节点，修改当前节点，删除当前节点。</div>
+        <div class="bd" id="divLayout">
+            <div id="divTree"></div>
+        </div>
+        <div id="divDialog" style="display:none;">
+        @using (Html.BeginForm())
+        {
+        <table width="99%">
+            <tr>
+                <td align="right" width="120">栏目名称：</td>
+                <td width="250">@Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "id", "txtName" }, { "name", "txtName" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.Name)</td>
+            </tr>
+            <tr>
+                <td align="right">英文名称：</td>
+                <td>@Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "id", "txtEnName" }, { "name", "txtEnName" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.EnName)</td>
+            </tr>
+            <tr>
+                <td align="right">栏目URL：</td>
+                <td>@Html.TextBoxFor(m => m.ChannelUrlPart, new Dictionary<string, object>() { { "id", "txtChannelUrl" }, { "name", "txtChannelUrl" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.ChannelUrlPart)</td>
+            </tr>
+            <tr>
+                <td align="right">栏目类型：</td>
+                <td><input type="radio" name="radioType" value="1" checked />网站首页&nbsp;<input type="radio" value="2" name="radioType" />频道页&nbsp;<input type="radio" value="3" name="radioType" />列表页</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right">关&nbsp;键&nbsp;字：</td>
+                <td>@Html.TextBoxFor(m => m.Keyword, new Dictionary<string, object>() { { "id", "txtKeyword" }, { "name", "txtKeyword" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.Keyword)</td>
+            </tr>
+             <tr>
+                <td align="right">排&nbsp;&nbsp;&nbsp;&nbsp;序：</td>
+                <td>@Html.TextBoxFor(m => m.Sort, new Dictionary<string, object>() { { "id", "txtSort" }, { "name", "txtSort" }, { "class", "input-txt" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.Sort)</td>
+            </tr>
+            <tr>
+                <td align="right">栏目描述：</td>
+                <td>@Html.TextAreaFor(m => m.Description, new Dictionary<string, object>() { { "id", "txtDes" }, { "name", "txtDes" }, { "cols", "40" }, { "rows", "6" } })</td>
+                <td>@Html.ValidationMessageFor(m => m.Description)</td>
+            </tr>
+             <tr>
+                <td align="right">栏目状态：</td>
+                <td><input type="radio" name="radioStatus" value="1" checked />已发布&nbsp;<input type="radio" value="2" name="radioStatus" />未发布&nbsp;<input type="radio" value="3" name="radioStatus" />已删除</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right">栏目首页模板：<input type="hidden" id="hiddenTemplateID" name="hiddenTemplateID" value="0"/></td>
+                <td width="250"><input type="text" id="txtTemplateName" name="txtTemplateName" class="input-txt"/>&nbsp;<img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selTemplate" title="选择模板" alt="选择模板" /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right">栏目列表页模板：<input type="hidden" id="hiddenListTemplateID" name="hiddenListTemplateID" value="0"/></td>
+                <td width="250"><input type="text" id="txtListTemplateName" name="txtListTemplateName" class="input-txt"/>&nbsp;<img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selListTemplate" title="选择列表页模板" alt="选择列表页模板" /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right">分页信息设置：<input type="hidden" id="hiddenListPager" name="hiddenListPager" /></td>
+                <td width="250"><input type="text" id="txtPagerName" name="txtPagerName" class="input-txt"/>&nbsp;<img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selPagerInfo" title="选择分页设置" alt="选择分页设置" /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="right">栏目内容页模板：<input type="hidden" id="hiddenContentTemplateID" name="hiddenContentTemplateID" value="0"/></td>
+                <td width="250"><input type="text" id="txtContentTemplateName" name="txtContentTemplateName" class="input-txt"/>&nbsp;<img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selContentTemplate" title="选择内容页模板" alt="选择内容页模板" /></td>
+                <td></td>
+            </tr>
+        </table>
+        }
+        </div>
+    </div>
+</div>
+<ul id="ulTreeHandle" class="contextMenu">
+	<li class="icon-add"><a href="#add">添加</a></li>
+    <li class="icon-edit"><a href="#edit">编辑</a></li>
+    <li class="icon-close"><a href="#del">删除</a></li>
+</ul>
+<script src="/Scripts/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.dynatree.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.contextmenu-custom.js" type="text/javascript"></script>
+<script src="/scripts/page/page.common.js" type="text/javascript"></script>
+<script src="/Scripts/page/channel.page.js" type="text/javascript"></script>
+
+

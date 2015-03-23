@@ -1,0 +1,107 @@
+﻿@using CMS.Domain
+@model IList<RoleInfo>
+@{
+    ViewBag.Title = "角色管理";
+}
+<link href="/Content/Dynatree/ui.dynatree.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/easyui/default/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/easyui/icon.css" rel="stylesheet" type="text/css"/>
+@section submenu{
+  <ul id="ulRoleList" style="margin-left:10px;">
+    <li><h3><a href="javascript:void(0);" class="group">角色列表</a></h3></li>
+    @{
+        foreach (RoleInfo item in Model)
+        {
+            <li id="liRole@(item.ID)" onclick="SetRole('@(item.ID)');" style="cursor:pointer;">@item.RoleName <input type="hidden" id="hiddenRoleNote@(item.ID)" value="@(item.Description)" /></li>
+        }
+    }
+    </ul>
+}
+<div id="content">
+    <div id="box">
+        <h3>角色信息</h3>
+        <div id="divRoleInfo">
+            <div class="roleinfo">
+                <table>
+                    <tr>
+                        <th>角色编号：</th>
+                        <td id="tbRoleID" style="width:120px;">@if (Model.Count > 0){@Model[0].ID;}</td>
+                        <th>角色名称：</th>
+                        <td id="tbRoleName" style="width:120px;">@if (Model.Count > 0){@Model[0].RoleName;}</td>
+                    </tr>
+                    <tr>
+                        <th>角色描述：</th>
+                        <td id="tbRoleNote" colspan="3">@if (Model.Count > 0){@Model[0].Description;}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="roleaction" style="margin:5px 0px 5px 5px;">
+                <button type="button" name="btnAdd" onclick="addrole();"> 新增 </button>
+                <button type="button" name="btnEdit" onclick="editrole();"> 修改 </button>
+                <button type="button" name="btnDel" onclick="delrole();"> 删除 </button>
+            </div>
+        </div>
+        <h3>角色配置</h3>
+        <div style="margin-top:10px" class="data-tab">
+            <ul>
+                <li class="on" id="liBaseInfo"><a href="javascript:void(0);">基本信息</a></li>
+                <li class="next" id="liMenuAuth"><a href="javascript:void(0);">菜单权限</a></li>
+                <li class="next" id="liChannelAuth"><a href="javascript:void(0);">栏目权限</a></li>
+            </ul>
+        </div>
+        <div id="divBaseInfo">
+            <div id="box">
+				<div class="act-bar">
+					<button type="button" id="btnAddUserToRole">添加用户到角色</button>
+					<button type="button" id="btnDelUserFromRole">从角色中删除用户</button>
+				</div>
+				<table width="100%">
+					<thead>
+				        <tr style="height:22px;">
+                            <th width="30px"></th>
+                            <th width="60px"><a href="#">用户ID</a></th>
+                            <th><a href="javascript:void(0);">用户名</a></th>
+                            <th><a href="javascript:void(0);">部门</a></th>
+                            <th><a href="javascript:void(0);">所属角色</a></th>
+                        </tr>
+			        </thead>
+                    <!--用户列表-->
+			        <tbody id="tbUserList">
+                    </tbody>
+				</table>
+			</div>
+        </div>
+        <div id="divMenuAuth" style="display:none;">
+            <div class="act-bar">
+                <button type="button" id="btnSaveMenuAuth">保存</button>
+                <input type="checkbox" id="chbAllMenu"/>全选
+            </div>
+            <div id="divMenuTree"></div>
+        </div>
+        <div id="divChannelAuth" style="display:none;">
+            <div class="act-bar">
+                <button type="button" id="btnSaveChannelAuth">保存</button>
+                <input type="checkbox" id="chbAllChannel"/>全选
+            </div>
+            <div id="divChannelTree"></div>
+        </div>
+    </div>
+</div>
+<div id="divDialog" title="角色信息" style="display:none;width:410px;height:220px;">
+    <table width="98%">
+        <tr>
+            <th width="60px">角色名称：</th><td><input type="text" id="txtRoleName" name="txtRoleName" class="input-txt" style="width:272px;" /></td>
+        </tr>
+        <tr>
+            <th width="60px" valign="top">角色备注：</th><td><textarea id="txtNote" name="txtNote" cols="30" rows="6"></textarea></td>
+        </tr>
+    </table>
+</div>
+<script src="/Scripts/jquery.json.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.dynatree.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="/Scripts/page/page.common.js" type="text/javascript"></script>
+<script src="/Scripts/page/role.page.js" type="text/javascript"></script>
+<script src="/Scripts/page/role.menu.auth.js" type="text/javascript"></script>
+<script src="/Scripts/page/role.channel.auth.js" type="text/javascript"></script>

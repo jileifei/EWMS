@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "推荐位置管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CMS.Domain
+@using Webdiyer.WebControls.Mvc
+@model PagedList<RecommedPosition>
+<link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+@section submenu{
+    <ul>
+        <li><h3><a href="@Url.Action("Index", "Position")" class="house">推荐位置管理</a></h3></li>
+	</ul>  
+}
+
+<div id="content">
+    <div id="box">
+        <h3>推荐位置管理</h3>
+        <div style="margin:5px;"><a href="javascript:void(0);" id="aAddPosition"><img src="@Url.Content("~/Content/img/icons/add.png")" style="vertical-align:middle;" width="16" height="16" align="middle" />添加推荐位置</a></div>
+        <table width="100%">
+			<thead>
+				<tr style="height:22px;">
+                    <th width="40px"><a href="#">ID</a></th>
+                    <th><a href="javascript:void(0);">位置名称</a></th>
+                    <th><a href="javascript:void(0);">所属栏目</a></th>
+                    <th width="70px"><a href="javascript:void(0);">位置类型</a></th>
+                    <th width="120px"><a href="javascript:void(0);">创建时间</a></th>
+                    <th width="60px"><a href="javascript:void(0);">操作</a></th>
+                </tr>
+			</thead>
+			<tbody>
+            @foreach (RecommedPosition item in Model)
+            { 
+				<tr>
+                    <td class="a-center">@item.ID</td>
+                    <td><a href="javascript:void(0);">@item.Name</a></td>
+                    <td>@item.ChannelName</td>
+                    <td>@item.LocationTypeName</td>
+                    <td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td align="center">
+                    <a href="/Recommend/?PositionID=@item.ID"><img src="@Url.Content("~/Content/img/edit_add.png")" alt="添加推荐内容" title="添加推荐内容" width="16" height="16" />
+                    </a>
+                    <a href="javascript:void(0);" onclick="EditInit('@item.ID');"><img src="@Url.Content("~/Content/img/edit.png")" alt="修改位置信息" title="修改位置信息" width="16" height="16" />
+                    </a>
+                    <a href="javascript:void(0);" onclick="DelPosition('@item.ID');"><img src="@Url.Content("~/Content/img/cancel.png")" alt="删除推荐位置" title="删除推荐位置" width="16" height="16" />
+                    </a>
+                    </td>
+                </tr>
+            }
+			</tbody>
+		</table>
+        <div id="pager">@Html.Pager(Model, new PagerOptions { PageIndexParameterName = "PageIndex",NumericPagerItemCount=10})</div>
+    </div>
+</div>
+
+<div id="divDialog" style="display:none;">
+       <form id="frmPosition" method="post" action="">
+    <table width="100%">
+        <tbody>
+			<tr>
+                <td class="a-right" style="width:80px;">位置名称：</td>
+                <td>@Html.TextBoxFor(m => m[0].Name, new Dictionary<string, object>() { { "id", "txtPositionName" }, { "name", "Name" }, { "tabindex", "1" } })</td>
+                <td style="width:150px;">@Html.ValidationMessageFor(m => m[0].Name)</td>
+            </tr>
+            <tr id="trPassword">
+                <td class="a-right">所属栏目：</td>
+                <td>
+                    <input type="text" class="easyui-combotree" name="ChannelName" id="txtChannelName" style="width:168px;" /><input type="hidden" id="txtChannelID" name="ChannelID" />
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="a-right">位置类型：</td>
+                <td><input type="radio" name="radioType" value="1"/>文字推荐&nbsp;<input type="radio" value="2" name="radioType" />图片推荐</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="a-right">位置说明：</td>
+                <td>@Html.TextAreaFor(m => m[0].Summary, new Dictionary<string, object>() { { "id", "txtSummary" }, { "name", "Summary" }, { "cols", "18" }, { "rows", "5" } })</td>
+                <td></td>
+            </tr>
+		</tbody>
+    </table>
+   </form>
+</div>
+<script src="/Scripts/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script src="/Scripts/page/position.page.js" type="text/javascript"></script>

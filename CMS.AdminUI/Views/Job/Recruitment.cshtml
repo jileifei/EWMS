@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "招聘信息管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CMS.Domain
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<CMS.Domain.JobInfo>
+<link type="text/css" href="../../Content/css/styletable.css" rel="stylesheet" />
+<link type="text/css" href="../../Content/css/pager.css" rel="stylesheet" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.easyui.min.js")"></script>
+@section submenu{
+  <ul>
+        <li><h3><a href="#" class="house">招聘管理</a></h3>
+            <ul>
+             <li id="rim"><a href="#" class="manage">应聘信息管理</a>
+                    <ul>
+                    <li><a href="@Url.Action("Index", "Job")" class="report" style="">全部信息</a></li>
+                    <li><a href="/job/index/15" class="report" style="">自荐类型</a></li>
+                    </ul>
+                </li>
+              <li><a href="@Url.Action("Recruitment", "Job")" class="report">招聘信息管理</a></li>
+                <li><a href="@Url.Action("Position", "Job")" class="report">发布招聘信息</a></li>
+                <li><a href="@Url.Action("JobTypeList", "Job")" class="report">职位类型管理</a></li> 
+            </ul>
+        </li>
+	</ul>
+}
+
+
+<div id="content">
+    <div id="box">
+        <h3>招聘信息管理</h3>
+        <div style="margin:5px;"><a href="@Url.Action("Position", "Job")"><img src="@Url.Content("~/Content/img/icons/add.png")" style="vertical-align:middle;" width="16" height="16" align="middle" />添加职位信息</a></div>
+          <table width="100%">
+			<thead>
+				<tr>
+                    <th width="8%"><a href="#">职位名称</a></th>
+                    <th width="5%"><a href="#">招聘人数</a></th>
+                  @*  <th width="30%"><a href="#">职位要求</a></th>*@
+                    <th width="5%"><a href="#">应聘人数</a></th>
+                    <th width="8%"><a href="#">状态</a></th>
+                    <th width="10%"><a href="#">发表时间</a></th>
+                    <th width="10%"><a href="#">操作</a></th>
+                </tr>
+			</thead>
+			<tbody align="center">
+            @foreach (JobInfo info in Model)
+            {
+            <tr>
+            <td>@info.Name</td>
+            <td>@info.EmployeeNumber</td>
+           @* <td>@info.JobDescription</td>*@
+            <td><a href="/job/index?id=@info.ID">@info.RCount</a></td>
+            <td>@{if (info.Status == 1) { 
+                  <span>未发布</span>
+                  }
+                  else if (info.Status == 2) { 
+                  <span>招聘中</span>
+                  }           else if(info.Status==3){
+                  <span>已结束</span>
+                  }
+            }</td>
+            <td>@info.Publicdate.ToString("yyyy-MM-dd")</td>
+            <td><a href="/job/Position/@info.ID"><img src="@Url.Content("~/Content/img/edit.png")" alt="修改" title="修改" width="16" height="16" /></a>  
+            <a href="javascript:void(0);" onclick="javascript:Delete(@info.ID)"><img src="@Url.Content("~/Content/img/cancel.png")" alt="删除" title="删除" width="16" height="16" /></a>
+            </td>
+            </tr>
+                  }
+            </tbody>
+            </table>
+         <div id="pager">
+           @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "id", CurrentPagerItemWrapperFormatString = "<span class=\"cpb\">{0}</span>", NumericPagerItemWrapperFormatString = "<span class=\"item\">{0}</span>", CssClass = "pages", SeparatorHtml = "" })
+        </div>
+</div>
+</div>
+<script type="text/javascript" src="../../Scripts/page/job.rec.js"></script>
+<script type="text/javascript" src="../../Scripts/page/job.nav.js"></script>

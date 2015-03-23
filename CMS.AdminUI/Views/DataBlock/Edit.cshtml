@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "编辑数据块";
+}
+@model CMS.Domain.DataBlock
+           
+@section submenu{
+    <ul>
+        <li><h3><a href="@Url.Action("Index", "Template")" class="house">模板管理</a></h3>
+            <ul>
+                <li><a href="@Url.Action("Index", "DataBlock")" class="manage">数据块管理</a></li>
+                <li><a href="@Url.Action("Index", "Global")" class="manage">全局变量管理</a></li>
+            </ul>
+        </li>
+	</ul>  
+}
+
+<div id="content">
+    <div id="box">
+        <h3>编辑数据块</h3>
+        @using (Html.BeginForm("Update","DataBlock",FormMethod.Post,new Dictionary<string,object>(){{"id","frmEditDataBlock"}}))
+        {
+        <table width="100%" cellpadding="3" cellspacing="3" class="tableborder">
+            <tr>
+                <td style="width:100px;" align="right">数据块名称：</td>
+                <td bgcolor='ffffff'>
+                    <input type="text" id="txtBlockName" value="@Model.BlockName" name="BlockName" style="width:300px;" /> <span class="red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:100px;" align="right">英文名称：</td>
+                <td bgcolor='ffffff'>
+                    <input type="text" id="txtEnName" name="EnName" value="@Model.EnName" style="width:300px;" /> <span class="red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">数据类型：</td>
+                <td bgcolor='ffffff'><select id="selType" name="type" style="width:200px;"><option value="1">新闻数据</option><option value="2">推荐数据</option></select> <span class="red">*</span></td>
+            </tr>
+            <tr>
+                <td align="right">
+                    排序方式：
+                </td>
+                <td>
+                    <table cellpadding="3" cellspacing="3">
+                        <tr>
+                            <td colspan="2"><select multiple="multiple" id="selOrderList" style="width:438px;height:100px;" name="OrderByField"></select> <span class="red">*</span></td>
+                        </tr>
+                        <tr>
+                            <td width="50%">属性：</td>
+                            <td width="50%">方式：</td>
+                        </tr>
+                        <tr>
+                            <td><select id="selOrderField" style="width:200px;"><option value="">请选择</option></select></td>
+                            <td><select id="selOrderType" style="width:200px;"><option value="">请选择</option><option value="ASC">升序</option><option value="DESC">降序</option></select></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="2"><button id="btnAddOrder" type="button"><img src="/content/img/icons/add.png" style="vertical-align:middle;" alt="添加" title="添加"/>添加</button>&nbsp;<button id="btnDelOrder"  type="button"><img src="/content/img/icons/del.png" style="vertical-align:middle;" title="删除"/>删除</button></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    查询条件：
+                </td>
+                <td>
+                    <table cellpadding="3" cellspacing="3">
+                        <tr>
+                            <td colspan="3" valign="top">
+                            <textarea id="txtWhere" name="Where" cols="50" rows="3">@Model.Where</textarea> <span class="red">*</span></td>
+                        </tr>
+                        <tr id="trRecommendPositionList" style="display:none;">
+                            <td>推荐位置：</td>
+                            <td colspan="2"><select id="selRecommendPosition" style="width:195px;"></select><input type="hidden" id="hiddenWhereValue" /></td>
+                        </tr>
+                        <tr>
+                            <td width="33%">属性：</td>
+                            <td width="33%">条件：</td>
+                            <td>值：</td>
+                        </tr>
+                        <tr>
+                            <td><select id="selFieldCondition" style="width:200px;"><option value="">请选择</option></select></td>
+                            <td><select id="selCondition" style="width:200px;"><option value="">请选择</option></select></td>
+                            <td><input type="text" id="txtWhereValue" style="width:200px;" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><input type="radio" id="radioAnd" value="AND" name="WhereJoin" checked />与&nbsp;<input type="radio" name="WhereJoin" id="radioOr" value="OR" />或</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="2"><button id="btnAddCondition"  type="button"><img src="/content/img/icons/add.png" style="vertical-align:middle;" title="添加"/>添加</button>&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">取几条记录：</td>
+                <td><input type="text" id="txtRowCount" name="RowCount" value="@Model.RowCount" style="width:200px;" /> <span class="red">*</span></td>
+            </tr>
+            <tr>
+                <td height="25" bgcolor="#ffffff" align="right">使用模板：</td>
+                <td bgcolor="#ffffff">
+                    <input type="text" id="txtTemplateName" value="@Model.TemplateName" style="width:200px;"/> <span class="red">*</span><img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selTemplate" title="选择模板" alt="选择模板" /><input type="hidden" id="hiddenTemplateID" value="@Model.TemplateID" name="TemplateID" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">说明：</td>
+                <td><textarea id="txtNote" name="Note" cols="50" rows="3">@Model.Note</textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="button" name="btnPost" id="btnSave"> 提 交 </button> &nbsp;&nbsp;&nbsp;<button type="reset" name="btnReset"> 重 置 </button></td>
+            </tr>
+        </table>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var DataBlockID = '@ViewData["DataBlockID"]';
+    var DataType = @Model.Type;
+    var OrderByField = '@Model.OrderByField';
+    var WhereField = '@Model.Where';
+</script>
+<script type="text/javascript" src="/scripts/jquery.form.js"></script>
+<script type="text/javascript" src="/scripts/field.handler.js"></script>
+<script type="text/javascript" src="/scripts/page/page.common.js"></script>
+<script type="text/javascript" src="/scripts/page/datablock.page.edit.js"></script>

@@ -1,0 +1,24 @@
+﻿*{padding:0;margin:0;}
+div{ overflow:hidden;}
+div,dl,dt,dd,form,h1,h2,h3,h4,h5,h6,img,ol,ul,li,table,th,td,p,span,a{border:0;}
+img,input{border:none;vertical-align:middle;}
+body{font-family:Tahoma,Arial,Helvetica,"宋体";font-size:12px;text-align:center;background:#FFF;color:#333;}
+html{overflow-y:scroll;}
+ul,ol{list-style-type:none;}
+th,td,input{font-size:12px;}
+h3{font-size:14px;}
+button{border:none;cursor:pointer;font-size:12px;background-color:transparent;}
+select{border-width:1px;_zoom:1;border-style:solid;padding-top:2px;font-size:12px;}
+.clear{clear:both;font-size:1px;height:0;visibility:hidden;line-height:0;}
+.clearfix:after{content:"";display:block;clear:both;}
+.clearfix{zoom:1;}
+a:link,a:visited{text-decoration:none;color:#333;}
+a:hover,a:active{color:#f60;}
+
+.all{ width:100%; text-align:center;}
+.main{ width:1089px;  text-align:left; margin:0px auto;}
+
+.top{ width:100%; height:242px; background:url(../img/top.png) no-repeat;}
+.body{ width:100%;}
+.left{ float:left; width:609px; height:371px; background:url(../img/left.png) no-repeat;}
+.right{ float:right; width:481px; height:371px; background:url(../img/right.png) no-repeat;}
