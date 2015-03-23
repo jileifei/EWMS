@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB34EDCE-BA61-41FE-A1CE-E2AA28076B81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CMS.Domain</RootNamespace>
+    <AssemblyName>CMS.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.DynamicProxy">
+      <HintPath>..\packages\Ibatis.DataMapper.1.6.2\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\packages\Ibatis.DataMapper.1.6.2\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common.Logging.Log4Net">
+      <HintPath>..\packages\Ibatis.DataMapper.1.6.2\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\packages\Ibatis.DataMapper.1.6.2\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\Ibatis.DataMapper.1.6.2\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity\BrowseFoldInfo.cs" />
+    <Compile Include="Entity\ChannelInfo.cs" />
+    <Compile Include="Entity\ChannelPrivilege.cs" />
+    <Compile Include="Entity\Custom\ComboTreeNode.cs" />
+    <Compile Include="Entity\Custom\DynatreeModel.cs" />
+    <Compile Include="Entity\Custom\FieldEntity.cs" />
+    <Compile Include="Entity\Custom\PagerModel.cs" />
+    <Compile Include="Entity\Custom\TemplateDoc.cs" />
+    <Compile Include="Entity\DataBlock.cs" />
+    <Compile Include="Entity\FeedBack.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entity\FileStore.cs" />
+    <Compile Include="Entity\GlobalVariable.cs" />
+    <Compile Include="Entity\JobInfo.cs" />
+    <Compile Include="Entity\JobType.cs" />
+    <Compile Include="Entity\ModuleInfo.cs" />
+    <Compile Include="Entity\NewsDoc.cs" />
+    <Compile Include="Entity\PagerInfo.cs" />
+    <Compile Include="Entity\RecommedInfoList.cs" />
+    <Compile Include="Entity\RecommedPosition.cs" />
+    <Compile Include="Entity\Resume.cs" />
+    <Compile Include="Entity\RoleInfo.cs" />
+    <Compile Include="Entity\RolePrivilege.cs" />
+    <Compile Include="Entity\SpecialChannel.cs" />
+    <Compile Include="Entity\SpecialInfo.cs" />
+    <Compile Include="Entity\SystemLog.cs" />
+    <Compile Include="Entity\TagDefine.cs" />
+    <Compile Include="Entity\TemplateBackup.cs" />
+    <Compile Include="Entity\TemplateDataUseInfo.cs" />
+    <Compile Include="Entity\TemplateInfo.cs" />
+    <Compile Include="Entity\UserInfo.cs" />
+    <Compile Include="Entity\download_password.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\ChannelInfo.Map.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Map\ChannelPrivilege.Map.xml" />
+    <EmbeddedResource Include="Map\FeedBack.Map.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Map\FileStore.Map.xml" />
+    <EmbeddedResource Include="Map\JobInfo.Map.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Map\JobType.Map.xml" />
+    <EmbeddedResource Include="Map\ModuleInfo.Map.xml" />
+    <EmbeddedResource Include="Map\NewsDoc.Map.xml" />
+    <EmbeddedResource Include="Map\RecommedInfoList.Map.xml" />
+    <EmbeddedResource Include="Map\RecommedPosition.Map.xml" />
+    <EmbeddedResource Include="Map\Resume.Map.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Map\RoleInfo.Map.xml" />
+    <EmbeddedResource Include="Map\RolePrivilege.Map.xml" />
+    <EmbeddedResource Include="Map\SpecialChannel.Map.xml" />
+    <EmbeddedResource Include="Map\SpecialInfo.Map.xml" />
+    <EmbeddedResource Include="Map\SystemLog.Map.xml" />
+    <EmbeddedResource Include="Map\TagDefine.Map.xml" />
+    <EmbeddedResource Include="Map\TemplateBackup.Map.xml" />
+    <EmbeddedResource Include="Map\TemplateInfo.Map.xml" />
+    <EmbeddedResource Include="Map\UserInfo.Map.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\GlobalVariable.Map.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\DataBlock.Map.xml" />
+    <EmbeddedResource Include="Map\TemplateDataUseInfo.Map.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\PagerInfo.Map.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\download_password.Map.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
