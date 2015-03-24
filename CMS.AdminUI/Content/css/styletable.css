@@ -14,3 +14,7 @@ td, th{
 thead{
 
 }
+
+.ntable td {
+    padding: 0px;
+}

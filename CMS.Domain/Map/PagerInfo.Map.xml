@@ -15,6 +15,7 @@
 		<resultMap id="FullResultMap" class="PagerInfo">
 			<result property="PageID" column="PageID" dbType="Int"/>
 			<result property="DataType" column="DataType" dbType="Int"/>
+      <result property="PagerName" column="PagerName" dbType="VarChar"/>
 			<result property="Where" column="Where" dbType="VarChar"/>
 			<result property="OrderBy" column="OrderBy" dbType="VarChar"/>
 			<result property="PageSize" column="PageSize" dbType="Int"/>
@@ -55,28 +56,31 @@
 		</select>
 		
 		<insert id="Insert" parameterClass="PagerInfo">
-			INSERT INTO [dbo].[PagerInfo] (
-				[DataType]
-				, [Where]
-				, [OrderBy]
-				, [PageSize]
-			) VALUES (
-				#DataType,dbType=Int#
-				, #Where,dbType=VarChar#
-				, #OrderBy,dbType=VarChar#
-				, #PageSize,dbType=Int#
-			)
-		</insert>
+      INSERT INTO [dbo].[PagerInfo] (
+      [DataType]
+      , [PagerName]
+      , [Where]
+      , [OrderBy]
+      , [PageSize]
+      ) VALUES (
+      #DataType,dbType=Int#
+      , #PagerName,dbType=VarChar#
+      , #Where,dbType=VarChar#
+      , #OrderBy,dbType=VarChar#
+      , #PageSize,dbType=Int#
+      )
+    </insert>
 
 		<update id="Update" parameterClass="PagerInfo">
-			UPDATE [dbo].[PagerInfo] SET
-				 [DataType] = #DataType,dbType=Int#
-				, [Where] = #Where,dbType=VarChar#
-				, [OrderBy] = #OrderBy,dbType=VarChar#
-				, [PageSize] = #PageSize,dbType=Int#
-			WHERE
-				([PageID] = #PageID,dbType=Int#)
-		</update>
+      UPDATE [dbo].[PagerInfo] SET
+      [DataType] = #DataType,dbType=Int#
+      , [PagerName] = #PagerName,dbType=VarChar#
+      , [Where] = #Where,dbType=VarChar#
+      , [OrderBy] = #OrderBy,dbType=VarChar#
+      , [PageSize] = #PageSize,dbType=Int#
+      WHERE
+      ([PageID] = #PageID,dbType=Int#)
+    </update>
 
 		<delete id="Delete" parameterClass="PagerInfo">
 			DELETE FROM [dbo].[PagerInfo]

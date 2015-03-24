@@ -33,29 +33,29 @@
             </tr>
             <tr>
                 <td align="right">数据类型：</td>
-                <td bgcolor='ffffff'><select id="selType" name="type" style="width:200px;"><option value="1">新闻数据</option><option value="2">推荐数据</option></select> <span class="red">*</span></td>
+                <td bgcolor='ffffff'><select id="selType" name="type" style="width:308px;"><option value="1">新闻数据</option><option value="2">推荐数据</option></select> <span class="red">*</span></td>
             </tr>
             <tr>
                 <td align="right">
                     排序方式：
                 </td>
                 <td>
-                    <table cellpadding="3" cellspacing="3">
+                    <table cellpadding="3" cellspacing="3" class="ntable">
                         <tr>
                             <td colspan="2"><select multiple="multiple" id="selOrderList" style="width:438px;height:100px;" name="OrderByField"></select> <span class="red">*</span></td>
                         </tr>
                         <tr>
-                            <td width="50%">属性：</td>
-                            <td width="50%">方式：</td>
+                            <td width="50px">属性：</td><td><select id="selOrderField" style="width:200px;"><option value="">请选择</option></select></td>
+                           
                         </tr>
                         <tr>
-                            <td><select id="selOrderField" style="width:200px;"><option value="">请选择</option></select></td>
-                            <td><select id="selOrderType" style="width:200px;"><option value="">请选择</option><option value="ASC">升序</option><option value="DESC">降序</option></select></td>
+                            <td width="50px">方式：</td>
+                            <td><select id="selOrderType" style="width:200px;"><option value="">请选择</option><option value="ASC">升序</option><option value="DESC">降序</option></select>
+                                &nbsp;&nbsp;&nbsp;<button id="btnAddOrder" type="button"><img src="/content/img/icons/add.png" style="vertical-align:middle;" alt="添加" title="添加" />添加</button>&nbsp;
+                            <button id="btnDelOrder" type="button"><img src="/content/img/icons/del.png" style="vertical-align:middle;" title="删除" />删除</button>
+                            </td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="2"><button id="btnAddOrder" type="button"><img src="/content/img/icons/add.png" style="vertical-align:middle;" alt="添加" title="添加"/>添加</button>&nbsp;<button id="btnDelOrder"  type="button"><img src="/content/img/icons/del.png" style="vertical-align:middle;" title="删除"/>删除</button></td>
-                        </tr>
+                       
                     </table>
                 </td>
             </tr>
@@ -64,43 +64,40 @@
                     查询条件：
                 </td>
                 <td>
-                    <table cellpadding="3" cellspacing="3">
+                    <table cellpadding="3" cellspacing="3" class="ntable">
                         <tr>
                             <td colspan="3" valign="top">
-                            <textarea id="txtWhere" name="Where" cols="50" rows="3"></textarea> <span class="red">*</span></td>
+                                <textarea id="txtWhere" name="Where" cols="50" rows="3"></textarea> <span class="red">*</span>
+                            </td>
                         </tr>
                         <tr id="trRecommendPositionList" style="display:none;">
                             <td>推荐位置：</td>
                             <td colspan="2"><select id="selRecommendPosition" style="width:195px;"></select><input type="hidden" id="hiddenWhereValue" /></td>
                         </tr>
                         <tr>
-                            <td width="33%">属性：</td>
-                            <td width="33%">条件：</td>
-                            <td>值：</td>
-                        </tr>
-                        <tr>
-                            <td><select id="selFieldCondition" style="width:200px;"><option value="">请选择</option></select></td>
-                            <td><select id="selCondition" style="width:200px;"><option value="">请选择</option></select></td>
-                            <td><input type="text" id="txtWhereValue" style="width:200px;" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3"><input type="radio" id="radioAnd" value="AND" name="WhereJoin" checked />与&nbsp;<input type="radio" name="WhereJoin" id="radioOr" value="OR" />或</td>
-                        </tr>
-                        <tr>
+                            <td width="250px">属性：<select id="selFieldCondition" style="width:200px;"><option value="">请选择</option></select></td>
+                            <td width="250px">条件：<select id="selCondition" style="width:200px;"><option value="">请选择</option></select></td>
                             <td></td>
-                            <td colspan="2"><button id="btnAddCondition"  type="button"><img src="/content/img/icons/add.png" style="vertical-align:middle;" title="添加"/>添加</button>&nbsp;</td>
                         </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;值：<input type="text" id="txtWhereValue" style="width:200px;" /></td>
+                            <td><input type="radio" id="radioAnd" value="AND" name="WhereJoin" checked />与&nbsp;<input type="radio" name="WhereJoin" id="radioOr" value="OR" />或
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button id="btnAddCondition" type="button"><img src="/content/img/icons/add.png" style="vertical-align:middle;" title="添加" />添加</button>
+                            </td>
+                            <td></td>
+                        </tr>
+                       
                     </table>
                 </td>
             </tr>
             <tr>
                 <td align="right">取几条记录：</td>
-                <td><input type="text" id="txtRowCount" name="RowCount" style="width:200px;" /> <span class="red">*</span></td>
+                <td><input type="text" id="txtRowCount" name="RowCount" style="width:300px;" /> <span class="red">*</span></td>
             </tr>
             <tr>
                 <td height="25" bgcolor="#ffffff" align="right">使用模板：</td>
                 <td bgcolor="#ffffff">
-                    <input type="text" id="txtTemplateName" style="width:200px;"/> <span class="red">*</span><img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selTemplate" title="选择模板" alt="选择模板" /><input type="hidden" id="hiddenTemplateID" value="0" name="TemplateID" />
+                    <input type="text" id="txtTemplateName" style="width:300px;"/> <span class="red">*</span><img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selTemplate" title="选择模板" alt="选择模板" /><input type="hidden" id="hiddenTemplateID" value="0" name="TemplateID" />
                 </td>
             </tr>
             <tr>

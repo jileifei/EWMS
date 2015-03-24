@@ -50,3 +50,6 @@ CMS.CommonLib/obj/Debug/CMS.CommonLib.dll
 *.pdb
 CMS.AdminUI/bin/System.Web.Helpers.xml
 *.xml
+*.dll
+*.dll
+*.dll

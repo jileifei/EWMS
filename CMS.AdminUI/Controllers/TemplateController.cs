@@ -13,7 +13,7 @@ namespace CMS.AdminUI.Controllers
     /// </summary>
     public class TemplateController : BaseController
     {
-        private const int PAGESIZE = 20;
+        private const int PAGESIZE = 15;
 
         public ActionResult Index(long? id, string name, int? type, int pageIndex = 1)
         {

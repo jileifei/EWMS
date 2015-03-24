@@ -120,11 +120,13 @@ namespace CMS.Service
             DynatreeModel dynatreeModel;
             foreach (ChannelInfo channelEntity in channelInfoList)
             {
+                string s = channelEntity.Status == 1 ? "<em style=\"color:red\">(已发布)</em>" : "<em>(未发布)</em>";
                 dynatreeModel = new DynatreeModel();
                 dynatreeModel.expand = true;
-                dynatreeModel.title = channelEntity.Name;
+                dynatreeModel.title = channelEntity.Name + s;
                 dynatreeModel.key = channelEntity.ID.ToString(CultureInfo.InvariantCulture);
                 dynatreeModel.ParentID = channelEntity.ParentChannelID ?? 0;
+                dynatreeModel.status = channelEntity.Status;
                 listDynatreeNode.Add(dynatreeModel);
             }
             return listDynatreeNode;
@@ -474,6 +476,7 @@ namespace CMS.Service
         public ChannelInfo GetChannelInfo(long channelID)
         {
             TemplateService tpService = new TemplateService();
+            PagerSetService pagerSetService = new PagerSetService();
             IDictionary<long, string> dicTemplate = tpService.GetDicTemplateList();
             IChannelInfoDao channelDao = CastleContext.Instance.GetService<IChannelInfoDao>();
             ChannelInfo channnelEntity = channelDao.Find(channelID);
@@ -490,6 +493,11 @@ namespace CMS.Service
                 if (channnelEntity.ContentTemplateID != null && dicTemplate.ContainsKey(channnelEntity.ContentTemplateID.Value))
                 {
                     channnelEntity.ContentTemplateName = dicTemplate[channnelEntity.ContentTemplateID.Value];
+                }
+                if (channnelEntity.PagerID != null)
+                {
+                    PagerInfo pagerInfo = pagerSetService.GePagerSetInfo(Convert.ToInt32(channnelEntity.PagerID));
+                    channnelEntity.PagerName = pagerInfo.PagerName;
                 }
             }
             return channnelEntity;

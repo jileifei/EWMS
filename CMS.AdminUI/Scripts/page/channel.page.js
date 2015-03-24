@@ -64,6 +64,7 @@ function BindContextMenu(span) {
             case "add":
             case "edit":
             case "del":
+            case "publish":
                 NodeHalder(action, node);
                 break;
             default:
@@ -93,6 +94,13 @@ function NodeHalder(action, node) {
             var flag = confirm('您确认要删除该栏目吗？');
             if (flag) {
                 del(node);
+            }
+            break;
+        case "publish":
+            if (node.data.status == 1) {
+                alert("该栏目已经发布!不能重复发布");
+            } else {
+                publish(node);
             }
             break;
         default:
@@ -193,6 +201,8 @@ function edit(node) {
             $("#txtListTemplateName").val(data.ListTemplateName);
             $("#hiddenContentTemplateID").val(data.ContentTemplateID);
             $("#txtContentTemplateName").val(data.ContentTemplateName);
+            $("#hiddenListPager").val(data.PagerID);
+            $("#txtPagerName").val(data.PagerName);
             $("input[name='radioType'][value=" + data.Type + "]").attr("checked", true);
             $("#txtKeyword").val(data.Keyword);
             $("#txtSort").val(data.Sort);
@@ -216,7 +226,7 @@ function update(node) {
         modal: true,
         buttons: {
             "保存": function () {
-                var fromValid = $("form").data("validator");
+                var fromValid = $("#frmChannel").data("validator");
                 if (!fromValid.form()) {
                     return false;
                 }
@@ -257,6 +267,7 @@ function update(node) {
                             node.data.title = name;
                             node.render();
                             clear();
+                            location.reload(true);
                         }
                         else {
                             alert(data.msg);
@@ -274,6 +285,31 @@ function update(node) {
     });
 }
 
+//发布
+function publish(node) {
+    $.blockUI({ message: "<h2>栏目正在发布中，请稍后.....</h2>" });
+    $.ajax({
+        type: 'POST',
+        url: '/publish/PublishPage',
+        data: { id: node.data.key },
+        cache: false,
+        success: function(data) {
+            if (data.result == "success") {
+                alert(data.message);
+                $.unblockUI();
+                location.reload(true);
+            } else {
+                alert(data.message);
+                $.unblockUI();
+            }
+        },
+        error: function(xhr) {
+            throw new Error('数据源访问错误' + '\n' + xhr.responseText);
+            $.unblockUI();
+        }
+    });
+}
+
 // 删除
 function del(node) {
     var nodeid = node.data.key;
@@ -285,7 +321,8 @@ function del(node) {
         success: function (data) {
             data = eval('(' + data + ')');
             if (data.result == "ok") {
-                node.remove();
+                //node.remove();
+                location.reload(true);
             }
             else {
                 alert(data.msg);

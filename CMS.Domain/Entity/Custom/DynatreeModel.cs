@@ -14,6 +14,7 @@ namespace CMS.Domain
         public bool isLazy = false;
         public string url = "";
         public long ParentID = 0;
+        public int status = 1;
 
         public Boolean IsBrowse = false;
         public Boolean AddAuth = false;

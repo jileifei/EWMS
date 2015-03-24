@@ -89,6 +89,9 @@ namespace CMS.Domain {
             get;
             set;
         }
+
+        public string PagerName
+        { get; set; }
 	}
 	
 }

@@ -115,6 +115,7 @@ namespace CMS.Domain {
 		
 		/// <summary>Gets or sets ChannelUrlPart</summary>
         [DisplayName("栏目URL")]
+        [Required(ErrorMessage = "栏目URL不能为空")]
         [StringLength(512, ErrorMessage = "栏目URL不能超过512个字符")]
         public String ChannelUrlPart {
         	get { return m_channelUrlPart; }
@@ -143,6 +144,7 @@ namespace CMS.Domain {
 		
 		/// <summary>Gets or sets Description</summary>
         [DisplayName("栏目描述")]
+        [StringLength(200, ErrorMessage = "关键字不能超过200个字符")]
         public String Description {
         	get { return m_description; }
         	set { m_description = value;}        
@@ -292,6 +294,14 @@ namespace CMS.Domain {
         {
             get { return m_contenttemplateName; }
             set { m_contenttemplateName = value; }
+        }
+        
+        /// <summary>
+        /// 分页名称
+        /// </summary>
+        public string PagerName
+        {
+            get; set;
         }
 	}
 	

@@ -55,7 +55,7 @@
 		</select>
 		
 		<select id="FindByParentChannelID" parameterClass="Int64" resultMap="FullResultMap" extends="FindAll">
-      WHERE ([ChannelInfo].[ParentChannelID] = #value# AND [ChannelInfo].[Status] = 1)
+      WHERE ([ChannelInfo].[ParentChannelID] = #value# AND [ChannelInfo].[Status] IN(1,2))
     </select>
 		<select id="FindByName" parameterClass="String" resultMap="FullResultMap" extends="FindAll">
 			WHERE ([ChannelInfo].[Name] = #value#)

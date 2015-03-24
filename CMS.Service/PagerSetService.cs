@@ -83,7 +83,7 @@ namespace CMS.Service
 
                 int totalCount;
                 int totalPager;
-                DataSet dsPagerSetList = dao.PageingQuery("PagerInfo", "[PageID],[DataType],[Where],[OrderBy],[PageSize],[AddDate]", "PageID", where, "", 2, pageSize, pageIndex, out totalCount, out totalPager);
+                DataSet dsPagerSetList = dao.PageingQuery("PagerInfo", "[PagerName],[PageID],[DataType],[Where],[OrderBy],[PageSize],[AddDate]", "PageID", where, "", 2, pageSize, pageIndex, out totalCount, out totalPager);
                 pagerSetEntity.PageSize = pageSize;
                 pagerSetEntity.CurrentPage = pageIndex;
                 pagerSetEntity.TotalRecords = totalCount;
@@ -106,10 +106,7 @@ namespace CMS.Service
                 PagerInfo pagerSetEntity = new PagerInfo();
                 pagerSetEntity.PageID = TypeParse.ToInt(row["PageID"]);
                 pagerSetEntity.DataType = TypeParse.ToInt(row["DataType"]);
-                if (pagerSetEntity.DataType == 1)
-                {
-                    pagerSetEntity.DataTypeName = "文章分页";
-                }
+                pagerSetEntity.PagerName = Convert.ToString(row["PagerName"]);
                 pagerSetEntity.Where = row["Where"].ToString();
                 pagerSetEntity.OrderBy = row["OrderBy"].ToString();
                 pagerSetEntity.PageSize = TypeParse.ToInt(row["PageSize"]);

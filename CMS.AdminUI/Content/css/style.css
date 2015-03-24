@@ -241,6 +241,20 @@ form#form #button1:hover {
 form#form #button2:hover {
 	background-position: left;
 }
+
+.input-txt {
+    width: 250px;
+}
+.red {
+    color: red;
+}
+
+.ntable{
+    border: 0px;
+}
+.ntable td {
+    border: 0px;
+}
 .icon {
 	margin: 0px 3px; height: 20px; line-height: 20px; padding-left: 19px; text-decoration: none; display: inline-block;
 }
@@ -316,3 +330,11 @@ form#form #button2:hover {
 .modules_manage {
 	background: url("../img/icons/bricks_gear.png") no-repeat left;
 }
+
+/*flickr style*/
+div#flickrpager {padding-right: 3px; padding-left: 3px; padding-bottom: 3px; margin: 3px; padding-top: 3px;; text-align: center}
+div#flickrpager a {border: #dedfde 1px solid; padding-right: 6px; background-position: 50% bottom; padding-left: 6px; padding-bottom: 2px;  color: #0061de; margin-right: 3px; padding-top: 2px; text-decoration: none}
+div#flickrpager a:hover {border: #000 1px solid;background-image: none; color: #fff;background-color: #0061de}
+div#flickrpager a:active {border-right: #000 1px solid; border-top: #000 1px solid; background-image: none; border-left: #000 1px solid; color: #fff; border-bottom: #000 1px solid; background-color: #0061de}
+div#flickrpager span.current {padding-right: 6px; padding-left: 6px; font-weight: bold; padding-bottom: 2px; color: #ff0084; margin-right: 3px; padding-top: 2px}
+div#flickrpager a.disabled {padding-right: 6px; padding-left: 6px; padding-bottom: 2px; color: #adaaad; margin-right: 3px; padding-top: 2px}
