@@ -33,3 +33,7 @@ E:\冀雷飞\EWMS\EWMS\CMS.CommonLib\bin\Debug\zh-Hans\System.Web.Mvc.resources.
 E:\冀雷飞\EWMS\EWMS\CMS.CommonLib\obj\Debug\CMS.CommonLib.csprojResolveAssemblyReference.cache
 E:\冀雷飞\EWMS\EWMS\CMS.CommonLib\obj\Debug\CMS.CommonLib.dll
 E:\冀雷飞\EWMS\EWMS\CMS.CommonLib\obj\Debug\CMS.CommonLib.pdb
+G:\Pojects\EWMS\EWMS\CMS.CommonLib\bin\Debug\CMS.CommonLib.dll
+G:\Pojects\EWMS\EWMS\CMS.CommonLib\bin\Debug\CMS.CommonLib.pdb
+G:\Pojects\EWMS\EWMS\CMS.CommonLib\obj\Debug\CMS.CommonLib.dll
+G:\Pojects\EWMS\EWMS\CMS.CommonLib\obj\Debug\CMS.CommonLib.pdb

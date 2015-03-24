@@ -494,7 +494,7 @@ namespace CMS.Service
                 {
                     channnelEntity.ContentTemplateName = dicTemplate[channnelEntity.ContentTemplateID.Value];
                 }
-                if (channnelEntity.PagerID != null)
+                if (channnelEntity.PagerID != null&&channnelEntity.PagerID>0)
                 {
                     PagerInfo pagerInfo = pagerSetService.GePagerSetInfo(Convert.ToInt32(channnelEntity.PagerID));
                     channnelEntity.PagerName = pagerInfo.PagerName;

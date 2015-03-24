@@ -29,6 +29,7 @@
     }
 
     $("#btnPost").click(function () {
+        $.blockUI({ message: "<h2>详情页正在发布中，请稍后.....</h2>" });
         var channelID = $("#txtChannelID").val();
         if (channelID == "") {
             alert('请选择所属栏目');
@@ -41,8 +42,19 @@
             success: function (data) {
                 var jsonObj = eval('(' + data + ')');
                 if (jsonObj.result == 'ok') {
-                    alert('修改成功');
-                    window.location.href = "/news/";
+                    $.ajax({
+                        type: "post",
+                        url: "/Publish/PublishDetailPage",
+                        data: { id: jsonObj.NewsID, channelId: channelID },
+                        success: function (msg) {
+                            alert('修改成功');
+                            $.unblockUI();
+                            // clear form
+                            window.location.href = "/news/";
+                        }
+                    });
+                    
+                   
                 }
                 else {
                     alert(jsonObj.msg);

@@ -8,13 +8,18 @@
     $('#txtBeginTime').datepicker(DatePickerOpts);
     $('#txtEndTime').datepicker(DatePickerOpts);
 
+    //$('#txtChannelName').combotree({
+    //    url: '/channel/BrowseAuthAjaxLoading/',
+    //    onSelect: function (node) {
+    //        $("#txtChannelID").val(node.id);
+    //    }
+    //});
     $('#txtChannelName').combotree({
-        url: '/channel/BrowseAuthAjaxLoading/',
+        url: '/channel/CombotreeAjaxLoading/',
         onSelect: function (node) {
             $("#txtChannelID").val(node.id);
         }
     });
-
     $("#btnReset").click(function () {
         $("#txtChannelID").val('');
         $('#txtChannelName').combotree("clear");
@@ -24,11 +29,11 @@
         $("#txtTitle").val('');
     });
     // init page
-    PageInit(0);
+    //PageInit(0);
     // 搜索
-    $("#btnSearch").click(function () {
-        PageInit(0);
-    });
+    //$("#btnSearch").click(function () {
+        //PageInit(0);
+    //});
 });
 
 function PageInit(page) {
@@ -95,11 +100,11 @@ function EditNews(newsid) {
 }
 
 function DelNews(newsid) {
-    var isHaveRight = CheckIsHaveRight(newsid, 2);
-    if (!isHaveRight) {
-        alert('对不起，您没有该频道下文章的删除权限');
-        return false;
-    }
+    //var isHaveRight = CheckIsHaveRight(newsid, 2);
+    //if (!isHaveRight) {
+    //    alert('对不起，您没有该频道下文章的删除权限');
+    //    return false;
+    //}
     if (confirm('您确认要删除当前文章吗？')) {
         $.ajax({
             type: 'POST',

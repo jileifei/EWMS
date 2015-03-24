@@ -125,6 +125,7 @@ namespace CMS.AdminUI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult GetChannelInfo(int? id)
         {
             ChannelInfo channelInfo;

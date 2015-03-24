@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using CMS.CommonLib.Utils;
 using CMS.Domain;
 using CMS.Service;
 using CMS.Template;
@@ -14,6 +15,7 @@ namespace CMS.AdminUI.Controllers
 {
     public class PublishController : BaseController
     {
+        public string AbsoPath = ConfigurationManager.AppSettings["SiteAbsolutePath"];
         /// <summary>
         /// 发布栏目
         /// </summary>
@@ -22,8 +24,6 @@ namespace CMS.AdminUI.Controllers
         public ActionResult PublishChannelPage(int? id)
         {
             ChannelInfo channelInfo;
-            string absoPath = ConfigurationManager.AppSettings["SiteAbsolutePath"];
-
             if (id != null)
             {
                 string templateContent;
@@ -37,8 +37,10 @@ namespace CMS.AdminUI.Controllers
                 {
                     return Json(new {result = "error", message = ex.Message}, JsonRequestBehavior.AllowGet);
                 }
+                string linkurl = AbsoPath+channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
+                FileHandler.CheckDirectory(linkurl);
                 TemplateHandler.CreateFileByTemplateContent(new Hashtable(), templateContent, Encoding.UTF8,
-                    absoPath + channelInfo.ChannelUrlPart);
+                    AbsoPath + channelInfo.ChannelUrlPart);
                 channelInfo.Status = 1;
                 channelService.Update(channelInfo);
             }
@@ -48,6 +50,28 @@ namespace CMS.AdminUI.Controllers
             }
 
             return Json(new { result = "success", message = "已经发布成功" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PublishDetailPage(Int64 id, Int32 channelId)
+        {
+            string templateContent;
+            ChannelService channelService = new ChannelService();
+            ChannelInfo channelInfo = channelService.GetChannelInfo(channelId);
+            try
+            {
+                templateContent = TemplateHandler.DealTemplate(channelInfo.ContentTemplateID, channelInfo.ID, id);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "error", message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            string p = channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
+            string linkurl = AbsoPath + p + "\\d\\" + DateTime.Now.ToString("yyyy-MM-dd");
+
+            FileHandler.CheckDirectory(linkurl);
+            TemplateHandler.CreateFileByTemplateContent(new Hashtable(), templateContent, Encoding.UTF8,
+                linkurl + "\\0000000" + id + ".shtml");
+            return Json(new {result = "success", message = "发布文章成功"}, JsonRequestBehavior.AllowGet);
         }
     }
 }
