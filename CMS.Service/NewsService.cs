@@ -34,7 +34,7 @@ namespace CMS.Service
                     newsEntity.Summary = TextHelper.SubStr(TextHelper.ClearHtml(newsEntity.Content), 100);
                 }
 
-                SqlParameter[] parameters = new SqlParameter[21];
+                SqlParameter[] parameters = new SqlParameter[22];
                 parameters[0] = new SqlParameter("@Title", newsEntity.Title);
                 parameters[1] = new SqlParameter("@SubTitle", newsEntity.SubTitle);
                 parameters[2] = new SqlParameter("@Tags", newsEntity.Tags);
@@ -56,8 +56,9 @@ namespace CMS.Service
                 parameters[18] = new SqlParameter("@PublicTime", newsEntity.PublicTime);
                 parameters[19] = new SqlParameter("@IsAuditing", newsEntity.IsAuditing);
                 parameters[20] = new SqlParameter("@SortID", newsEntity.SortID);
-
-                Int64 count = dao.ExecuteNonQuery(CommandType.StoredProcedure, "UP_PostNews", parameters);
+                parameters[21] = new SqlParameter("@o_id",SqlDbType.BigInt) {Direction = ParameterDirection.Output};
+                dao.ExecuteNonQuery(CommandType.StoredProcedure, "UP_PostNews", parameters);
+                Int64 count = Convert.ToInt64(parameters[21].Value);
                 if (count > 0)
                 {
                     return count;

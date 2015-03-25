@@ -1,20 +1,35 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services.Discovery;
 using CMS.CommonLib.Extension;
 using CMS.CommonLib.Utils;
 using CMS.Domain;
 using CMS.Service;
+using Webdiyer.WebControls.Mvc;
 
 namespace CMS.AdminUI.Controllers
 {
     public class NewsController : BaseController
     {
-        public ActionResult Index()
+        private const int PAGESIZE = 10;
+        private string _siteurl = ConfigurationManager.AppSettings["WebUrl"];
+        //public ActionResult Index()
+        //{
+        //    ModuleService moduleService = new ModuleService();
+        //    ViewBag.IsHaveAdd = moduleService.CheckUreIsHaveRight(RoleID, "/news/post");
+        //    return View();
+        //}
+
+        public ActionResult Index(long? channelID, long? id, string title, string beginTime, string endTime,
+            int pageIndex = 1)
         {
-            ModuleService moduleService = new ModuleService();
-            ViewBag.IsHaveAdd = moduleService.CheckUreIsHaveRight(RoleID, "/news/post");
-            return View();
+            //if (beginTime == null) throw new ArgumentNullException("beginTime");
+
+            NewsService newsService = new NewsService();
+            PagerModel<NewsDoc> pageModel = newsService.GetPagerNewsListByChannelID(0, channelID, id, title, beginTime, endTime, PAGESIZE, pageIndex);
+            var pagedNewsList = new PagedList<Domain.NewsDoc>(pageModel.ItemList, pageIndex, PAGESIZE, pageModel.TotalRecords);
+            return View(pagedNewsList);
         }
 
         /// <summary>
@@ -28,14 +43,14 @@ namespace CMS.AdminUI.Controllers
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public ActionResult ServerAjax(long? channelID, long? id, string title, string beginTime, string endTime, int pageIndex = 1,int pageSize = 10)
+        public ActionResult ServerAjax(long? channelID, long? id, string title, string beginTime, string endTime, int pageIndex = 1, int pageSize = 10)
         {
             if (beginTime == null) throw new ArgumentNullException("beginTime");
             PagerModel<NewsDoc> pageModel = new PagerModel<NewsDoc>();
             if (Request.IsAjaxRequest())
             {
                 NewsService newsService = new NewsService();
-                pageModel = newsService.GetPagerNewsListByChannelID(0,channelID, id, title, beginTime, endTime, pageSize, pageIndex);
+                pageModel = newsService.GetPagerNewsListByChannelID(0, channelID, id, title, beginTime, endTime, pageSize, pageIndex);
             }
             return Json(pageModel);
         }
@@ -85,16 +100,17 @@ namespace CMS.AdminUI.Controllers
                     newsEntity.CreateTime = DateTime.Now;
                     newsEntity.CreateUserIP = Utils.GetRealIP();
                     ChannelService channelService = new ChannelService();
-                    string linkUrl=channelService.GetChannelInfo(newsEntity.ChannelID).ChannelUrlPart;
+                    ChannelInfo channelInfo = channelService.GetChannelInfo(newsEntity.ChannelID);
+                    string linkUrl =_siteurl+channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
                     try
                     {
                         NewsService newsService = new NewsService();
                         Int64 flag = newsService.AddPost(newsEntity);
-                        if (flag>0)
+                        if (flag > 0)
                         {
-                            linkUrl = linkUrl + "/" + flag;
+                            linkUrl = linkUrl + "/d/" + DateTime.Now.ToString("yyyy-MM-dd") + "/0000000"+ flag + ".shtml";
                             newsService.UpdateLinkUrl(linkUrl, flag);
-                            msg = "{\"result\":\"ok\"}";
+                            msg = "{\"result\":\"ok\",\"NewsID\":\""+flag+"\"}";
                         }
                         else
                         {
@@ -173,19 +189,17 @@ namespace CMS.AdminUI.Controllers
                     newsEntity.ModifyTime = DateTime.Now;
                     newsEntity.ModifyUserIP = Utils.GetRealIP();
                     ChannelService channelService = new ChannelService();
-                    string linkUrl = channelService.GetChannelInfo(newsEntity.ChannelID).ChannelUrlPart;
+                    ChannelInfo channelInfo = channelService.GetChannelInfo(newsEntity.ChannelID);
+                    string linkUrl = _siteurl+channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
                     try
                     {
                         NewsService newsService = new NewsService();
                         bool flag = newsService.EditPost(newsEntity);
                         if (flag)
                         {
-                            if (string.IsNullOrEmpty(newsEntity.Linkurl))
-                            {
-                                linkUrl = linkUrl + "/" + newsEntity.ID;
-                            }
+                            linkUrl = linkUrl + "/d/" + DateTime.Now.ToString("yyyy-MM-dd") + "/0000000" + newsEntity.ID + ".shtml";
                             newsService.UpdateLinkUrl(linkUrl, newsEntity.ID);
-                            msg = "{\"result\":\"ok\"}";
+                            msg = "{\"result\":\"ok\",\"NewsID\":\"" + newsEntity.ID + "\"}";
                         }
                         else
                         {
@@ -279,7 +293,7 @@ namespace CMS.AdminUI.Controllers
                 try
                 {
                     NewsService newsService = new NewsService();
-                    bool flag = newsService.AuditNews(newsID.Value, auditing??0,UserID);
+                    bool flag = newsService.AuditNews(newsID.Value, auditing ?? 0, UserID);
                     return Content(flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
                 }
                 catch (Exception ex)
@@ -341,7 +355,7 @@ namespace CMS.AdminUI.Controllers
             if (Request.IsAjaxRequest())
             {
                 NewsService newsService = new NewsService();
-                pageModel = newsService.GetPagerNewsListByChannelID(1,channelID, id, title, beginTime, endTime, pageSize, pageIndex);
+                pageModel = newsService.GetPagerNewsListByChannelID(1, channelID, id, title, beginTime, endTime, pageSize, pageIndex);
             }
             return Json(pageModel);
         }

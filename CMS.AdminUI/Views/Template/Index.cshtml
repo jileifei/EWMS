@@ -49,6 +49,12 @@
             <tbody>
                 @if (Model != null)
                 {
+                    if (Model.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="6" align="center">没有搜索到数据</td>
+                            </tr>
+                        }
                     foreach (CMS.Domain.TemplateInfo item in Model)
                     {
                         <tr>

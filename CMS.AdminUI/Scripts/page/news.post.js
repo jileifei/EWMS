@@ -24,6 +24,7 @@
         SelSpecial();
     });
     $("#btnPost").click(function () {
+        $.blockUI({ message: "<h2>详情页正在发布中，请稍后.....</h2>" });
         var channelID = $("#txtChannelID").val();
         if (channelID == "") {
             alert('请选择所属栏目');
@@ -36,12 +37,20 @@
             success: function (data) {
                 var jsonObj = eval('(' + data + ')');
                 if (jsonObj.result == 'ok') {
-                    alert('发表成功');
-                    // clear form
-                    $("#frmPost").clearForm();
-                    $("#txtSpecialID").val('0');
-                    $("#txtSpecialChannelID").val('0');
-                    CKEDITOR.instances.fckContent.setData("");
+                    $.ajax({
+                        type: "post",
+                        url: "/Publish/PublishDetailPage",
+                        data: { id: jsonObj.NewsID, channelId: channelID },
+                        success: function (msg) {
+                            alert('发表成功');
+                            $.unblockUI();
+                            // clear form
+                            $("#frmPost").clearForm();
+                            $("#txtSpecialID").val('0');
+                            $("#txtSpecialChannelID").val('0');
+                            CKEDITOR.instances.fckContent.setData("");
+                        }
+                    });
                 }
                 else {
                     alert(jsonObj.msg);
