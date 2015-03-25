@@ -290,7 +290,7 @@ function publish(node) {
     $.blockUI({ message: "<h2>栏目正在发布中，请稍后.....</h2>" });
     $.ajax({
         type: 'POST',
-        url: '/publish/PublishPage',
+        url: '/publish/PublishChannelPage',
         data: { id: node.data.key },
         cache: false,
         success: function(data) {

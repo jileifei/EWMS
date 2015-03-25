@@ -15,6 +15,7 @@ namespace CMS.AdminUI.Controllers
     /// </summary>
     public class GlobalController : BaseController
     {
+        private string IncludePath = ConfigurationManager.AppSettings["IncludePath"];
         private const int PAGESIZE = 20;
 
         public ActionResult Index(int pageIndex = 1)
@@ -90,6 +91,11 @@ namespace CMS.AdminUI.Controllers
                     bool flag = globalVarService.AddGlobalVar(globalEntity);
                     if (flag)
                     {
+                        if (globalEntity.IsInclude)
+                        {
+                            // 生成静态shtml页面
+                            FileHandler.Write(globalEntity.Content, IncludePath+ "/" + globalEntity.EnName + ".shtml", Utils.GetEncodingByEncode(fileEncode));
+                        }
                         msg = "{\"result\":\"ok\"}";
                     }
                     else
@@ -127,8 +133,7 @@ namespace CMS.AdminUI.Controllers
                     if (globalVarInfo.IsInclude)
                     {
                         // 生成静态shtml页面
-                        FileHandler.Write(globalVarInfo.Content, ConfigurationManager.AppSettings["IncludePath"]
-                           + "/" + globalVarInfo.EnName + ".shtml", Utils.GetEncodingByEncode(fileEncode));
+                        FileHandler.Write(globalVarInfo.Content, IncludePath+ "/" + globalVarInfo.EnName + ".shtml", Utils.GetEncodingByEncode(fileEncode));
                     }
                     return Content("{\"result\":\"ok\"}");
                 }

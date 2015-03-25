@@ -2,6 +2,7 @@
     ViewBag.Title = "文件管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="@Url.Content("~/Content/easyui/default/datagrid.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.easyui.min.js")"></script>
 <script type="text/javascript" src="../../Scripts/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="../../Scripts/jquery.form.js"></script>
@@ -13,104 +14,130 @@
         <li>
 
         </li>
-	</ul>  
+    </ul>
 }
 <div id="content">
     <div id="box">
         <h3>文件管理</h3>
-              <table width="100%">
-              <tr><td>
-           <table id="fileList" toolbar="#tb" ></table>
-           </td></tr>
-           </table>
-           <div id="tb" style="padding:5px;height:auto">
-		<div style="margin-bottom:5px">
-			<a href="#" class="easyui-linkbutton" onclick="javascript: AddFlodDialog();" iconCls="icon-add" plain="true">新建文件夹</a>
-            <a href="#" class="easyui-linkbutton" onclick="javascript: RenameInit();"  plain="true">重命名</a>
-			<a href="#" class="easyui-linkbutton" onclick="javascript: DelFile();" iconCls="icon-remove" plain="true">删除</a>
-			<a href="#" class="easyui-linkbutton" onclick="javascript: UpdloadFiles();" iconCls="icon-undo" plain="true">上传</a>
-		</div>
-		<div id="smc">
-			  <a href="#" class="easyui-linkbutton" plain="true" onclick="javascript:fileMapControl(0);" id="sm0">根目录</a>
-		</div>
-	</div>
-</div>
+        <table width="100%">
+            <tr>
+                <td>
+                    <table id="fileList" toolbar="#tb"></table>
+                </td>
+            </tr>
+        </table>
+        <div id="tb" style="padding:5px;height:auto">
+            <div style="margin-bottom:5px">
+                <a href="#" class="easyui-linkbutton" onclick="javascript: AddFlodDialog();" iconcls="icon-add" plain="true">新建文件夹</a>
+                <a href="#" class="easyui-linkbutton" onclick="javascript: RenameInit();" iconcls="icon-rename" plain="true">重命名</a>
+                <a href="#" class="easyui-linkbutton" onclick="javascript: DelFile();" iconcls="icon-no" plain="true">删除</a>
+                <a href="#" class="easyui-linkbutton" onclick="javascript: UpdloadFiles();" iconcls="icon-undo" plain="true">上传</a>
+            </div>
+            <div id="smc">
+                <input type="hidden" value=""/><a href="#" class="easyui-linkbutton" plain="true" onclick="javascript:fileMapControl(0);" id="sm0">根目录</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="menuRight" class="easyui-menu" style="width:120px;">
-        <div iconCls="icon-add" onclick="javascript:ViewInit();">查看</div>
-		<div iconCls="icon-add" onclick="javascript:AddFlodDialog();">新建目录</div>
-		<div iconCls="icon-save" onclick="javascript: UpdloadFiles();">上传</div>
-        <div iconCls="icon-remove"onclick="javascript:DelFile();" >删除</div>
+    <div iconcls="icon-add" onclick="javascript:AddFlodDialog();">新建目录</div>
+    <div iconcls="icon-undo" onclick="javascript: UpdloadFiles();">上传</div>
+    <div iconcls="icon-no" onclick="javascript:DelFile();">删除</div>
 </div>
 <div id="dialogview" style="display:none; width:240px; height:160px; text-align:center; padding-top:20px;">
-       新名称：<input type="text" id="newFold" /><br />
-       <span style=" font-size:12px; color:Red;" id="errormsg"></span>
+    新名称：<input type="text" id="newFold" /><br />
+    <span style=" font-size:12px; color:Red;" id="errormsg"></span>
 </div>
 
-<div id="ViewDialog" style="display:none; width:400px;" title="查看详细">
-       <table>
-       <tr><td style="width:60px;" align="right">文件名：</td><td>
-       <span id="view_FileName"></span>
-       </td></tr>
-      
-       <tr><td align="right">URL：</td><td>
-       <span id="view_FileUrl"></span>
-       </td></tr>
+@*<div id="ViewDialog" style="display:none; width:400px;" title="查看详细">
+    <table>
+        <tr>
+            <td style="width:60px;" align="right">文件名：</td>
+            <td>
+                <span id="view_FileName"></span>
+            </td>
+        </tr>
 
-       <tr><td align="right">上传人：</td><td>
-       <span id="view_CreateUser"></span>
-       </td></tr>
+        <tr>
+            <td align="right">URL：</td>
+            <td>
+                <span id="view_FileUrl"></span>
+            </td>
+        </tr>
 
-       <tr><td align="right">上传时间：</td><td>
-       <span id="view_UpTime"></span>
-       </td></tr>
+        <tr>
+            <td align="right">上传人：</td>
+            <td>
+                <span id="view_CreateUser"></span>
+            </td>
+        </tr>
 
-       <tr><td align="right">发布时间：</td><td>
-       <input class="easyui-datetimebox" type="text" name="PublicTime" id="ptime" value="" />&nbsp;&nbsp;<span id="view_PublicTime"></span>
-       </td></tr>
-       </table>
-</div>
+        <tr>
+            <td align="right">上传时间：</td>
+            <td>
+                <span id="view_UpTime"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">发布时间：</td>
+            <td>
+                <input class="easyui-datetimebox" type="text" name="PublicTime" id="ptime" value="" />&nbsp;&nbsp;<span id="view_PublicTime"></span>
+            </td>
+        </tr>
+    </table>
+</div>*@
 
 <div id="dialogviewMsg" title="消息" style="display:none; width:240px; height:150px; text-align:center; padding-top:20px;">
-     <span id="messageShow"></span>
+    <span id="messageShow"></span>
 </div>
 
 <div id="UploadFilesDialog" title="上传" style="display:none; width:360px; height:380px; text-align:left; padding-top:15px; padding-left:8px;">
-批量上传：<select id="filesCount"><option value="1">选择</option>
-     <option value="1">1</option>
-     <option value="2">2</option>
-     <option value="3">3</option>
-     <option value="4">4</option>
-     <option value="5">5</option>
-     <option value="6">6</option>
-     <option value="7">7</option>
-     <option value="8">8</option>
-     <option value="9">9</option>
-     <option value="10">10</option>
-     </select>
-     <input type="button" id="BtnMulti" value="批量上传" onclick="javascript:MoreFile();" />
-     <br />
-         <form enctype="multipart/form-data" method="post" id="uploadForm">
-     <ul id="moreUptool">
-     <li><input type="file" id="file1" name="uploadFileTool"/><span id="f0" style=" font-size:12px; color:Red"></span></li>
-     </ul>
-     </form>
+    批量上传：<select id="filesCount">
+        <option value="1">选择</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+    </select>
+    <input type="button" id="BtnMulti" value="批量上传" onclick="javascript:MoreFile();" />
+    <br />
+    <form enctype="multipart/form-data" method="post" id="uploadForm">
+        <ul id="moreUptool">
+            <li><input type="file" id="file1" name="uploadFileTool" /><span id="f0" style=" font-size:12px; color:Red"></span></li>
+        </ul>
+    </form>
 </div>
 
 <div id="MailDialog" style="display:none; width:400px;">
-       <table>
-       <tr><td align="right">收信人：</td><td>
-       <input type="text" name="receive" id="receive" />&nbsp;&nbsp;<span id="receiveMsg"></span>
-       </td></tr>
+    <table>
+        <tr>
+            <td align="right">收信人：</td>
+            <td>
+                <input type="text" name="receive" id="receive" />&nbsp;&nbsp;<span id="receiveMsg"></span>
+            </td>
+        </tr>
 
-       <tr><td align="right">主题：</td><td>
-       <input type="text" name="title" id="title" />&nbsp;&nbsp;<span id="titleMsg"></span>
-       </td></tr>
+        <tr>
+            <td align="right">主题：</td>
+            <td>
+                <input type="text" name="title" id="title" />&nbsp;&nbsp;<span id="titleMsg"></span>
+            </td>
+        </tr>
 
-       <tr><td align="right">内容：</td><td>
-       <textarea cols="30" rows="15" name="MailContent" id="MailContent" ></textarea>&nbsp;&nbsp;<span id="contentMsg"></span>
-       </td></tr>
-       </table>
+        <tr>
+            <td align="right">内容：</td>
+            <td>
+                <textarea cols="30" rows="15" name="MailContent" id="MailContent"></textarea>&nbsp;&nbsp;<span id="contentMsg"></span>
+            </td>
+        </tr>
+    </table>
 </div>
-        
+

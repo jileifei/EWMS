@@ -157,7 +157,7 @@ a#mixswitch {
 #credits {
 	width: 200px; clear: both; float: left;
 }
-table {
+/*table {
 	margin: 5px; width: 98%; border-collapse: collapse;
 }
 td {
@@ -165,7 +165,7 @@ td {
 }
 th {
 	padding: 2px;
-}
+}*/
 thead {
 	
 }

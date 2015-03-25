@@ -98,6 +98,8 @@ namespace CMS.Template
             fs.Close();
         }
 
+        private static bool IsVelocityInited = false;
+        private static object velocitylock = new object();
         /// <summary>
         /// 生成静态页面
         /// </summary>
@@ -107,15 +109,61 @@ namespace CMS.Template
         /// <param name="fileName">文件名</param>
         public static void CreateFileByTemplateContent(Hashtable ht, string templateContent, Encoding encoding, string fileName)
         {
-            ITemplateEngine velocity = DataAccess.CastleContext.Instance.GetService<ITemplateEngine>();
-            StringWriter sw = new StringWriter();
-            velocity.Process(ht, string.Empty, sw, templateContent);
+            StringWriter swtemplate = null;
+            StringWriter swhtml = null;
+            try
+            {
+                ITemplateEngine velocity = DataAccess.CastleContext.Instance.GetService<ITemplateEngine>();
+                StringWriter sw = new StringWriter();
+                //velocity.Process(ht, string.Empty, sw, templateContent);
+                string newtemplate = templateContent;
+                newtemplate = newtemplate.Replace("#include", "\\#include");
+                NVelocity.VelocityContext context = new NVelocity.VelocityContext();
+                foreach (string key in ht.Keys)
+                {
+                    context.Put(key, ht[key]);
+                }
+                //初始化Nvelocity
+                if (!IsVelocityInited)
+                {
+                    lock (velocitylock)
+                    {
+                        if (!IsVelocityInited)
+                        {
+                            NVelocity.App.Velocity.Init();
+                            IsVelocityInited = true;
+                        }
+                    }
+                }
+                //将首次处理结果作为模析再解析一遍
+                swhtml = new StringWriter();
+                NVelocity.App.Velocity.Evaluate(context, swhtml, "cmsreprocess", newtemplate);
 
-            FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.Read);
-            StreamWriter writer = new StreamWriter(fs, encoding);
-            writer.Write(sw.ToString());
-            writer.Close();
-            fs.Close();
+                //保存文件的html代码
+                using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.Read))
+                {
+                    StreamWriter writer = new StreamWriter(fs, encoding);
+                    writer.Write(swhtml.ToString());
+                    writer.Close();
+                    fs.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (swtemplate != null)
+                {
+                    swtemplate.Close();
+                }
+
+                if (swhtml != null)
+                {
+                    swhtml.Close();
+                }
+            }
         }
 
         # endregion
@@ -155,7 +203,7 @@ namespace CMS.Template
         /// <param name="templateID"></param>
         /// <param name="channelID"></param>
         /// <returns></returns>
-        public static string DealTemplate(long? templateID,long? channelID)
+        public static string DealTemplate(long? templateID, long? channelID)
         {
             return DealTemplate(templateID, channelID, null);
         }
@@ -170,8 +218,9 @@ namespace CMS.Template
         {
             ChannelService cservice = new ChannelService();
             ChannelInfo channelInfo = cservice.GetChannelInfo(channelID);
-            if (channelInfo != null ){
-                return DealTemplate(channelInfo.ListTemplateID, channelID) ;
+            if (channelInfo != null)
+            {
+                return DealTemplate(channelInfo.ListTemplateID, channelID);
             }
             return "list template no defined";
         }
@@ -182,13 +231,13 @@ namespace CMS.Template
         /// <param name="channelID"></param>
         /// <param name="newsID"></param>
         /// <returns></returns>
-        public static string DealNewsTemplate(long channelID,long newsID)
+        public static string DealNewsTemplate(long channelID, long newsID)
         {
             ChannelService cservice = new ChannelService();
             ChannelInfo channelInfo = cservice.GetChannelInfo(channelID);
             if (channelInfo != null)
             {
-                return DealTemplate(channelInfo.ContentTemplateID, channelID,newsID);
+                return DealTemplate(channelInfo.ContentTemplateID, channelID, newsID);
             }
             return "content template no defined";
         }
@@ -200,13 +249,14 @@ namespace CMS.Template
         /// <param name="channelID">栏目ID</param>
         /// <param name="newsID">新闻ID</param>
         /// <returns></returns>
-        public static string DealTemplate(long? templateID, long? channelID,long? newsID)
+        public static string DealTemplate(long? templateID, long? channelID, long? newsID)
         {
             // 模板处理结果
             string templateResult = "";
 
             //get template id by channel
-            if (templateID == null || templateID.Value == 0) {
+            if (templateID == null || templateID.Value == 0)
+            {
                 if (channelID != null)
                 {
                     ChannelService cservice = new ChannelService();
@@ -226,12 +276,12 @@ namespace CMS.Template
                     if (channelID != null)
                     {
                         templateContent = templateContent.Replace("${ChannelID}", channelID.Value.ToString(CultureInfo.InvariantCulture));
-                        
+
                         ChannelService cservice = new ChannelService();
                         long rootChannelID = cservice.GetRootChannelID(channelID.Value);
                         templateContent = templateContent.Replace("${RootChannelID}", rootChannelID.ToString(CultureInfo.InvariantCulture));
                     }
-                   
+
                     if (newsID != null && newsID > 0)
                     {
                         templateContent = templateContent.Replace("${NewsID}", newsID.Value.ToString(CultureInfo.InvariantCulture));
@@ -281,7 +331,7 @@ namespace CMS.Template
                             {
                                 PagerHandler pagerHandler = new PagerHandler();
                                 string pageNumList = "";
-                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID??0, ref pageNumList);
+                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList);
                                 hashTagValue.Add(PAGEDATALISTTAG, listData);
                                 hashTagValue.Add(PAGENUMINFOTAG, pageNumList);
 
@@ -309,67 +359,67 @@ namespace CMS.Template
         /// <param name="templateID">模板ID</param>
         /// <param name="specialID">专题ID</param>
         /// <returns></returns>
-        public static string DealSpecialTemplate(long templateID,long specialID)
+        public static string DealSpecialTemplate(long templateID, long specialID)
         {
             // 模板处理结果
             string templateResult = "";
 
-            
-                // 1. 得到模板内容
-                TemplateService tpService = new TemplateService();
-                TemplateInfo tpEntity = tpService.GeTemplateInfo(templateID);
-                if (tpEntity != null)
-                {
-                    string templateContent = tpEntity.TemplateCode;
-                    
-                    // 2.从模板中摘出变量
-                    IList<string> listVar = GetTemplateArea(templateContent);
-                    // 3.处理专题信息标签
-                    // 4.定义Hashtable，保存变量名及对应的变量处理结果
-                    # region 专题模板处理
 
-                    // 专题模板处理
-                    Hashtable hashTagValue = new Hashtable(1);
-                    if (specialID > 0)
+            // 1. 得到模板内容
+            TemplateService tpService = new TemplateService();
+            TemplateInfo tpEntity = tpService.GeTemplateInfo(templateID);
+            if (tpEntity != null)
+            {
+                string templateContent = tpEntity.TemplateCode;
+
+                // 2.从模板中摘出变量
+                IList<string> listVar = GetTemplateArea(templateContent);
+                // 3.处理专题信息标签
+                // 4.定义Hashtable，保存变量名及对应的变量处理结果
+                # region 专题模板处理
+
+                // 专题模板处理
+                Hashtable hashTagValue = new Hashtable(1);
+                if (specialID > 0)
+                {
+                    SpecialService specialService = new SpecialService();
+                    SpecialInfo specialEntity = specialService.GetSpecialInfoByID(specialID);
+                    hashTagValue.Add("S-ID", specialEntity.ID);
+                    hashTagValue.Add("S-Name", specialEntity.Name);
+                    hashTagValue.Add("S-SmallPicUrl", specialEntity.SmallPicUrl);
+                    hashTagValue.Add("S-PicUrl", specialEntity.PicUrl);
+                    hashTagValue.Add("S-Keyword", specialEntity.Keyword);
+                    hashTagValue.Add("S-Description", specialEntity.Description);
+                    if (string.IsNullOrEmpty(ConfigurationManager.AppSettings["SystemTimeFormat"]))
                     {
-                        SpecialService specialService = new SpecialService();
-                        SpecialInfo specialEntity = specialService.GetSpecialInfoByID(specialID);
-                        hashTagValue.Add("S-ID", specialEntity.ID);
-                        hashTagValue.Add("S-Name", specialEntity.Name);
-                        hashTagValue.Add("S-SmallPicUrl", specialEntity.SmallPicUrl);
-                        hashTagValue.Add("S-PicUrl", specialEntity.PicUrl);
-                        hashTagValue.Add("S-Keyword", specialEntity.Keyword);
-                        hashTagValue.Add("S-Description", specialEntity.Description);
-                        if (string.IsNullOrEmpty(ConfigurationManager.AppSettings["SystemTimeFormat"]))
+                        hashTagValue.Add("CreateTime", specialEntity.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                    }
+                    else
+                    {
+                        hashTagValue.Add("CreateTime", specialEntity.CreateTime.ToString(ConfigurationManager.AppSettings["SystemTimeFormat"]));
+                    }
+                }
+
+                # endregion
+
+                foreach (string tagVar in listVar)
+                {
+                    if (!hashTagValue.ContainsKey(tagVar))
+                    {
+                        if (tagVar.StartsWith("SC-"))
                         {
-                            hashTagValue.Add("CreateTime", specialEntity.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                            hashTagValue.Add(tagVar, SpecialTag.GetSpecialChannelNews(specialID, tagVar));
                         }
                         else
                         {
-                            hashTagValue.Add("CreateTime", specialEntity.CreateTime.ToString(ConfigurationManager.AppSettings["SystemTimeFormat"]));
+                            hashTagValue.Add(tagVar, TagFactory.TagDeal(tagVar, null));
                         }
                     }
-
-                    # endregion
-
-                    foreach (string tagVar in listVar)
-                    {
-                        if (!hashTagValue.ContainsKey(tagVar))
-                        {
-                            if (tagVar.StartsWith("SC-"))
-                            {
-                                hashTagValue.Add(tagVar, SpecialTag.GetSpecialChannelNews(specialID,tagVar));
-                            }
-                            else
-                            {
-                                hashTagValue.Add(tagVar, TagFactory.TagDeal(tagVar, null));
-                            }
-                        }
-                    }
-
-                    templateResult = DealTemplateContent(hashTagValue, templateContent);
                 }
-            
+
+                templateResult = DealTemplateContent(hashTagValue, templateContent);
+            }
+
             return templateResult;
         }
 

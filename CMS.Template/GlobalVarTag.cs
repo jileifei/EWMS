@@ -39,6 +39,11 @@ namespace CMS.Template
             GlobalVariable globalEntity = globalService.GeGlobalInfo(TypeParse.ToLong(globalVar.Replace(TagTypeEnum.G.ToString(),"")));
             if (globalEntity != null)
             {
+                if (globalEntity.IsInclude)
+                {
+                    return "<!--#include virtual=\"/include/" + globalEntity.EnName + ".shtml\"-->";
+                }
+
                 string templateContent = globalEntity.Content;
                 if (channelID != null)
                 {
