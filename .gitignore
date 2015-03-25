@@ -58,3 +58,4 @@ CMS.CommonLib/bin/Debug/CMS.CommonLib.dll
 CMS.CommonLib/bin/Debug/CMS.CommonLib.pdb
 *.pdb
 *.pdb
+*.cache
