@@ -76,7 +76,7 @@ namespace CMS.AdminUI.Controllers
             {
                 if (string.IsNullOrEmpty(newsEntity.Linkurl) && string.IsNullOrEmpty(newsEntity.Content))
                 {
-                    ModelState.AddModelError("Content", "请输入新闻内容");
+                    ModelState.AddModelError("Content", "请输入菜品内容");
                 }
                 if (ModelState.IsValid)
                 {
@@ -231,7 +231,7 @@ namespace CMS.AdminUI.Controllers
         public ActionResult DeleteNews(long? newsID)
         {
             if (newsID == null)
-                return Content("{\"result\":\"error\",\"msg\":\"请选择要删除的文章\"}");
+                return Content("{\"result\":\"error\",\"msg\":\"请选择要删除的菜品\"}");
             if (Request.IsAjaxRequest())
             {
                 try
@@ -249,7 +249,7 @@ namespace CMS.AdminUI.Controllers
                     return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
                 }
             }
-            return Content("{\"result\":\"error\",\"msg\":\"请正常访问删除文章页面\"}");
+            return Content("{\"result\":\"error\",\"msg\":\"请正常访问删除菜品页面\"}");
         }
 
         # endregion
@@ -260,7 +260,7 @@ namespace CMS.AdminUI.Controllers
         public ActionResult RestoreNews(long? newsID)
         {
             if (newsID == null)
-                return Content("{\"result\":\"error\",\"msg\":\"请选择要恢复的文章\"}");
+                return Content("{\"result\":\"error\",\"msg\":\"请选择要恢复的菜品\"}");
             if (Request.IsAjaxRequest())
             {
                 try
@@ -276,7 +276,7 @@ namespace CMS.AdminUI.Controllers
                     return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
                 }
             }
-            return Content("{\"result\":\"error\",\"msg\":\"请正常访问删除文章页面\"}");
+            return Content("{\"result\":\"error\",\"msg\":\"请正常访问删除菜品页面\"}");
         }
 
         # endregion
@@ -287,7 +287,7 @@ namespace CMS.AdminUI.Controllers
         public ActionResult AuditingNews(long? newsID, int? auditing)
         {
             if (newsID == null)
-                return Content("{\"result\":\"error\",\"msg\":\"请选择要审核的文章\"}");
+                return Content("{\"result\":\"error\",\"msg\":\"请选择要审核的菜品\"}");
             if (Request.IsAjaxRequest())
             {
                 try
@@ -301,7 +301,7 @@ namespace CMS.AdminUI.Controllers
                     return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
                 }
             }
-            return Content("{\"result\":\"error\",\"msg\":\"请正常访问审核文章页面\"}");
+            return Content("{\"result\":\"error\",\"msg\":\"请正常访问审核菜品页面\"}");
         }
 
         # endregion

@@ -4,6 +4,7 @@
 @model CMS.Domain.GlobalVariable
 <link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
 <link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/css/table.css" rel="stylesheet" type="text/css" />
 @section submenu{
      <ul>
         <li><h3><a href="@Url.Action("Index", "Template")" class="house">模板管理</a></h3>
@@ -58,7 +59,7 @@
             </tr>
             <tr>
                 <td class="a-right"></td>
-                <td>@Html.CheckBoxFor(m => m.IsInclude, new Dictionary<string, object>() { { "id", "chbIsInclude" }, { "name", "IsInclude" }, { "tabindex", "4" } })采用Include嵌入方式</td>
+                <td>@Html.CheckBoxFor(m => m.IsInclude, new Dictionary<string, object>() { { "id", "chbIsInclude" }, { "name", "IsInclude" }, { "tabindex", "4" } })自动更新</td>
                 <td></td>
             </tr>
             <tr id="trFileCode" style="display:none;">

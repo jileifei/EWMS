@@ -55,8 +55,8 @@ namespace CMS.Domain {
         private String m_title;
 		
 		/// <summary>Gets or sets Title</summary>
-        [DisplayName("文章标题")]
-        [Required(ErrorMessage = "文章标题不能为空")]
+        [DisplayName("菜品标题")]
+        [Required(ErrorMessage = "菜品标题不能为空")]
         public String Title {
         	get { return m_title; }
         	set { m_title = value;}        

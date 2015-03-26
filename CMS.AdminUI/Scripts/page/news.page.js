@@ -37,7 +37,7 @@
 });
 
 function PageInit(page) {
-    var template = '<tr><td class="a-center">${ID}</td><td><a href="${Linkurl}" target="_blank"><font color="${TitleColor}">${GenTitle(Title)}</font></a></td><td>${Source}</td><td>${ChannelName}</td><td>${Author}</td><td>${GetDate(PublicTime)}</td><td align="center"><span id="spanAuditing${ID}" style="cursor:pointer;" onclick="AuditingNews(${ID})">${AuditingStats}</span></td><td align="center"><a href="javascript:void(0);" onclick="EditNews(${ID});"><img src="/Content/img/edit.png" alt="修改文章" title="修改文章" width="16" height="16" /></a><a href="javascript:void(0);" onclick="DelNews(${ID});"><img src="/Content/img/cancel.png" alt="删除文章" title="删除文章" width="16" height="16" /></a></td></tr>';
+    var template = '<tr><td class="a-center">${ID}</td><td><a href="${Linkurl}" target="_blank"><font color="${TitleColor}">${GenTitle(Title)}</font></a></td><td>${Source}</td><td>${ChannelName}</td><td>${Author}</td><td>${GetDate(PublicTime)}</td><td align="center"><span id="spanAuditing${ID}" style="cursor:pointer;" onclick="AuditingNews(${ID})">${AuditingStats}</span></td><td align="center"><a href="javascript:void(0);" onclick="EditNews(${ID});"><img src="/Content/img/edit.png" alt="修改菜品" title="修改菜品" width="16" height="16" /></a><a href="javascript:void(0);" onclick="DelNews(${ID});"><img src="/Content/img/cancel.png" alt="删除菜品" title="删除菜品" width="16" height="16" /></a></td></tr>';
     /* Compile the template as a named template */
     $.template("TableTemplate", template);
 
@@ -93,7 +93,7 @@ function GetDate(jsondate) {
 function EditNews(newsid) {
     var isHaveRight = CheckIsHaveRight(newsid, 1);
     if (!isHaveRight) {
-        alert('对不起，您没有该频道下文章的编辑权限');
+        alert('对不起，您没有该频道下菜品的编辑权限');
         return false;
     }
     window.open("/news/edit/?NewsID=" + newsid);
@@ -102,10 +102,10 @@ function EditNews(newsid) {
 function DelNews(newsid) {
     //var isHaveRight = CheckIsHaveRight(newsid, 2);
     //if (!isHaveRight) {
-    //    alert('对不起，您没有该频道下文章的删除权限');
+    //    alert('对不起，您没有该频道下菜品的删除权限');
     //    return false;
     //}
-    if (confirm('您确认要删除当前文章吗？')) {
+    if (confirm('您确认要删除当前菜品吗？')) {
         $.ajax({
             type: 'POST',
             url: '/news/deletenews/',
@@ -130,7 +130,7 @@ function DelNews(newsid) {
 function AuditingNews(newsid) {
     var isHaveRight = CheckIsHaveRight(newsid, 3);
     if (!isHaveRight) {
-        alert('对不起，您没有该频道下文章的审核权限');
+        alert('对不起，您没有该频道下菜品的审核权限');
         return false;
     }
     var type = $('#spanAuditing' + newsid).text();

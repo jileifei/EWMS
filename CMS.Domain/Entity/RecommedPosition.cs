@@ -91,6 +91,10 @@ namespace CMS.Domain {
 		
 	    #endregion
 
+        public bool IsInclude { get; set; }
+
+        public string PlateContent { get; set; }
+
         public string ChannelName
         {
             get;

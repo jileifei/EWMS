@@ -1,31 +1,32 @@
 ﻿@{
-    ViewBag.Title = "文章管理";
+    ViewBag.Title = "菜品管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Webdiyer.WebControls.Mvc
 @model PagedList<CMS.Domain.NewsDoc>
-    <link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+<link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+                    <link href="/Content/css/table.css" rel="stylesheet" type="text/css" />
     @section submenu{
         <ul>
             <li>
-                <h3><a href="@Url.Action("Index", "News")" class="house">文章管理</a></h3>
+                <h3><a href="@Url.Action("Index", "News")" class="house">菜品管理</a></h3>
                 <ul>
-                    <li><a href="@Url.Action("Post", "News")">添加文章</a></li>
-                    <li><a href="@Url.Action("Recycle", "News")">回收站</a></li>
+                    <li><a href="@Url.Action("Post", "News")" class="pagenew">添加菜品</a></li>
+                    @*<li><a href="@Url.Action("Recycle", "News")">回收站</a></li>*@
                 </ul>
             </li>
         </ul>
     }
     <div id="content">
         <div id="box">
-            <h3>文章管理</h3>
+            <h3>菜品管理</h3>
             <div style="margin:5px;">
                 <form id="frmSearch" method="post" action="/news/">
                     <table width="100%">
                         <tr>
-                            <td style="width:80px;text-align:right;">文章ID：</td>
+                            <td style="width:80px;text-align:right;">菜品ID：</td>
                             <td><input type="text" name="ID" id="txtID" value="" /></td>
-                            <td style="width:80px;text-align:right;">文章标题：</td>
+                            <td style="width:80px;text-align:right;">菜品标题：</td>
                             <td><input type="text" name="Title" id="txtTitle" value="" /></td>
                             <td style="width:80px;text-align:right;">所属栏目：</td>
                             <td><input type="text" class="easyui-combotree" name="ChannelName" id="txtChannelName" style="width:180px;" /><input type="hidden" id="txtChannelID" name="ChannelID" /></td>
@@ -44,11 +45,11 @@
             <table width="100%">
                 <thead>
                     <tr style="height:22px;">
-                        <th width="50px"><a href="javascript:void(0);">文章ID</a></th>
-                        <th><a href="javascript:void(0);">文章标题</a></th>
-                        <th><a href="javascript:void(0);">文章来源</a></th>
+                        <th width="50px"><a href="javascript:void(0);">菜品ID</a></th>
+                        <th><a href="javascript:void(0);">菜品标题</a></th>
+                        <th><a href="javascript:void(0);">菜品来源</a></th>
                         <th><a href="javascript:void(0);">所属栏目</a></th>
-                        <th width="60px"><a href="javascript:void(0);">文章作者</a></th>
+                        <th width="60px"><a href="javascript:void(0);">菜品作者</a></th>
                         <th width="110px"><a href="javascript:void(0);">发表时间</a></th>
                         <th width="60px"><a href="javascript:void(0);">审核状态</a></th>
                         <th width="60px"><a href="javascript:void(0);">操作</a></th>

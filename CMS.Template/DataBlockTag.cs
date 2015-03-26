@@ -139,7 +139,7 @@ WHERE     (NewsDoc.IsAuditing = 1) AND (NewsDoc.IsDelete = 0) ";
                                 throw new Exception("block sql error:" + execSql);
                             }
                             
-                            //新闻列表，生成文章页访问的url
+                            //新闻列表，生成菜品页访问的url
                             if (dbEntity.Type == 1) { 
                                 foreach(TemplateDoc doc in datalist){
                                     string urlpart = doc.get("ChannelUrlPart"); //About/s{id}

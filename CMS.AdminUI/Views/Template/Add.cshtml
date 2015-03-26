@@ -4,6 +4,7 @@
 }
 @model CMS.Domain.TemplateInfo
 <link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/css/table.css" rel="stylesheet" type="text/css" />
 @section submenu{
     <ul>
         <li><h3><a href="@Url.Action("Index", "Template")" class="house">模板管理</a></h3>
@@ -25,7 +26,7 @@
              </tr>
              <tr>
                 <td height="25" bgcolor="#ffffff">模板类型：</td>
-                <td bgcolor='ffffff'><select id="selType" name="Type" style="width: 257px;"><option value="">--请选择--</option><option value="1">栏目模板</option><option value="2">文章模板</option><option value="3">列表页模板</option><option value="4">专题模板</option><option value="5">其他模板</option></select></td>
+                <td bgcolor='ffffff'><select id="selType" name="Type" style="width: 257px;"><option value="">--请选择--</option><option value="1">栏目模板</option><option value="2">菜品模板</option><option value="3">列表页模板</option><option value="4">专题模板</option><option value="5">其他模板</option></select></td>
              </tr>
              <tr>
                 <td height="25" bgcolor="#ffffff">模板内容：</td>
@@ -38,16 +39,16 @@
                         <td width="33%"><img src="@Url.Content("~/Content/img/icons/folder_table.png")" title="选择数据块" alt="选择数据块" style="vertical-align:middle;margin-right:2px;" width="16" height="16" align="middle" /><a href="javascript:void(0);" id="aSelDataBlock"><b>选择数据块</b></a></td>
                     </tr>
                     <tr id="trContentField" style="display:none;">
-                        <td colspan="2">文章属性：
+                        <td colspan="2">菜品属性：
                             <select id="selContentField" name="ContentField">
                                 <option value="">--请选择--</option>
-                                <option value="NewsID">文章ID</option>
-                                <option value="Title">文章标题</option>
-                                <option value="Author">文章作者</option>
-                                <option value="Source">文章来源</option>
-                                <option value="Tags">文章关键字</option>
-                                <option value="Summary">文章简介</option>
-                                <option value="Content">文章内容</option>
+                                <option value="NewsID">菜品ID</option>
+                                <option value="Title">菜品标题</option>
+                                <option value="Author">菜品作者</option>
+                                <option value="Source">菜品来源</option>
+                                <option value="Tags">菜品关键字</option>
+                                <option value="Summary">菜品简介</option>
+                                <option value="Content">菜品内容</option>
                                 <option value="PublicTime">发表时间</option>
                             </select>
                         </td>
@@ -70,7 +71,7 @@
                                 <option value="Description">专题简介</option>                                
                                 <option value="CreateTime">创建时间</option>
                             </select>
-                            &nbsp;<span id="spanSpecialChannel" style="cursor:pointer;" onclick="SetSpecialChannel('${SC-C?-?}');">${SC-C?-?}:专题模块，第一个？表示的是专题栏目ID，该标签会自动列出专题栏目下的所有文章，第二个？表示取几条记录</span>
+                            &nbsp;<span id="spanSpecialChannel" style="cursor:pointer;" onclick="SetSpecialChannel('${SC-C?-?}');">${SC-C?-?}:专题模块，第一个？表示的是专题栏目ID，该标签会自动列出专题栏目下的所有菜品，第二个？表示取几条记录</span>
                         </td>
                     </tr>
                     <tr>

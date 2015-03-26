@@ -8,7 +8,7 @@
     });
     // 选择颜色
     $('#txtTitleColor').modcoder_excolor();
-    // 设置文章发表时间
+    // 设置菜品发表时间
     $("#btnSetPublishDate").click(function () {
         $("#txtPublisDate").val($.date().format("yyyy-MM-dd HH:mm:ss"));
     });

@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    CKEDITOR.replace('fckContent', { toolbar: [['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'], ['UIColor', '-', 'Source']] });
+
     AddPosition();
     $("input[name='radioType'][value=1]").attr("checked", true);
     
@@ -17,8 +19,8 @@ function AddPosition() {
         $('#divDialog').attr("title", "推荐位置管理：添加推荐位置");
 
         $("#divDialog").dialog({
-            height: 315,
-            width: 470,
+            height: 610,
+            width: 600,
             modal: true,
             buttons: {
                 "保存": function () {
@@ -30,27 +32,32 @@ function AddPosition() {
                     var summary = $("#txtSummary").val();
                     var locationtype = $("input[@name='radioType'][checked]").val();
                     var channelid = $("#txtChannelID").val();
+                    $("#fckContent").val(CKEDITOR.instances.fckContent.getData());
+                    var isinclude = false;
+                    var fileEnCode = "UTF-8";
+                    if ($("#chbIsInclude").attr("checked") == true) {
+                        isinclude = true;
+                    }
 
                     $.ajax({
                         type: 'POST',
                         url: '/position/add/',
-                        data: { Name: name, ChannelID: channelid, LocationType: locationtype, Summary: summary },
+                        data: { Name: name, ChannelID: channelid, LocationType: locationtype, Summary: summary, PlateContent: $("#fckContent").val(), IsInclude: isinclude },
                         cache: false,
-                        success: function (data) {
+                        success: function(data) {
                             data = eval('(' + data + ')');
                             if (data.result == "ok") {
                                 $('#divDialog').dialog('close');
                                 clear();
                                 PageInit();
-                            }
-                            else {
+                            } else {
                                 alert(data.msg);
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             throw new Error('数据源访问错误' + '\n' + xhr.responseText);
                         }
-                    })
+                    });
                 },
                 "取消": function () {
                     $('#divDialog').dialog('close');
@@ -70,10 +77,13 @@ function EditInit(PositionID) {
             $("#txtPositionName").val(data.Name);
             $("#txtSummary").val(data.Summary);
             $("#txtChannelID").val(data.ChannelID);
-            
+            $("#fckContent").val(data.PlateContent);
             $('#txtChannelName').combotree('setValue', data.ChannelID);
-            
+            CKEDITOR.instances.fckContent.setData($("#fckContent").val());
             $("input[name='radioType'][value=" + data.LocationType + "]").attr("checked", true);
+            if (data.IsInclude) {
+                $("#chbIsInclude").attr("checked", true);
+            }
             EditPosition(PositionID);
         },
         error: function (xhr) {
@@ -87,8 +97,8 @@ function EditPosition(PositionID) {
     $('#divDialog').attr("title", "推荐位置管理：修改位置信息");
 
     $("#divDialog").dialog({
-        height: 315,
-        width: 470,
+        height: 610,
+        width: 600,
         modal: true,
         buttons: {
             "保存": function () {
@@ -100,10 +110,16 @@ function EditPosition(PositionID) {
                 var summary = $("#txtSummary").val();
                 var locationtype = $("input[@name='radioType'][checked]").val();
                 var channelid = $("#txtChannelID").val();
+                $("#fckContent").val(CKEDITOR.instances.fckContent.getData());
+                var isinclude = false;
+                var fileEnCode = "UTF-8";
+                if ($("#chbIsInclude").attr("checked") == true) {
+                    isinclude = true;
+                }
                 $.ajax({
                     type: 'POST',
                     url: '/position/update/',
-                    data: { ID: PositionID, Name: name, ChannelID: channelid, LocationType: locationtype, Summary: summary },
+                    data: { ID: PositionID, Name: name, ChannelID: channelid, LocationType: locationtype, Summary: summary, PlateContent: $("#fckContent").val(), IsInclude: isinclude },
                     cache: false,
                     success: function (data) {
                         data = eval('(' + data + ')');

@@ -19,6 +19,8 @@
 			<result property="LocationType" column="LocationType" dbType="Int"/>
 			<result property="Summary" column="Summary" dbType="VarChar"/>
 			<result property="CreateTime" column="CreateTime" dbType="DateTime"/>
+      <result property="IsInclude" column="IsInclude" dbType="Bit"/>
+      <result property="PlateContent" column="PlateContent" dbType="VarChar"/>
 		</resultMap>
 	</resultMaps>
 	
@@ -55,28 +57,34 @@
 		</select>
 		
 		<insert id="Insert" parameterClass="RecommedPosition">
-			INSERT INTO [dbo].[RecommedPosition] (
-				[Name]
-				, [ChannelID]
-				, [LocationType]
-				, [Summary]
-			) VALUES (
-				 #Name,dbType=VarChar#
-				, #ChannelID,dbType=BigInt#
-				, #LocationType,dbType=Int#
-				, #Summary,dbType=VarChar#
-			)
-		</insert>
+      INSERT INTO [dbo].[RecommedPosition] (
+      [Name]
+      , [ChannelID]
+      , [LocationType]
+      , [Summary]
+      , [IsInclude]
+      , [PlateContent]
+      ) VALUES (
+      #Name,dbType=VarChar#
+      , #ChannelID,dbType=BigInt#
+      , #LocationType,dbType=Int#
+      , #Summary,dbType=VarChar#
+      , #IsInclude,dbType=Bit#
+      , #PlateContent,dbType=VarChar#
+      )
+    </insert>
 
 		<update id="Update" parameterClass="RecommedPosition">
-			UPDATE [dbo].[RecommedPosition] SET
-				 [Name] = #Name,dbType=VarChar#
-				, [ChannelID] = #ChannelID,dbType=BigInt#
-				, [LocationType] = #LocationType,dbType=Int#
-				, [Summary] = #Summary,dbType=VarChar#
-			WHERE
-				([ID] = #ID,dbType=BigInt#)
-		</update>
+      UPDATE [dbo].[RecommedPosition] SET
+      [Name] = #Name,dbType=VarChar#
+      , [ChannelID] = #ChannelID,dbType=BigInt#
+      , [LocationType] = #LocationType,dbType=Int#
+      , [Summary] = #Summary,dbType=VarChar#
+      , [IsInclude] = #IsInclude,dbType=Bit#
+      , [PlateContent] = #PlateContent,dbType=VarChar#
+      WHERE
+      ([ID] = #ID,dbType=BigInt#)
+    </update>
 
 		<delete id="Delete" parameterClass="RecommedPosition">
 			DELETE FROM [dbo].[RecommedPosition]

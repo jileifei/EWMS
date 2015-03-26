@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using CMS.CommonLib.Utils;
 using CMS.Domain;
@@ -71,7 +68,7 @@ namespace CMS.AdminUI.Controllers
             FileHandler.CheckDirectory(linkurl);
             TemplateHandler.CreateFileByTemplateContent(new Hashtable(), templateContent, Encoding.UTF8,
                 linkurl + "\\0000000" + id + ".shtml");
-            return Json(new {result = "success", message = "发布文章成功"}, JsonRequestBehavior.AllowGet);
+            return Json(new {result = "success", message = "发布菜品成功"}, JsonRequestBehavior.AllowGet);
         }
     }
 }

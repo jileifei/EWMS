@@ -7,9 +7,10 @@
 @model PagedList<RecommedPosition>
 <link href="/Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
 <link href="/Content/themes/base/jquery.ui.dialog.css" rel="stylesheet" type="text/css"/>
+                    <link href="/Content/css/table.css" rel="stylesheet" type="text/css" />
 @section submenu{
     <ul>
-        <li><h3><a href="@Url.Action("Index", "Position")" class="house">推荐位置管理</a></h3></li>
+        @*<li><h3><a href="@Url.Action("Index", "Position")" class="house">推荐位置管理</a></h3></li>*@
 	</ul>  
 }
 
@@ -60,7 +61,7 @@
 			<tr>
                 <td class="a-right" style="width:80px;">位置名称：</td>
                 <td>@Html.TextBoxFor(m => m[0].Name, new Dictionary<string, object>() { { "id", "txtPositionName" }, { "name", "Name" }, { "tabindex", "1" } })</td>
-                <td style="width:150px;">@Html.ValidationMessageFor(m => m[0].Name)</td>
+                <td style="width:100px;" class="red">@Html.ValidationMessageFor(m => m[0].Name)</td>
             </tr>
             <tr id="trPassword">
                 <td class="a-right">所属栏目：</td>
@@ -79,9 +80,23 @@
                 <td>@Html.TextAreaFor(m => m[0].Summary, new Dictionary<string, object>() { { "id", "txtSummary" }, { "name", "Summary" }, { "cols", "18" }, { "rows", "5" } })</td>
                 <td></td>
             </tr>
+            <tr>
+                <td class="a-right">板块信息：</td>
+                <td>
+                    @Html.TextAreaFor(m => m[0].PlateContent, new Dictionary<string, object>() { { "id", "fckContent" }, { "name", "PlateContent" }, { "cols", "60" }, { "rows", "10" } })
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="a-right"></td>
+                <td>@Html.CheckBoxFor(m => m[0].IsInclude, new Dictionary<string, object>() { { "id", "chbIsInclude" }, { "name", "IsInclude" }, { "tabindex", "6" } })自动更新
+                </td>
+                <td></td>
+            </tr>
 		</tbody>
     </table>
    </form>
 </div>
 <script src="/Scripts/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/content/ckeditor/ckeditor.js"></script>
 <script src="/Scripts/page/position.page.js" type="text/javascript"></script>

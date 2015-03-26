@@ -13,7 +13,7 @@ namespace CMS.Template
 {
     /// <summary>
     /// 系统标签处理
-    /// 例如：发表时间、模板ID、分类ID、文章ID、网站名称、分类名称
+    /// 例如：发表时间、模板ID、分类ID、菜品ID、网站名称、分类名称
     /// </summary>
     public class SystemTag
     {

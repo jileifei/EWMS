@@ -61,7 +61,7 @@ namespace CMS.Template
         # region 根据模板生成静态文件
 
         /// <summary>
-        /// 生成静态文章
+        /// 生成静态菜品
         /// </summary>
         /// <param name="ht">保存值的Hashtable</param>
         /// <param name="vmpath">模版文件</param>
@@ -79,7 +79,7 @@ namespace CMS.Template
         }
 
         /// <summary>
-        /// 生成静态文章
+        /// 生成静态菜品
         /// </summary>
         /// <param name="ht">保存值的Hashtable</param>
         /// <param name="vmpath">模版文件</param>

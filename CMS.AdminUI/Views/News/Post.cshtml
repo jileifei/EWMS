@@ -2,13 +2,13 @@
     ViewBag.Title = "发表新闻";
 }
 @model CMS.Domain.NewsDoc
-           
+           <link href="/Content/css/table.css" rel="stylesheet" type="text/css" />
 @section submenu{
     <ul>
-        <li><h3><a href="@Url.Action("Index", "News")" class="house">文章管理</a></h3>
+        <li><h3><a href="@Url.Action("Index", "News")" class="house">菜品管理</a></h3>
             <ul>
-                <li><a href="@Url.Action("Post", "News")">添加文章</a></li>
-                <li><a href="@Url.Action("Recycle", "News")">回收站</a></li>
+                <li><a href="@Url.Action("Post", "News")" class="pagenew">添加菜品</a></li>
+                @*<li><a href="@Url.Action("Recycle", "News")">回收站</a></li>*@
             </ul>
         </li>
 	</ul>  
@@ -78,7 +78,7 @@
                 <td>@Html.TextArea("Summary", new { cols = "68", rows = "5", id = "txtSummary" })</td>
             </tr>
             <tr>
-                <td height="25">新闻内容(*)</td>
+                <td height="25">内容(*)</td>
                 <td>@Html.TextArea("Content", new { cols = "68", rows = "10", id = "fckContent" })</td>
             </tr>
             <tr>

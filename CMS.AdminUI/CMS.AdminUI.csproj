@@ -268,6 +268,7 @@
     <Content Include="Content\css\pager.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\styletable.css" />
+    <Content Include="Content\css\table.css" />
     <Content Include="Content\css\theme.css" />
     <Content Include="Content\css\theme1.css" />
     <Content Include="Content\css\theme2.css" />
@@ -897,7 +898,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="providers.config" />
-   
     <Content Include="SqlMap.config" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />

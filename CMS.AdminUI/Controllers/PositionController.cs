@@ -33,7 +33,7 @@ namespace CMS.AdminUI.Controllers
         /// </summary>
         /// <param name="positionInfo"></param>
         /// <returns></returns>
-        [HttpPost]
+         [HttpPost, ValidateInput(false)]
         public ActionResult Add(RecommedPosition positionInfo)
         {
             string msg;
@@ -69,7 +69,7 @@ namespace CMS.AdminUI.Controllers
         /// </summary>
         /// <param name="positionInfo"></param>
         /// <returns></returns>
-        [HttpPost]
+         [HttpPost, ValidateInput(false)]
         public ActionResult Update(RecommedPosition positionInfo)
         {
             try

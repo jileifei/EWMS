@@ -34,7 +34,7 @@
 });
 
 function PageInit(page) {
-    var template = '<tr><td class="a-center">${ID}</td><td><a href="${Linkurl}" target="_blank"><font color="${TitleColor}">${GenTitle(Title)}</font></a></td><td>${Source}</td><td>${ChannelName}</td><td>${Author}</td><td>${GetDate(PublicTime)}</td><td align="center"><span id="spanAuditing${ID}" style="cursor:pointer;" onclick="AuditingNews(${ID})">${AuditingStats}</span></td><td align="center"><a href="javascript:void(0);" onclick="RestoreNews(${ID});"><img src="/Content/img/edit_add.png" alt="恢复文章" title="恢复文章" width="16" height="16" /></a></td></tr>';
+    var template = '<tr><td class="a-center">${ID}</td><td><a href="${Linkurl}" target="_blank"><font color="${TitleColor}">${GenTitle(Title)}</font></a></td><td>${Source}</td><td>${ChannelName}</td><td>${Author}</td><td>${GetDate(PublicTime)}</td><td align="center"><span id="spanAuditing${ID}" style="cursor:pointer;" onclick="AuditingNews(${ID})">${AuditingStats}</span></td><td align="center"><a href="javascript:void(0);" onclick="RestoreNews(${ID});"><img src="/Content/img/edit_add.png" alt="恢复菜品" title="恢复菜品" width="16" height="16" /></a></td></tr>';
     /* Compile the template as a named template */
     $.template("TableTemplate", template);
 
@@ -89,7 +89,7 @@ function GetDate(jsondate) {
 
 
 function RestoreNews(newsid) {
-    if (confirm('您确认要恢复该文章吗？')) {
+    if (confirm('您确认要恢复该菜品吗？')) {
         $.ajax({
             type: 'POST',
             url: '/news/RestoreNews/',
