@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
-    CKEDITOR.replace('fckContent', { toolbar: [['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'], ['UIColor', '-', 'Source']] });
-
+    CKEDITOR.replace('fckContent', {
+        language : 'zh-cn',
+        startupMode:'source',
+        toolbar: [['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'], ['UIColor', '-', 'Source']]
+    });
     AddPosition();
     $("input[name='radioType'][value=1]").attr("checked", true);
     
@@ -79,7 +82,8 @@ function EditInit(PositionID) {
             $("#txtChannelID").val(data.ChannelID);
             $("#fckContent").val(data.PlateContent);
             $('#txtChannelName').combotree('setValue', data.ChannelID);
-            CKEDITOR.instances.fckContent.setData($("#fckContent").val());
+           
+            CKEDITOR.instances.fckContent.setData(data.PlateContent);
             $("input[name='radioType'][value=" + data.LocationType + "]").attr("checked", true);
             if (data.IsInclude) {
                 $("#chbIsInclude").attr("checked", true);
@@ -95,7 +99,7 @@ function EditInit(PositionID) {
 function EditPosition(PositionID) {
     $('#divDialog').show();
     $('#divDialog').attr("title", "推荐位置管理：修改位置信息");
-
+    
     $("#divDialog").dialog({
         height: 610,
         width: 600,

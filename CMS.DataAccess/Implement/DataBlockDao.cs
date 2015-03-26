@@ -113,10 +113,12 @@ namespace CMS.DataAccess.Implement {
 		}
 		
 		/// <summary>Implements <see cref="IDataBlockDao.Insert"/></summary>
-		public void Insert(DataBlock obj) {
+        public Int64 Insert(DataBlock obj)
+        {
 			if (obj == null) throw new ArgumentNullException("obj");
 			String stmtId = "DataBlock.Insert";
-			SqlMapperManager.Instance.Insert(stmtId, obj);
+            Int64 blockId = (Int64)SqlMapperManager.Instance.Insert(stmtId, obj);
+		    return blockId;
 		}
 		
 		/// <summary>Implements <see cref="IDataBlockDao.Update"/></summary>

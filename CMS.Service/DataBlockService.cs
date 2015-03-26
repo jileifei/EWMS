@@ -21,11 +21,10 @@ namespace CMS.Service
         /// </summary>
         /// <param name="datablockInfo"></param>
         /// <returns></returns>
-        public bool AddDataBlock(DataBlock datablockInfo)
+        public Int64 AddDataBlock(DataBlock datablockInfo)
         {
             IDataBlockDao datablockDao = CastleContext.Instance.GetService<IDataBlockDao>();
-            datablockDao.Insert(datablockInfo);
-            return true;
+            return datablockDao.Insert(datablockInfo);
         }
 
         /// <summary>

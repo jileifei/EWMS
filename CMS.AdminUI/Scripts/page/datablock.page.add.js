@@ -29,7 +29,7 @@ $(document).ready(function () {
             $("#trRecommendPositionList").hide();
         }
     });
-
+    
     // 添加排序
     $("#btnAddOrder").click(function () {
         var orderlistText = $("#selOrderField").find("option:selected").text() + " " + $("#selOrderType").find("option:selected").text();
@@ -84,8 +84,9 @@ function AddDataBlock() {
     }
     var Type = $("#selType").val();
     var RecommendWhere = "";
+    var positionID = 0;
     if (Type == 2) {
-        var positionID = $("#selRecommendPosition").val();
+        positionID = $("#selRecommendPosition").val();
         if (positionID == "") {
             alert('请选择推荐位置');
             return false;
@@ -100,22 +101,23 @@ function AddDataBlock() {
         alert('请输入正确的记录条数');
         return false;
     }
-    var TemplateID = $("#hiddenTemplateID").val();
-    if(parseInt(TemplateID) == 0)
-    {
-        alert('请选择模板');
-        return false;
-    }
+    //var TemplateID = $("#hiddenTemplateID").val();
+    //if(parseInt(TemplateID) == 0)
+    //{
+    //    alert('请选择模板');
+    //    return false;
+    //}
     var Note = $("#txtNote").val();
 
     $.ajax({
         type: 'POST',
         url: '/DataBlock/Create/',
-        data: { BlockName: BlockName, EnName: EnName, Type: Type, OrderByField: OrderByField, Where: Where, RowCount: RowCount, TemplateID: TemplateID,Note:Note },
+        data: { BlockName: BlockName, EnName: EnName, Type: Type, OrderByField: OrderByField, Where: Where, RowCount: RowCount, TemplateID: positionID, Note: Note },
         cache: false,
         success: function (data) {
             data = eval('(' + data + ')');
             if (data.result == "ok") {
+                alert("新增数据块成功");
                 window.location.href = "/datablock/";
             }
             else {
@@ -143,9 +145,9 @@ function BindRecommendPositionList() {
             if (result.msg == "") {
                 var option = null;
                 $.each(result.list, function (i, item) {
-                    option = $("<option></option>");
-                    option.attr("value", item.ID);
-                    option.attr("text", item.Name);
+                    option = $("<option value='" + item.ID + "'>" + item.Name + "</option>");
+                    //option.attr("value", item.ID);
+                    //option.attr("text", item.Name);
                     $("#selRecommendPosition").append(option);
                 });
             }

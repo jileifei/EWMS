@@ -56,7 +56,7 @@ namespace CMS.DataAccess.Interface {
 		IList<DataBlock> FindByAddDate(DateTime addDate);
 		
 		/// <summary>Inserts a new DataBlock instance into underlying database table.</summary>
-		void Insert(DataBlock obj);
+        Int64 Insert(DataBlock obj);
 		
 		/// <summary>Update the underlying database record of a DataBlock instance.</summary>
 		void Update(DataBlock obj);

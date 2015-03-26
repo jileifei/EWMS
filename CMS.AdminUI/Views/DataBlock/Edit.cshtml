@@ -72,7 +72,7 @@
                         </tr>
                         <tr id="trRecommendPositionList" style="display:none;">
                             <td>推荐位置：</td>
-                            <td colspan="2"><select id="selRecommendPosition" style="width:195px;"></select><input type="hidden" id="hiddenWhereValue" /></td>
+                            <td colspan="2"><select id="selRecommendPosition" style="width:195px;" name="PositionID"></select><input type="hidden" id="hiddenWhereValue"/></td>
                         </tr>
                         <tr>
                             <td width="33%">属性：</td>
@@ -98,12 +98,12 @@
                 <td align="right">取几条记录：</td>
                 <td><input type="text" id="txtRowCount" name="RowCount" value="@Model.RowCount" style="width:200px;" /> <span class="red">*</span></td>
             </tr>
-            <tr>
+            @*<tr>
                 <td height="25" bgcolor="#ffffff" align="right">使用模板：</td>
                 <td bgcolor="#ffffff">
                     <input type="text" id="txtTemplateName" value="@Model.TemplateName" style="width:200px;"/> <span class="red">*</span><img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selTemplate" title="选择模板" alt="选择模板" /><input type="hidden" id="hiddenTemplateID" value="@Model.TemplateID" name="TemplateID" />
                 </td>
-            </tr>
+            </tr>*@
             <tr>
                 <td align="right">说明：</td>
                 <td><textarea id="txtNote" name="Note" cols="50" rows="3">@Model.Note</textarea></td>
@@ -121,6 +121,7 @@
     var DataType = @Model.Type;
     var OrderByField = '@Model.OrderByField';
     var WhereField = '@Model.Where';
+    var PositionID = '@Model.TemplateID';
 </script>
 <script type="text/javascript" src="/scripts/jquery.form.js"></script>
 <script type="text/javascript" src="/scripts/field.handler.js"></script>

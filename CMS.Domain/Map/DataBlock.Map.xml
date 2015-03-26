@@ -75,28 +75,29 @@
 		</select>
 		
 		<insert id="Insert" parameterClass="DataBlock">
-			INSERT INTO [dbo].[DataBlock] (
-				[BlockName]
-				, [EnName]
-				, [Type]
-				, [RowCount]
-				, [OrderByField]
-				, [Where]
-				, [Status]
-				, [TemplateID]
-				, [Note]
-			) VALUES (
-				 #BlockName,dbType=VarChar#
-				, #EnName,dbType=VarChar#
-				, #Type,dbType=SmallInt#
-				, #RowCount,dbType=Int#
-				, #OrderByField,dbType=VarChar#
-				, #Where,dbType=VarChar#
-				, #Status,dbType=SmallInt#
-				, #TemplateID,dbType=BigInt#
-				, #Note,dbType=VarChar#
-			)
-		</insert>
+      INSERT INTO [dbo].[DataBlock] (
+      [BlockName]
+      , [EnName]
+      , [Type]
+      , [RowCount]
+      , [OrderByField]
+      , [Where]
+      , [Status]
+      , [TemplateID]
+      , [Note]
+      ) VALUES (
+      #BlockName,dbType=VarChar#
+      , #EnName,dbType=VarChar#
+      , #Type,dbType=SmallInt#
+      , #RowCount,dbType=Int#
+      , #OrderByField,dbType=VarChar#
+      , #Where,dbType=VarChar#
+      , #Status,dbType=SmallInt#
+      , #TemplateID,dbType=BigInt#
+      , #Note,dbType=VarChar#
+      )
+      <selectKey type="post" resultClass="Int64" property="ID" >SELECT @@IDENTITY AS ID</selectKey>
+    </insert>
 
 		<update id="Update" parameterClass="DataBlock">
 			UPDATE [dbo].[DataBlock] SET

@@ -351,6 +351,36 @@ namespace CMS.Template
 
         # endregion
 
+        #region 推荐模版
+
+        /// <summary>
+        /// 解析推荐模版
+        /// </summary>
+        /// <param name="dataBlockId"></param>
+        /// <param name="positionId"></param>
+        /// <returns></returns>
+        public static string DealTempate(long dataBlockId, long positionId)
+        {
+            string templateResult;
+            RecommedPositionService postionService = new RecommedPositionService();
+            RecommedPosition positionInfo = postionService.GetPositionInfo(positionId);
+            Hashtable hashTagValue = new Hashtable();
+            // 2.从板块中摘出变量
+            IList<string> listVar = GetTemplateArea(positionInfo.PlateContent);
+            foreach (string tagVar in listVar)
+            {
+                if (!hashTagValue.ContainsKey(tagVar))
+                {
+                    IList<TemplateDoc> datalist= DataBlockTag.GetDataBlockTemplateDoc(dataBlockId);
+                    hashTagValue.Add(tagVar, datalist);
+                }
+            }
+
+            templateResult = DealTemplateContent(hashTagValue, positionInfo.PlateContent);
+            return templateResult;
+        }
+        #endregion
+
         # region 专题模板
 
         /// <summary>

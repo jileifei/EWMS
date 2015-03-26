@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Text;
 using System.Web.Mvc;
-
+using CMS.CommonLib.Utils;
+using CMS.Template;
 using Webdiyer.WebControls.Mvc;
 using CMS.CommonLib.Extension;
 using CMS.Domain;
@@ -14,6 +18,7 @@ namespace CMS.AdminUI.Controllers
     /// </summary>
     public class DataBlockController : BaseController
     {
+        private string IncludePath = ConfigurationManager.AppSettings["IncludePath"];
         private const int PAGESIZE = 20;
 
         public ActionResult Index(int pageIndex = 1)
@@ -103,10 +108,28 @@ namespace CMS.AdminUI.Controllers
                 if (ModelState.IsValid)
                 {
                     DataBlockService dataBlockService = new DataBlockService();
-                    bool flag = dataBlockService.AddDataBlock(dataBlockEntity);
-                    if (flag)
+                    Int64 flag = dataBlockService.AddDataBlock(dataBlockEntity);
+                    
+                    if (flag>0)
                     {
-                        msg = "{\"result\":\"ok\"}";
+                        if (dataBlockEntity.Type == 2)
+                        {
+                            if (dataBlockEntity.TemplateID > 0)
+                            {
+                                RecommedPositionService positionService = new RecommedPositionService();
+                                RecommedPosition postion = positionService.GetPositionInfo(dataBlockEntity.TemplateID);
+                                if (postion.IsInclude)
+                                {
+                                    String dealContent = TemplateHandler.DealTempate(flag, dataBlockEntity.TemplateID);
+                                    FileHandler.Write(dealContent, IncludePath + "/Positions/" + postion.Name + ".shtml",
+                                        Utils.GetEncodingByEncode("UTF-8"));
+                                    msg = "{\"result\":\"ok\"}";
+                                }
+                            }
+                        }
+                        
+                            msg = "{\"result\":\"ok\"}";
+                        
                     }
                     else
                     {
@@ -139,13 +162,32 @@ namespace CMS.AdminUI.Controllers
                 bool flag = dataBlockService.UpdateDataBlock(dataBlockEntity);
                 if (flag)
                 {
-                    return Content("{\"result\":\"ok\"}");
+                    if (dataBlockEntity.Type == 2)
+                    {
+                        if (dataBlockEntity.TemplateID > 0)
+                        {
+                            RecommedPositionService positionService = new RecommedPositionService();
+                            RecommedPosition postion = positionService.GetPositionInfo(dataBlockEntity.TemplateID);
+                            if (postion.IsInclude)
+                            {
+                                String dealContent = TemplateHandler.DealTempate(dataBlockEntity.ID,
+                                    dataBlockEntity.TemplateID);
+                                FileHandler.Write(dealContent, IncludePath + "/Positions/" + postion.Name + ".shtml",
+                                    Utils.GetEncodingByEncode("UTF-8"));
+                                return Json("{\"result\":\"ok\"}");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return Json("{\"result\":\"ok\"}");
+                    }
                 }
-                return Content("{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                return Json("{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
             }
             catch (Exception ex)
             {
-                return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
             }
         }
 

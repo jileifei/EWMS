@@ -64,6 +64,29 @@ WHERE     (NewsDoc.IsAuditing = 1) AND (NewsDoc.IsDelete = 0) ";
             DataBlock dbEntity = dbService.GeDataBlockInfo(dataBlockID);
             if (dbEntity != null)
             {
+                #region 解析板块数据
+                if (dbEntity.TemplateID != null && dbEntity.TemplateID > 0&&dbEntity.Type==2)
+                {
+                    RecommedPositionService positionService = new RecommedPositionService();
+                    RecommedPosition positionInfo=positionService.GetPositionInfo(dbEntity.TemplateID);
+                    if (positionInfo.IsInclude)
+                    {
+                        return "<!--#include virtual=\"/include/Positions" + positionInfo.Name + ".shtml\"-->";
+                    }
+                    else
+                    {
+                        Hashtable hashTagValue = new Hashtable(1);
+                        IList<string> listVar = TemplateHandler.GetTemplateArea(positionInfo.PlateContent);
+                        foreach (var varTag in listVar)
+                        {
+                            IList<TemplateDoc> datalist=GetDataBlockTemplateDoc(dataBlockID);
+                            hashTagValue.Add(varTag, datalist);
+                        }
+                        return TemplateHandler.DealTemplateContent(hashTagValue, positionInfo.PlateContent);
+                    }
+                }
+                #endregion
+
                 // 2.添加栏目的搜索条件及读取条数
                 string execSql;
                 if (dbEntity.Type == 2)
@@ -160,6 +183,49 @@ WHERE     (NewsDoc.IsAuditing = 1) AND (NewsDoc.IsDelete = 0) ";
                 
             }
             return dataBlockContent;
+        }
+
+        /// <summary>
+        /// 根据数据块ID获取数据List
+        /// </summary>
+        /// <param name="dataBlockID"></param>
+        /// <returns></returns>
+        public static IList<TemplateDoc> GetDataBlockTemplateDoc(Int64 dataBlockID)
+        {
+            DataBlockService dbService = new DataBlockService();
+            DataBlock dbEntity = dbService.GeDataBlockInfo(dataBlockID);
+            // 2.添加栏目的搜索条件及读取条数
+            string execSql;
+            if (dbEntity.Type == 2)
+            {
+                // 推荐内容
+                execSql = RECOMMENDELECTSQL;
+            }
+            else
+            {
+                execSql = NEWSELECTSQL;
+            }
+            if (!string.IsNullOrEmpty(dbEntity.Where))
+            {
+                execSql += " AND (" + dbEntity.Where + ")";
+            }
+
+            if (!string.IsNullOrEmpty(dbEntity.OrderByField))
+            {
+                execSql += " ORDER BY " + dbEntity.OrderByField;
+            }
+            execSql = string.Format(execSql, dbEntity.RowCount);
+            IList<TemplateDoc> datalist;
+            try
+            {
+                datalist = BaseTemplate.GetSqlResult(execSql);
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("block sql error:" + execSql);
+            }
+            return datalist;
         }
     }
 }

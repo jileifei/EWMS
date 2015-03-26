@@ -14,6 +14,7 @@ $(document).ready(function () {
 
     // 绑定推荐位置下拉列表
     BindRecommendPositionList();
+    $("#selRecommendPosition").val();
     $("#hiddenWhereValue").val('');
     if ($("#selType").val() == "2") {
         $("#trRecommendPositionList").show();
@@ -31,6 +32,10 @@ $(document).ready(function () {
         fieldHandler.Init($(this).val(), 'selFieldCondition', 2, "selCondition");
         fieldHandler.BindFieldList();
     });
+    
+    //$("#selRecommendPosition").change(function() {
+    //    $("#hiddenWhereValue").val($("#selRecommendPosition").val());
+    //})
 
     // 添加排序
     $("#btnAddOrder").click(function () {
@@ -105,8 +110,9 @@ function UpdateDataBlock() {
     }
     var Type = $("#selType").val();
     var RecommendWhere = "";
+    var positionID = 0;
     if (Type == 2) {
-        var positionID = $("#selRecommendPosition").val();
+        positionID = $("#selRecommendPosition").val();
         if (positionID == "") {
             alert('请选择推荐位置');
             return false;
@@ -122,22 +128,22 @@ function UpdateDataBlock() {
         alert('请输入正确的记录条数');
         return false;
     }
-    var TemplateID = $("#hiddenTemplateID").val();
-    if(parseInt(TemplateID) == 0)
-    {
-        alert('请选择模板');
-        return false;
-    }
+    //var TemplateID = $("#hiddenTemplateID").val();
+    //if(parseInt(TemplateID) == 0)
+    //{
+    //    alert('请选择模板');
+    //    return false;
+    //}
     var Note = $("#txtNote").val();
 
     $.ajax({
         type: 'POST',
         url: '/DataBlock/Update/',
-        data: { ID:DataBlockID,BlockName: BlockName, EnName: EnName, Type: Type, OrderByField: OrderByField, Where: Where, RowCount: RowCount, TemplateID: TemplateID, Note: Note },
+        data: { ID: DataBlockID, BlockName: BlockName, EnName: EnName, Type: Type, OrderByField: OrderByField, Where: Where, RowCount: RowCount, TemplateID: positionID, Note: Note },
         cache: false,
         success: function (data) {
-            data = eval('(' + data + ')');
             if (data.result == "ok") {
+                alert("更新数据成功!");
                 window.location.href = "/datablock/";
             }
             else {
@@ -165,9 +171,9 @@ function BindRecommendPositionList() {
             if (result.msg == "") {
                 var option = null;
                 $.each(result.list, function (i, item) {
-                    option = $("<option></option>");
-                    option.attr("value", item.ID);
-                    option.attr("text", item.Name);
+                    option = $("<option value='" + item.ID + "'>" + item.Name + "</option>");
+                    //option.attr("value", item.ID);
+                    //option.attr("text", item.Name);
                     $("#selRecommendPosition").append(option);
                 });
             }
