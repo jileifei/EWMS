@@ -113,8 +113,8 @@ namespace CMS.Template
             StringWriter swhtml = null;
             try
             {
-                ITemplateEngine velocity = DataAccess.CastleContext.Instance.GetService<ITemplateEngine>();
-                StringWriter sw = new StringWriter();
+                //ITemplateEngine velocity = DataAccess.CastleContext.Instance.GetService<ITemplateEngine>();
+                //StringWriter sw = new StringWriter();
                 //velocity.Process(ht, string.Empty, sw, templateContent);
                 string newtemplate = templateContent;
                 newtemplate = newtemplate.Replace("#include", "\\#include");

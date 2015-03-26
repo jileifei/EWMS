@@ -59,3 +59,6 @@ CMS.CommonLib/bin/Debug/CMS.CommonLib.pdb
 *.pdb
 *.pdb
 *.cache
+*.dll
+CMS.Domain/bin/Debug/CMS.Domain.dll
+*.suo
