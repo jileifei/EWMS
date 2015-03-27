@@ -7,8 +7,10 @@
     <ul>
         <li><h3><a href="@Url.Action("Index", "Template")" class="house">模板管理</a></h3>
             <ul>
+                <li><a href="@Url.Action("Index", "Template",new {type=6})" class="layoutcontent">区块管理</a></li>
                 <li><a href="@Url.Action("Index", "DataBlock")" class="manage">数据块管理</a></li>
-                <li><a href="@Url.Action("Index", "Global")" class="manage">全局变量管理</a></li>
+                <li><a href="@Url.Action("Index", "Global")" class="pagenew">全局变量管理</a></li>
+                <li><a href="@Url.Action("Index", "PagerSet")" class="pager">分页信息设置</a></li>
             </ul>
         </li>
 	</ul>  
@@ -98,12 +100,12 @@
                 <td align="right">取几条记录：</td>
                 <td><input type="text" id="txtRowCount" name="RowCount" value="@Model.RowCount" style="width:200px;" /> <span class="red">*</span></td>
             </tr>
-            @*<tr>
+            <tr id="contentplate">
                 <td height="25" bgcolor="#ffffff" align="right">使用模板：</td>
                 <td bgcolor="#ffffff">
                     <input type="text" id="txtTemplateName" value="@Model.TemplateName" style="width:200px;"/> <span class="red">*</span><img src="/content/img/icons/select.png" style="vertical-align:middle;height:20px;cursor:pointer" id="selTemplate" title="选择模板" alt="选择模板" /><input type="hidden" id="hiddenTemplateID" value="@Model.TemplateID" name="TemplateID" />
                 </td>
-            </tr>*@
+            </tr>
             <tr>
                 <td align="right">说明：</td>
                 <td><textarea id="txtNote" name="Note" cols="50" rows="3">@Model.Note</textarea></td>

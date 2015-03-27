@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     CKEDITOR.replace('fckContent', {
-        language : 'zh-cn',
         startupMode:'source',
         toolbar: [['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'], ['UIColor', '-', 'Source']]
     });
@@ -126,7 +125,7 @@ function EditPosition(PositionID) {
                     data: { ID: PositionID, Name: name, ChannelID: channelid, LocationType: locationtype, Summary: summary, PlateContent: $("#fckContent").val(), IsInclude: isinclude },
                     cache: false,
                     success: function (data) {
-                        data = eval('(' + data + ')');
+                        //data = eval('(' + data + ')');
                         if (data.result == "ok") {
                             $('#divDialog').dialog('close');
                             clear();

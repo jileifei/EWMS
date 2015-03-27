@@ -85,7 +85,7 @@ namespace CMS.AdminUI.Controllers
                     FieldService fieldService = new FieldService();
                     fieldList = fieldService.GetFieldList(dataType);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     msg = "数据请求出现异常，请稍后再试：" + ex.Message;
                 }
@@ -94,7 +94,7 @@ namespace CMS.AdminUI.Controllers
             {
                 msg = "请正常访问数据源";
             }
-            return Json(new { list = fieldList ,msg=msg});
+            return Json(new { list = fieldList, msg = msg });
         }
 
         # region 增 删 改
@@ -109,8 +109,8 @@ namespace CMS.AdminUI.Controllers
                 {
                     DataBlockService dataBlockService = new DataBlockService();
                     Int64 flag = dataBlockService.AddDataBlock(dataBlockEntity);
-                    
-                    if (flag>0)
+
+                    if (flag > 0)
                     {
                         if (dataBlockEntity.Type == 2)
                         {
@@ -123,27 +123,18 @@ namespace CMS.AdminUI.Controllers
                                     String dealContent = TemplateHandler.DealTempate(flag, dataBlockEntity.TemplateID);
                                     FileHandler.Write(dealContent, IncludePath + "/Positions/" + postion.Name + ".shtml",
                                         Utils.GetEncodingByEncode("UTF-8"));
-                                    msg = "{\"result\":\"ok\"}";
                                 }
                             }
                         }
-                        
-                            msg = "{\"result\":\"ok\"}";
-                        
+                        return Json(new { result = "ok" });
                     }
-                    else
-                    {
-                        msg = "{\"result\":\"error\",\"msg\":\"添加失败，请联系管理员\"}";
-                    }
+                    return Json(new { result = "error", msg = "添加失败，请联系管理员" });
                 }
-                else
-                {
-                    msg = "{\"result\":\"error\",\"msg\":\"添加失败，" + this.ExpendErrors() + "\"}";
-                }
+                return Json(new { result = "error", msg = "添加失败，" + this.ExpendErrors() });
             }
             catch (Exception ex)
             {
-                msg = "{\"result\":\"error\",\"msg\":\"系统出现异常，" + ex.Message + "\"}";
+                return Json(new { result = "error", msg = ex.Message});
             }
             return Json(msg);
         }
@@ -174,20 +165,19 @@ namespace CMS.AdminUI.Controllers
                                     dataBlockEntity.TemplateID);
                                 FileHandler.Write(dealContent, IncludePath + "/Positions/" + postion.Name + ".shtml",
                                     Utils.GetEncodingByEncode("UTF-8"));
-                                return Json("{\"result\":\"ok\"}");
                             }
+                            return Json(new { result = "ok" });
                         }
                     }
-                    else
-                    {
-                        return Json("{\"result\":\"ok\"}");
-                    }
+
+                    return Json(new { result = "ok" });
+
                 }
-                return Json("{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                return Json(new { result = "error", msg = "系统出现异常，请联系管理员" });
             }
             catch (Exception ex)
             {
-                return Json("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json(new { result = "error", msg = ex.Message });
             }
         }
 
@@ -203,11 +193,18 @@ namespace CMS.AdminUI.Controllers
             {
                 DataBlockService dataBlockService = new DataBlockService();
                 bool flag = dataBlockService.DeleteDataBlock(dataBlockEntity);
-                return Content(flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                if (flag)
+                {
+                    return Json(new { result = "ok" });
+                }
+                else
+                {
+                    return Json(new { result = "error", msg = "系统出现异常，请联系管理员" });
+                }
             }
             catch (Exception ex)
             {
-                return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json(new { result = "error", msg = ex.Message });
             }
         }
 

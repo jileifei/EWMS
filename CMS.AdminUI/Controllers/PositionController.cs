@@ -14,10 +14,10 @@ namespace CMS.AdminUI.Controllers
     {
         private const int PAGESIZE = 20;
 
-        public ActionResult Index(long? channelID,int pageIndex = 1)
+        public ActionResult Index(long? channelID, int pageIndex = 1)
         {
             RecommedPositionService positionService = new RecommedPositionService();
-            PagerModel<RecommedPosition> pageModel = positionService.GetPagerPositionList(channelID,PAGESIZE,pageIndex);
+            PagerModel<RecommedPosition> pageModel = positionService.GetPagerPositionList(channelID, PAGESIZE, pageIndex);
             if (pageModel.ItemList.Count == 0)
             {
                 pageModel.ItemList.Add(new RecommedPosition());
@@ -33,7 +33,7 @@ namespace CMS.AdminUI.Controllers
         /// </summary>
         /// <param name="positionInfo"></param>
         /// <returns></returns>
-         [HttpPost, ValidateInput(false)]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Add(RecommedPosition positionInfo)
         {
             string msg;
@@ -45,23 +45,16 @@ namespace CMS.AdminUI.Controllers
                     bool flag = positionService.AddPosition(positionInfo);
                     if (flag)
                     {
-                        msg = "{\"result\":\"ok\"}";
+                        return Json(new { result = "ok" });
                     }
-                    else
-                    {
-                        msg = "{\"result\":\"error\",\"msg\":\"添加失败，请联系管理员\"}";
-                    }
+                    return Json(new { result = "error", msg = "添加失败，请联系管理员" });
                 }
-                else
-                {
-                    msg = "{\"result\":\"error\",\"msg\":\"添加失败，" + this.ExpendErrors() + "\"}";
-                }
+                return Json(new { result = "error", msg = "添加失败，" + this.ExpendErrors() });
             }
             catch (Exception ex)
             {
-                msg = "{\"result\":\"error\",\"msg\":\"系统出现异常，" + ex.Message + "\"}";
+                return Json(new { result = "error", msg = ex.Message });
             }
-            return Json(msg);
         }
 
         /// <summary>
@@ -69,18 +62,22 @@ namespace CMS.AdminUI.Controllers
         /// </summary>
         /// <param name="positionInfo"></param>
         /// <returns></returns>
-         [HttpPost, ValidateInput(false)]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Update(RecommedPosition positionInfo)
         {
             try
             {
                 RecommedPositionService positionService = new RecommedPositionService();
                 bool flag = positionService.UpdatePosition(positionInfo);
-                return Content(flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                if (flag)
+                {
+                    return Json(new { result = "ok" });
+                }
+                return Json(new { result = "error", msg = "系统出现异常，请联系管理员" });
             }
             catch (Exception ex)
             {
-                return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json(new { result = "error", msg = ex.Message });
             }
         }
 
@@ -96,11 +93,15 @@ namespace CMS.AdminUI.Controllers
             {
                 RecommedPositionService positionService = new RecommedPositionService();
                 bool flag = positionService.DeletePosition(positionInfo);
-                return Content(flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                if (flag)
+                {
+                    return Json(new { result = "ok" });
+                }
+                return Json(new { result = "error", msg = "系统出现异常，请联系管理员" });
             }
             catch (Exception ex)
             {
-                return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json(new { result = "error", msg = ex.Message });
             }
         }
 

@@ -63,8 +63,16 @@ namespace CMS.AdminUI.Controllers
             return View(pagedTemplateList);
         }
 
-        public ActionResult Add()
+        public ActionResult Add(int?type)
         {
+            if (type != null)
+            {
+                ViewData["Type"] = type;
+            }
+            else
+            {
+                ViewData["Type"] = 0;
+            }
             return View();
         }
 
@@ -75,6 +83,7 @@ namespace CMS.AdminUI.Controllers
         /// <returns></returns>
         public ActionResult Edit(long? templateID)
         {
+            ViewData["Type"] = 0;
             Domain.TemplateInfo templateEntity;
             if (templateID != null)
             {
@@ -84,6 +93,13 @@ namespace CMS.AdminUI.Controllers
                 if (templateEntity == null)
                 {
                     templateEntity = new Domain.TemplateInfo();
+                }
+                else
+                {
+                    if (templateEntity.Type == 6)
+                    {
+                        ViewData["Type"] = 6;
+                    }
                 }
             }
             else
@@ -114,18 +130,24 @@ namespace CMS.AdminUI.Controllers
                     templateEntity.Status = 1;
                     templateEntity.CreateUserID = UserID;
                     bool flag = tpService.AddTemplate(templateEntity);
-                    msg = flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"添加失败，请联系管理员\"}";
+                    if (flag)
+                    {
+                        return Json(new {result = "ok"});
+                    }
+                    else
+                    {
+                        return Json(new {result = "error", msg = "添加失败，请联系管理员"});
+                    }
                 }
                 else
                 {
-                    msg = "{\"result\":\"error\",\"msg\":\"添加失败，" + this.ExpendErrors() + "\"}";
+                    return Json(new { result = "error", msg = "添加失败，" + this.ExpendErrors() });
                 }
             }
             catch (Exception ex)
             {
-                msg = "{\"result\":\"error\",\"msg\":\"系统出现异常，" + ex.Message + "\"}";
+                return Json(new { result = "error", msg = "系统出现异常，"+ex.Message });
             }
-            return Json(msg);
         }
 
         /// <summary>
@@ -142,11 +164,15 @@ namespace CMS.AdminUI.Controllers
                 templateEntity.ModifyTime = DateTime.Now;
                 templateEntity.ModifyUserID = UserID;
                 bool flag = tpService.UpdateTemplate(templateEntity);
-                return Content(flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                if (flag)
+                {
+                    return Json(new { result = "ok" });
+                }
+                return Json(new { result = "error", msg = "更新失败，请联系管理员" });
             }
             catch (Exception ex)
             {
-                return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json(new { result = "error", msg = "系统出现异常，" + ex.Message });
             }
         }
 
@@ -162,11 +188,15 @@ namespace CMS.AdminUI.Controllers
             {
                 TemplateService tpService = new TemplateService();
                 bool flag = tpService.DeleteTemplate(templateEntity);
-                return Content(flag ? "{\"result\":\"ok\"}" : "{\"result\":\"error\",\"msg\":\"系统出现异常，请联系管理员\"}");
+                if (flag)
+                {
+                    return Json(new { result = "ok" });
+                }
+                return Json(new { result = "error", msg = "删除失败，请联系管理员" });
             }
             catch (Exception ex)
             {
-                return Content("{\"result\":\"error\",\"msg\":\"" + ex.Message + "\"}");
+                return Json(new { result = "error", msg = "系统出现异常，" + ex.Message });
             }
         }
 

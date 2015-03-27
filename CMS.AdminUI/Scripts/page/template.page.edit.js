@@ -106,19 +106,21 @@
             url: '/Template/Update/',
             data: { ID: TemplateID, Name: TemplateName, Type: Type, TemplateCode: templateContent, Status: Status },
             cache: false,
-            success: function (data) {
-                data = eval('(' + data + ')');
+            success: function(data) {
                 if (data.result == "ok") {
-                    window.location.href = "/template/";
-                }
-                else {
+                    if (Type == 6) {
+                        window.location.href = "/template?type=6";
+                    } else {
+                        window.location.href = "/template";
+                    }
+                } else {
                     alert(data.msg);
                 }
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 throw new Error('数据源访问错误' + '\n' + xhr.responseText);
             }
-        })
+        });
     });
 });
 

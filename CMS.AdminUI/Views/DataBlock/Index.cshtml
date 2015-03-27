@@ -12,9 +12,10 @@
     <ul>
         <li><h3><a href="@Url.Action("Index", "Template")" class="house">模板管理</a></h3>
             <ul>
+                <li><a href="@Url.Action("Index", "Template",new {type=6})" class="layoutcontent">区块管理</a></li>
                 <li><a href="@Url.Action("Index", "DataBlock")" class="manage">数据块管理</a></li>
                 <li><a href="@Url.Action("Index", "Global")" class="pagenew">全局变量管理</a></li>
-                <li><a href="@Url.Action("Index", "PagerSet")" class="pagenew">分页信息设置</a></li>
+                <li><a href="@Url.Action("Index", "PagerSet")" class="pager">分页信息设置</a></li>
             </ul>
         </li>
 	</ul>  

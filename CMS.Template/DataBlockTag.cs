@@ -69,20 +69,23 @@ WHERE     (NewsDoc.IsAuditing = 1) AND (NewsDoc.IsDelete = 0) ";
                 {
                     RecommedPositionService positionService = new RecommedPositionService();
                     RecommedPosition positionInfo=positionService.GetPositionInfo(dbEntity.TemplateID);
-                    if (positionInfo.IsInclude)
+                    if (positionInfo != null)
                     {
-                        return "<!--#include virtual=\"/include/Positions" + positionInfo.Name + ".shtml\"-->";
-                    }
-                    else
-                    {
-                        Hashtable hashTagValue = new Hashtable(1);
-                        IList<string> listVar = TemplateHandler.GetTemplateArea(positionInfo.PlateContent);
-                        foreach (var varTag in listVar)
+                        if (positionInfo.IsInclude)
                         {
-                            IList<TemplateDoc> datalist=GetDataBlockTemplateDoc(dataBlockID);
-                            hashTagValue.Add(varTag, datalist);
+                            return "<!-- #include virtual=\"/include/Positions/" + positionInfo.Name + ".shtml\"-->";
                         }
-                        return TemplateHandler.DealTemplateContent(hashTagValue, positionInfo.PlateContent);
+                        else
+                        {
+                            Hashtable hashTagValue = new Hashtable(1);
+                            IList<string> listVar = TemplateHandler.GetTemplateArea(positionInfo.PlateContent);
+                            foreach (var varTag in listVar)
+                            {
+                                IList<TemplateDoc> datalist = GetDataBlockTemplateDoc(dataBlockID);
+                                hashTagValue.Add(varTag, datalist);
+                            }
+                            return TemplateHandler.DealTemplateContent(hashTagValue, positionInfo.PlateContent);
+                        }
                     }
                 }
                 #endregion

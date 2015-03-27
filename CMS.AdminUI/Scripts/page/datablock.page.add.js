@@ -24,9 +24,11 @@ $(document).ready(function () {
         fieldHandler.BindFieldList();
         if ($(this).val() == "2") {
             $("#trRecommendPositionList").show();
+            $("#commonplate").hide();
         }
         else {
             $("#trRecommendPositionList").hide();
+            $("#commonplate").show();
         }
     });
     
@@ -92,6 +94,14 @@ function AddDataBlock() {
             return false;
         }
         RecommendWhere = "LocationID = " + positionID;
+    } else {
+        var TemplateID = $("#hiddenTemplateID").val();
+        if (parseInt(TemplateID) == 0) {
+            alert('请选择模板');
+            return false;
+        } else {
+            positionID = TemplateID;
+        }
     }
     var OrderByField = getlistboxval("selOrderList");
     var Where = $("#txtWhere").val();
@@ -101,12 +111,7 @@ function AddDataBlock() {
         alert('请输入正确的记录条数');
         return false;
     }
-    //var TemplateID = $("#hiddenTemplateID").val();
-    //if(parseInt(TemplateID) == 0)
-    //{
-    //    alert('请选择模板');
-    //    return false;
-    //}
+    
     var Note = $("#txtNote").val();
 
     $.ajax({

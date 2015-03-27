@@ -101,9 +101,12 @@
             data: { Name: TemplateName, Type: Type, TemplateCode: templateContent },
             cache: false,
             success: function (data) {
-                data = eval('(' + data + ')');
                 if (data.result == "ok") {
-                    window.location.href = "/template/";
+                    if (Type == 6) {
+                        window.location.href = "/template?type=6";
+                    } else {
+                        window.location.href = "/template/";
+                    }
                 }
                 else {
                     alert(data.msg);

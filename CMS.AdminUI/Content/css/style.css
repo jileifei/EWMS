@@ -276,6 +276,9 @@ form#form #button2:hover {
 .pagenew {
 	background: url("../img/icons/page_add.png") no-repeat left;
 }
+.pager {
+    background: url("../img/icons/page_white_stack.png") no-repeat left;
+}
 .rss {
 	background: url("../img/icons/rss.png") no-repeat left;
 }
@@ -329,6 +332,16 @@ form#form #button2:hover {
 }
 .modules_manage {
 	background: url("../img/icons/bricks_gear.png") no-repeat left;
+}
+
+.layoutcontent {
+    background: url("../img/icons/layout_content.png") no-repeat left;
+}
+.lockedit {
+    background: url("../img/icons/lock_edit.png") no-repeat left;
+}
+.logout {
+    background: url("../img/icons/logout.png") no-repeat left;
 }
 
 /*flickr style*/

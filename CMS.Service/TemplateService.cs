@@ -102,7 +102,7 @@ namespace CMS.Service
                 }
                 if (!string.IsNullOrEmpty(name))
                 {
-                    where += " AND Name LIKE '%" + Utils.CleanInput(name) + "'%";
+                    where += " AND Name LIKE '%" + Utils.CleanInput(name) + "%'";
                 }
                 if (type != null && type.Value > 0)
                 {
@@ -151,6 +151,9 @@ namespace CMS.Service
                         break;
                     case 5:
                         templateEntity.TypeName = "其他模板";
+                        break;
+                    case 6:
+                        templateEntity.TypeName = "区块模版";
                         break;
                 }
                 templateEntity.Status = TypeParse.ToInt(row["Status"]);
