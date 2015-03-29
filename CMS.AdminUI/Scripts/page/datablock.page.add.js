@@ -12,7 +12,7 @@ $(document).ready(function () {
     $('#selTemplate').live('click', function (e) {
         e.preventDefault();
         var common = new CommonPage();
-        common.SelTemplate(5);
+        common.SelTemplate(6);
     });
     if ($("#selType").val() == "2") {
         $("#trRecommendPositionList").show();

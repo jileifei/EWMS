@@ -108,6 +108,10 @@ namespace CMS.Service
                 {
                     where += " AND Type=" + type;
                 }
+                else
+                {
+                    where += " AND Type !=6";
+                }
                 int totalCount;
                 DataSet dsTemplateList = dao.PageingQuery("TemplateInfo", "ID,Name,[Type],Status,CreateTime", "ID", where, "", 2, pageSize, pageIndex, out totalCount, out totalPager);
                 globalVarPagerEntity.PageSize = pageSize;
