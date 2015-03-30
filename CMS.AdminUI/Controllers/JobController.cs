@@ -74,14 +74,14 @@ namespace CMS.AdminUI.Controllers
             return View(jobInfo);
         }
 
-        public ActionResult Recruitment(int? id)
+        public ActionResult Recruitment(int? PageIndex)
         {
             IList<JobInfo> jobinfoList = JobService.FindAllPosition();
             foreach (JobInfo info in jobinfoList)
             {
                 info.RCount = JobService.GetCount(info.ID);
             }
-            PagedList<JobInfo> pagedList = new PagedList<JobInfo>(jobinfoList, id ?? 1, 20);
+            PagedList<JobInfo> pagedList = new PagedList<JobInfo>(jobinfoList, PageIndex ?? 1, 3);
             return View(pagedList);
         }
 
@@ -96,9 +96,9 @@ namespace CMS.AdminUI.Controllers
             ViewData["list"] = items; 
         }
 
-        public ActionResult AjaxGetResume(Int64 id, int rows, int page,string order="id",string sort="desc")
+        public ActionResult AjaxGetResume(Int64 id, int rows, int PageIndex, string order = "id", string sort = "desc")
         {
-            string strJson=JobService.FindAllUnion(id,rows,page,order,sort);
+            string strJson = JobService.FindAllUnion(id, rows, PageIndex, order, sort);
             return Content(strJson);
         }
 
@@ -138,10 +138,10 @@ namespace CMS.AdminUI.Controllers
         #endregion
 
         #region jobtype
-        public ActionResult JobTypeList(int? id)
+        public ActionResult JobTypeList(int? PageIndex)
         {
             IList<JobType> jobTypeList = JobService.FindAll();
-            PagedList<JobType> pagedList = new PagedList<JobType>(jobTypeList, id ?? 1, 6);
+            PagedList<JobType> pagedList = new PagedList<JobType>(jobTypeList, PageIndex ?? 1, 2);
             return View(pagedList);
         }
 

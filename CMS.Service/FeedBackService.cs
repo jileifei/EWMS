@@ -61,6 +61,12 @@ namespace CMS.Service
             return result;
         }
 
+        public static void UpdateRemarks(FeedBack ht)
+        {
+            IFeedBackDao feedbackService = CastleContext.Instance.GetService<IFeedBackDao>();
+            feedbackService.UpdateRemarksContent(ht);
+        }
+
         /// <summary>
         /// 审核成功
         /// </summary>

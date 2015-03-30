@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('#selTemplate').live('click', function (e) {
         e.preventDefault();
         var common = new CommonPage();
-        common.SelTemplate(5);
+        common.SelTemplate(6);
     });
     $("#selType").val(DataType);
 
@@ -62,7 +62,7 @@ $(document).ready(function () {
     })
 
     // 添加查询条件
-    $("#btnAddCondition").click(function () {
+    $("#btnAddCondition").click(function() {
         //var whereText = $("#selFieldCondition").find("option:selected").text() + " " + $("#selCondition").find("option:selected").text() + " " + $("#txtWhereValue").val();
         var whereVal = fieldHandler.TranslateWhere($("#selFieldCondition").val(), $("#selCondition").val(), $("#txtWhereValue").val());
         //判断是否是多条件关联
@@ -71,14 +71,12 @@ $(document).ready(function () {
             whereJoin = $("input:radio[name='WhereJoin']:checked").val();
         }
 
-        $("#txtWhere").val($.trim($("#txtWhere").val()) + " " + $.trim(whereJoin) + " " + $.trim( whereVal ));
+        $("#txtWhere").val($.trim($("#txtWhere").val()) + " " + $.trim(whereJoin) + " " + $.trim(whereVal));
         $("#hiddenWhereValue").val($("#txtWhere").val());
 
-        
-    })
 
-
-
+    });
+    
     // 保存提交
     $("#btnSave").click(function () {
         UpdateDataBlock();
@@ -99,8 +97,6 @@ function InitOrder() {
         }
     }
 }
-
-
 
 // 更新
 function UpdateDataBlock() {

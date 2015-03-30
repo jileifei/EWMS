@@ -17,10 +17,10 @@ namespace CMS.AdminUI.Controllers
 
         public ActionResult Index(int? pageIndex, int status = 0, int messageType = 0)
         {
-            ViewData["messageType"] =2;
+            ViewData["messageType"] = 2;
             ViewData["status"] = status;
             IList<FeedBack> fbList;
-            if (messageType == 0&&status==0)
+            if (messageType == 0 && status == 0)
             {
                 fbList = FeedBackService.FindAll();
             }
@@ -37,18 +37,18 @@ namespace CMS.AdminUI.Controllers
                 fbList = FeedBackService.FindAllByStatus(status);
             }
 
-            PagedList<FeedBack> pagedList = new PagedList<FeedBack>(fbList, pageIndex ?? 1,15);
+            PagedList<FeedBack> pagedList = new PagedList<FeedBack>(fbList, pageIndex ?? 1, 1);
             return View(pagedList);
         }
 
         //
         // GET: /FeedBack/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             FeedBack fb = new FeedBack();
             fb.Id = id;
-            int count=FeedBackService.Delete(fb);
+            int count = FeedBackService.Delete(fb);
             if (count > 0)
                 return Content("success");
             return Content("false");
@@ -63,8 +63,8 @@ namespace CMS.AdminUI.Controllers
         {
             Hashtable ht = new Hashtable();
             ht.Add("Status", 1);
-            ht.Add("ID",id);
-            int count=FeedBackService.AuditComment(ht);
+            ht.Add("ID", id);
+            int count = FeedBackService.AuditComment(ht);
             if (count > 0)
                 return Content("success");
             return Content("false");
@@ -96,6 +96,21 @@ namespace CMS.AdminUI.Controllers
             return Content("false");
         }
 
+        public ActionResult RemarksContent(int id, string content)
+        {
+            try
+            {
+                FeedBack fb = new FeedBack();
+                fb.Remarks = content;
+                fb.Id = id;
+                FeedBackService.UpdateRemarks(fb);
+                return Json(new { result = "ok" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "error", msg = ex.Message });
+            }
+        }
         /// <summary>
         /// 删除回复信息，修改回复状态
         /// </summary>
@@ -116,7 +131,7 @@ namespace CMS.AdminUI.Controllers
         }
 
         #region send mail
-        public void SendMail(int id,string mailTo, string title, string content)
+        public void SendMail(int id, string mailTo, string title, string content)
         {
             string[] adminMail = ConfigurationManager.AppSettings["AdminMail"].Split(',');
             string smtp = ConfigurationManager.AppSettings["SmtpHost"];

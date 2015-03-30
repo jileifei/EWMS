@@ -184,6 +184,7 @@ namespace CMS.Domain
 
         /// <summary>
         /// 0=未审核 1=审核通过 2=已回复
+        /// 0=客户预定 1=未预定 3=已预定
         /// </summary>		
         public int Status
         {
@@ -237,8 +238,19 @@ namespace CMS.Domain
 
         public String CompanyName { get; set; }
 
+        /// <summary>
+        /// 桌数目
+        /// </summary>
+        public Int16 DeskCount { get; set; }
 
+        /// <summary>
+        /// 预定的时间
+        /// </summary>
+        public String PreDate { get; set; }
 
-
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public String Remarks { get; set; }
     }
 }

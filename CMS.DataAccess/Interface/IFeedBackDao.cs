@@ -71,6 +71,7 @@ namespace CMS.DataAccess.Interface {
 
         int UpdateStatus(Hashtable ht);
 
+        void UpdateRemarksContent(FeedBack ht);
         int UpdateReplayContent(FeedBack obj);
 
 		/// <summary>Delete the underlying database record of a FeedBack instance.</summary>

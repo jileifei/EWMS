@@ -79,6 +79,45 @@
                 }
             });
         }
+        
+        //备注
+        function RemarksDialogShow(id) {
+            $('#RemarksDialog').show();
+            $('#RemarksDialog').dialog({
+                title: '备注',
+                buttons: [{
+                    text: '提交',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        var content = $("#MailContent").text();
+                        $.ajax({
+                            url: "/FeedBack/RemarksContent",
+                            type: 'POST',
+                            cache: false,
+                            async: false,
+                            data: { id: id, content: content },
+                            error: function (xhr) {
+                                throw new Error('数据源访问错误' + '\n' + xhr.responseText);
+                            },
+                            success: function (data) {
+                                if (data.result == "ok") {
+                                    $.messager.alert("系统提示", "备注成功");
+                                    PageInit();
+                                }
+                                else if (data.result == "error") {
+                                    $.messager.alert("系统提示", data.msg, "warning");
+                                }
+                            }
+                        });
+                    }
+                }, {
+                    text: '取消',
+                    handler: function () {
+                        $('#RemarksDialog').dialog('close');
+                    }
+                }]
+            });
+        }
 
         function DeleteReplay(id) {
             $.ajax({

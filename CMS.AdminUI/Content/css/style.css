@@ -74,7 +74,7 @@ select {
 	padding: 2px; font-size: 14px;
 }
 #topmenu {
-	width: 700px; margin-top: 33px; float: left; voice-family: inherit;
+	width: 800px; margin-top: 33px; float: left; voice-family: inherit;
 }
 #topmenu ul {
 	list-style: none; line-height: 25px;

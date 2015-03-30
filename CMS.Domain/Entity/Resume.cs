@@ -182,7 +182,6 @@ namespace CMS.Domain {
             set { m_Email = value; }
         }
 	    #endregion
-		
 
 	}
 	

@@ -56,9 +56,7 @@
                   }
             </tbody>
             </table>
-         <div id="pager" style="text-align:center">
-           @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "id", CurrentPagerItemWrapperFormatString = "<span class=\"cpb\">{0}</span>", NumericPagerItemWrapperFormatString = "<span class=\"item\">{0}</span>", CssClass = "pages", SeparatorHtml = "" })
-        </div>
+        <div id="pager">@Html.Pager(Model, new PagerOptions { PageIndexParameterName = "PageIndex", PagerItemsSeperator = "", CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>" }, new { id = "flickrpager" })</div>
 </div>
 </div>
 

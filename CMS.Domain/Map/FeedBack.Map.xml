@@ -29,6 +29,9 @@
       <result property="ReplyUserid" column="replyUserID" dbType="BigInt"/>
       <result property="ReplyTime" column="replyTime" dbType="DateTime"/>
       <result property="Status" column="status" dbType="Int"/>
+      <result property="DeskCount" column="DeskCount" dbType="Int"/>
+      <result property="PreDate" column="PreDate" dbType="VarChar"/>
+      <result property="Remarks" column="Remarks" dbType="VarChar"/>
     </resultMap>
   </resultMaps>
 
@@ -97,14 +100,17 @@
       , [email]
       , [gender]
       , [IP]
-      ,[CompanyName]
-      ,[Mobile]
+      , [CompanyName]
+      , [Mobile]
       ,[Address]
       , [createTime]
       , [MessageType]
       , [replyMessae]
       , [replyUserID]
       , [status]
+      , [DeskCount]
+      , [PreDate]
+      , [Remarks]
       ) VALUES (
       #Titile,dbType=VarChar#
       , #Message,dbType=NText#
@@ -120,6 +126,9 @@
       , #ReplyMessae,dbType=NText#
       , #ReplyUserid,dbType=BigInt#
       , #Status,dbType=Int#
+      , #DeskCount,dbType=Int#
+      , #PreDate,dbType=VarChar#
+      , #Remarks,dbType=VarChar#
       )
     </insert>
 
@@ -148,6 +157,13 @@
       ([ID] = $ID$)
     </update>
 
+    <update id="UpdateRemarksContent" parameterClass="FeedBack">
+      UPDATE [dbo].[FeedBack] SET
+      [Remarks] = #Remarks,dbType=VarChar#
+      WHERE
+      ([ID] = #Id,dbType=BigInt#)
+    </update>
+    
     <update id="UpdateReplayContent" parameterClass="FeedBack">
       UPDATE [dbo].[FeedBack] SET
       [replyMessae] = #ReplyMessae,dbType=NText#

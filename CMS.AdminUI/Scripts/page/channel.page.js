@@ -65,6 +65,7 @@ function BindContextMenu(span) {
             case "edit":
             case "del":
             case "publish":
+            case "weburl":
                 NodeHalder(action, node);
                 break;
             default:
@@ -102,6 +103,9 @@ function NodeHalder(action, node) {
             } else {
                 publish(node);
             }
+            break;
+        case "weburl":
+            window.open(node.data.url);
             break;
         default:
             alert("请选择操作");

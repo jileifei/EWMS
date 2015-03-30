@@ -160,6 +160,13 @@ namespace CMS.DataAccess.Implement {
             return result;
         }
 
+        public void UpdateRemarksContent(FeedBack ht)
+        {
+            if (ht == null) throw new ArgumentNullException("ht");
+            String stmtId = "FeedBack.UpdateRemarksContent";
+            SqlMapperManager.Instance.Update(stmtId, ht);
+        }
+
         public int UpdateReplayContent(FeedBack obj)
         {
             if (obj == null) throw new ArgumentNullException("obj");

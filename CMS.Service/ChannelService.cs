@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -13,6 +14,7 @@ namespace CMS.Service
 {
     public class ChannelService
     {
+        private string webUrl = ConfigurationSettings.AppSettings["WebUrl"];
         # region get all chiled nodeid
 
         /// <summary>
@@ -127,6 +129,7 @@ namespace CMS.Service
                 dynatreeModel.key = channelEntity.ID.ToString(CultureInfo.InvariantCulture);
                 dynatreeModel.ParentID = channelEntity.ParentChannelID ?? 0;
                 dynatreeModel.status = channelEntity.Status;
+                dynatreeModel.url = webUrl+channelEntity.ChannelUrlPart;
                 listDynatreeNode.Add(dynatreeModel);
             }
             return listDynatreeNode;
