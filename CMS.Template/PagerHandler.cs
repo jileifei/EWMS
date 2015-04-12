@@ -25,21 +25,21 @@ namespace CMS.Template
                                           ) temp
                                           where rownum between {2} and {3}";
        */
-
         /// <summary>
         /// 取得指定页码的数据
         /// </summary>
         /// <param name="channelID"></param>
         /// <param name="pageNumList"></param>
         /// <returns></returns>
-        public IList<TemplateDoc> GetPagerDataList(long channelID, ref string pageNumList)
+        public IList<TemplateDoc> GetPagerDataList(long channelID, ref string pageNumList, Int32 pageIndex)
         {
             int curPageIndex = 1;
-            string pageIndex = System.Web.HttpContext.Current.Request["page"];
-            if (!string.IsNullOrEmpty(pageIndex))
-            {
-                curPageIndex = TypeParse.ToInt(pageIndex);
-            }
+            curPageIndex = pageIndex;
+            //pageIndex = System.Web.HttpContext.Current.Request["page"];
+            //if (!string.IsNullOrEmpty(pageIndex))
+            //{
+            //    curPageIndex = TypeParse.ToInt(pageIndex);
+            //}
 
             IList<TemplateDoc> datalist;
             ChannelService channelService = new ChannelService();
@@ -179,6 +179,50 @@ namespace CMS.Template
             string url = System.Web.HttpContext.Current.Request.Url.ToString();
             pageNumList = Utils.GetPageNumbers(curPageIndex, pageNum, url, 10);
             return datalist;
+        }
+
+        /// <summary>
+        /// 获取栏目下列表的总页数 
+        /// </summary>
+        /// <param name="channelID"></param>
+        /// <returns></returns>
+        public Int32 GetPagerTatals(long channelID)
+        {
+            ChannelService channelService = new ChannelService();
+            ChannelInfo ciEntity = channelService.GetChannelInfo(channelID);
+            if (ciEntity == null)
+            {
+                throw new ArgumentException("错误的栏目ID", "channelID");
+            }
+            if (ciEntity.PagerID == null)
+            {
+                throw new ArgumentException("指定的栏目没有设置分页配置信息", "ChannelID,PagerID");
+            }
+            int pagerID = ciEntity.PagerID.Value;
+            if (pagerID == 0)
+            {
+                throw new ArgumentException("指定的栏目没有设置分页配置信息", "ChannelID,PagerID");
+            }
+            PagerSetService psService = new PagerSetService();
+            PagerInfo piEntity = psService.GePagerSetInfo(pagerID);
+            if (piEntity == null)
+            {
+                throw new ArgumentException("指定的栏目设置了错误的分页配置信息，请重新设置", "ChannelID,PagerID");
+            }
+
+            string sql = "SELECT COUNT(*) FROM NewsDoc WITH(NOLOCK) WHERE IsDelete=0 AND IsAuditing=1 AND ChannelID=" + channelID;
+
+            int totalCount=0;
+            //int totalPages;
+            using (SQLHelper dao = new SQLHelper())
+            {
+                object objCount = dao.ExecuteScalar(CommandType.Text, sql);
+                if (objCount != null)
+                {
+                    totalCount = TypeParse.ToInt(objCount);
+                }
+            }
+            return totalCount;
         }
     }
 }

@@ -18,12 +18,13 @@ namespace CMS.AdminUI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult PublishChannelPage(int? id)
+        public ActionResult PublishChannelPage(long? id)
         {
             ChannelInfo channelInfo;
             if (id != null)
             {
                 string templateContent;
+                string listContent;
                 ChannelService channelService = new ChannelService();
                 channelInfo = channelService.GetChannelInfo(id.Value);
                 try
@@ -34,10 +35,22 @@ namespace CMS.AdminUI.Controllers
                 {
                     return Json(new {result = "error", message = ex.Message}, JsonRequestBehavior.AllowGet);
                 }
-                string linkurl = AbsoPath+channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
+                string dir = channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
+                string linkurl = AbsoPath + dir;
                 FileHandler.CheckDirectory(linkurl);
                 TemplateHandler.CreateFileByTemplateContent(new Hashtable(), templateContent, Encoding.UTF8,
                     AbsoPath + channelInfo.ChannelUrlPart);
+                
+                PagerHandler pagerHandler = new PagerHandler();
+                Int32 tatals = pagerHandler.GetPagerTatals(Convert.ToInt64(id));
+                for (Int32 i = 1; i <= tatals; i++)
+                {
+                    listContent=TemplateHandler.DealListTemplate(channelInfo.ListTemplateID, id, i);
+                    TemplateHandler.CreateFileByTemplateContent(new Hashtable(), listContent, Encoding.UTF8,
+                    AbsoPath + dir + "/" + channelInfo.EnName + "-list-"+i+".shtml");
+                }
+                //列表页
+                
                 channelInfo.Status = 1;
                 channelService.Update(channelInfo);
             }

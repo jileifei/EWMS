@@ -331,10 +331,75 @@ namespace CMS.Template
                             {
                                 PagerHandler pagerHandler = new PagerHandler();
                                 string pageNumList = "";
-                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList);
+                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList,0);
                                 hashTagValue.Add(PAGEDATALISTTAG, listData);
                                 hashTagValue.Add(PAGENUMINFOTAG, pageNumList);
 
+                            }
+                            else
+                            {
+                                hashTagValue.Add(tagVar, TagFactory.TagDeal(tagVar, channelID));
+                            }
+                        }
+                    }
+
+                    templateResult = DealTemplateContent(hashTagValue, templateContent);
+                }
+            }
+            return templateResult;
+        }
+
+
+        public static string DealListTemplate(long? listTemplateID, long? channelID,Int32 currentPage)
+        {
+            // 模板处理结果
+            string templateResult = "";
+
+            //get template id by channel
+            if (listTemplateID == null || listTemplateID.Value == 0)
+            {
+                if (channelID != null)
+                {
+                    ChannelService cservice = new ChannelService();
+                    ChannelInfo channelInfo = cservice.GetChannelInfo(channelID.Value);
+                    listTemplateID = channelInfo.TemplateID;
+                }
+            }
+
+            if (listTemplateID != null)
+            {
+                // 1. 得到模板内容
+                TemplateService tpService = new TemplateService();
+                TemplateInfo tpEntity = tpService.GeTemplateInfo(listTemplateID.Value);
+                if (tpEntity != null)
+                {
+                    string templateContent = tpEntity.TemplateCode;
+                    if (channelID != null)
+                    {
+                        templateContent = templateContent.Replace("${ChannelID}", channelID.Value.ToString(CultureInfo.InvariantCulture));
+
+                        ChannelService cservice = new ChannelService();
+                        long rootChannelID = cservice.GetRootChannelID(channelID.Value);
+                        templateContent = templateContent.Replace("${RootChannelID}", rootChannelID.ToString(CultureInfo.InvariantCulture));
+                    }
+
+                    // 2.从模板中摘出变量
+                    IList<string> listVar = GetTemplateArea(templateContent);
+                    // 3.如果新闻ID不为空，则先处理新闻标签
+                    // 4.定义Hashtable，保存变量名及对应的变量处理结果
+                    Hashtable hashTagValue=new Hashtable();
+                   
+                    foreach (string tagVar in listVar)
+                    {
+                        if (!hashTagValue.ContainsKey(tagVar))
+                        {
+                            if (tagVar == PAGEDATALISTTAG || tagVar == PAGENUMINFOTAG)// 分页列表数据 分页页码
+                            {
+                                PagerHandler pagerHandler = new PagerHandler();
+                                string pageNumList = "";
+                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList, currentPage);
+                                hashTagValue.Add(PAGEDATALISTTAG, listData);
+                                hashTagValue.Add(PAGENUMINFOTAG, pageNumList);
                             }
                             else
                             {

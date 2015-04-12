@@ -37,7 +37,7 @@ namespace CMS.AdminUI.Controllers
                 fbList = FeedBackService.FindAllByStatus(status);
             }
 
-            PagedList<FeedBack> pagedList = new PagedList<FeedBack>(fbList, pageIndex ?? 1, 1);
+            PagedList<FeedBack> pagedList = new PagedList<FeedBack>(fbList, pageIndex ?? 1, 10);
             return View(pagedList);
         }
 
