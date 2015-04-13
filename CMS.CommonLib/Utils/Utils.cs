@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -8,9 +9,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.UI;
 using System.Net;
 using System.Net.Mail;
+using CMS.CommonLib.Extension;
 
 namespace CMS.CommonLib.Utils
 {
@@ -1128,70 +1131,178 @@ namespace CMS.CommonLib.Utils
 		/// <param name="url">超级链接地址</param>
 		/// <param name="extendPage">周边页码显示个数上限</param>
 		/// <returns>页码html</returns>
-		public static string GetPageNumbers(int curPage, int countPage, string url, int extendPage)
+		public static string GetPageNumbers(int curPage, int countPage, string url, int extendPage,Dictionary<int,string> pageLink )
 		{
-			int startPage = 1;
-			int endPage = 1;
+            StringBuilder builder=new StringBuilder();
+		    builder.Append("<div id=\"badoopager\">");
+		    if (curPage == 1)
+		    {
+                builder.Append("<a href=\"" + pageLink[1] + "\" disabled=\"disabled\">首页</a><a href=\"#\" disabled=\"disabled\">上一页</a><span class=\"current\">1</span>");
+                if (countPage <= 10)
+                {
+                    for (int i = 2; i <= countPage; i++)
+                    {
+                        if (i == curPage)
+                        {
+                            builder.Append("<span class=\"current\">" + i + "</span>");
+                        }
+                        else
+                        {
+                            builder.Append("<a href=\"" + pageLink[i] + "\">" + i + "</a>");
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 2; i <= 10; i++)
+                    {
+                        if (i == curPage)
+                        {
+                            builder.Append("<span class=\"current\">" + i + "</span>");
+                        }
+                        else
+                        {
+                            builder.Append("<a href=\"" + pageLink[i] + "\">" + i + "</a>");
+                        }
+                    }
+                }
+		    }
+		    else
+		    {
+                builder.Append("<a href=\"" + pageLink[1] + "\">首页</a><a href=\"" + pageLink[curPage-1] + "\">上一页</a>");
 
-            string t1 = "<a href=\"" + RegularUrl("page", "1", url) + "\">&laquo;</a>&nbsp;";
-            string t2 = "<a href=\"" + RegularUrl("page", countPage.ToString(), url) + "\">&raquo;</a>&nbsp;";
+		        if (countPage <= 10)
+		        {
+                    for (int i = 1; i <= countPage; i++)
+		            {
+		                if (i == curPage)
+		                {
+		                    builder.Append("<span class=\"current\">" + i + "</span>");
+		                }
+		                else
+		                {
+		                    builder.Append("<a href=\"" + pageLink[i] + "\">" + i + "</a>");
+		                }
+		            }
+		        }
+		        else
+		        {
+                    if (curPage <= 5)
+                    {
+                        for (int i = 1; i <= 10; i++)
+                        {
+                            if (i == curPage)
+                            {
+                                builder.Append("<span class=\"current\">" + i + "</span>");
+                            }
+                            else
+                            {
+                                builder.Append("<a href=\"" + pageLink[i] + "\">" + i + "</a>");
+                            }
+                        }
+                    }
+                    if (curPage > 5)
+                    {
+                        for (int i = curPage-4; i <= curPage; i++)
+                        {
+                            if (i == curPage)
+                            {
+                                builder.Append("<span class=\"current\">" + i + "</span>");
+                            }
+                            else
+                            {
+                                builder.Append("<a href=\"" + pageLink[i] + "\">" + i + "</a>");
+                            }
+                        }
+                        for (int i = curPage+1; i <= curPage+4; i++)
+                        {
+                            if (i == curPage)
+                            {
+                                builder.Append("<span class=\"current\">" + i + "</span>");
+                            }
+                            else
+                            {
+                                if (i <= countPage)
+                                {
+                                    builder.Append("<a href=\"" + pageLink[i] + "\">" + i + "</a>");
+                                }
+                            }
+                        }
+                    }
+		        }
+		    }
+		    if (countPage == curPage)
+		    {
+                builder.Append("<a href=\"#\" disabled=\"disabled\">下一页</a><a href=\"#\" disabled=\"disabled\">尾页</a>");
+		    }
+		    else
+		    {
+                builder.Append("<a href=\"" + pageLink[curPage + 1] + "\">下一页</a><a href=\"" + pageLink[pageLink.Count] + "\">尾页</a>");
+		    }
+		    builder.Append("</div>");
 
-			if(countPage < 1) countPage = 1;
-			if(extendPage < 3) extendPage = 2;
-			
-			if(countPage > extendPage)
-			{
-				if(curPage - (extendPage / 2) > 0)
-				{
-					if(curPage + (extendPage / 2) < countPage)
-					{
-						startPage = curPage - (extendPage / 2);
-						endPage = startPage + extendPage - 1;
-					}
-					else
-					{
-						endPage = countPage;
-						startPage = endPage - extendPage + 1;
-						t2 = "";
-					}
-				}
-				else
-				{
-					endPage = extendPage;
-					t1 = "";
-				}
-			}
-			else
-			{
-				startPage = 1;
-				endPage = countPage;
-				t1 = "";
-				t2 = "";
-			}
-			
-			StringBuilder s = new StringBuilder("");
-			
-			s.Append(t1);
-			for (int i = startPage; i <= endPage; i++)
-			{
-				if (i == curPage)
-				{
-					s.Append("&nbsp;");
-					s.Append(i);
-					s.Append("&nbsp;");
-				}
-				else
-				{
-					s.Append("&nbsp;<a href=\"");
-                    s.Append(RegularUrl("page", i.ToString(), url));
-					s.Append("\">");
-					s.Append(i);
-					s.Append("</a>&nbsp;");
-				}
-			}
-			s.Append(t2);
+            //int startPage = 1;
+            //int endPage = 1;
 
-			return s.ToString();
+            //string t1 = "<a href=\"" + RegularUrl("page", "1", url) + "\">&laquo;</a>&nbsp;";
+            //string t2 = "<a href=\"" + RegularUrl("page", countPage.ToString(), url) + "\">&raquo;</a>&nbsp;";
+
+            //if(countPage < 1) countPage = 1;
+            //if(extendPage < 3) extendPage = 2;
+			
+            //if(countPage > extendPage)
+            //{
+            //    if(curPage - (extendPage / 2) > 0)
+            //    {
+            //        if(curPage + (extendPage / 2) < countPage)
+            //        {
+            //            startPage = curPage - (extendPage / 2);
+            //            endPage = startPage + extendPage - 1;
+            //        }
+            //        else
+            //        {
+            //            endPage = countPage;
+            //            startPage = endPage - extendPage + 1;
+            //            t2 = "";
+            //        }
+            //    }
+            //    else
+            //    {
+            //        endPage = extendPage;
+            //        t1 = "";
+            //    }
+            //}
+            //else
+            //{
+            //    startPage = 1;
+            //    endPage = countPage;
+            //    t1 = "";
+            //    t2 = "";
+            //}
+			
+            //StringBuilder s = new StringBuilder("");
+			
+            //s.Append(t1);
+            //for (int i = startPage; i <= endPage; i++)
+            //{
+            //    if (i == curPage)
+            //    {
+            //        s.Append("&nbsp;");
+            //        s.Append(i);
+            //        s.Append("&nbsp;");
+            //    }
+            //    else
+            //    {
+            //        s.Append("&nbsp;<a href=\"");
+            //        s.Append(RegularUrl("page", i.ToString(), url));
+            //        s.Append("\">");
+            //        s.Append(i);
+            //        s.Append("</a>&nbsp;");
+            //    }
+            //}
+            //s.Append(t2);
+
+            return builder.ToString();
 		}
 
 		/// <summary>

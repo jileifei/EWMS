@@ -28,10 +28,7 @@ namespace CMS.Template
         /// <summary>
         /// 取得指定页码的数据
         /// </summary>
-        /// <param name="channelID"></param>
-        /// <param name="pageNumList"></param>
-        /// <returns></returns>
-        public IList<TemplateDoc> GetPagerDataList(long channelID, ref string pageNumList, Int32 pageIndex)
+        public IList<TemplateDoc> GetPagerDataList(long channelID, ref string pageNumList, Int32 pageIndex,Dictionary<int,string> pageLink )
         {
             int curPageIndex = 1;
             curPageIndex = pageIndex;
@@ -105,14 +102,14 @@ namespace CMS.Template
             }
 
 
-            string linkurl = "http://www.beijing-dentsu.com.cn/news/s{0}/{1}";
-            foreach (TemplateDoc item in datalist)
-            {
-                if (string.IsNullOrEmpty(item.get("Linkurl")))
-                {
-                    item.SetValue("Linkurl", string.Format(linkurl, item.get("ChannelID"), item.get("ID")));
-                }
-            }
+            //string linkurl = "http://www.beijing-dentsu.com.cn/news/s{0}/{1}";
+            //foreach (TemplateDoc item in datalist)
+            //{
+            //    if (string.IsNullOrEmpty(item.get("Linkurl")))
+            //    {
+            //        item.SetValue("Linkurl", string.Format(linkurl, item.get("ChannelID"), item.get("ID")));
+            //    }
+            //}
             for (int i = 0; i < datalist.Count; i++)
             {
                 datalist[i].SetValue("startflag", "0");
@@ -177,7 +174,7 @@ namespace CMS.Template
             }
             # endregion
             string url = System.Web.HttpContext.Current.Request.Url.ToString();
-            pageNumList = Utils.GetPageNumbers(curPageIndex, pageNum, url, 10);
+            pageNumList = Utils.GetPageNumbers(curPageIndex, pageNum, url, 10,pageLink);
             return datalist;
         }
 
@@ -222,7 +219,24 @@ namespace CMS.Template
                     totalCount = TypeParse.ToInt(objCount);
                 }
             }
-            return totalCount;
+            # region 计算页数
+
+            // 计算页数
+            int pageNum;
+            if (totalCount % (piEntity.PageSize ?? 10) > 0)
+            {
+                pageNum = totalCount / piEntity.PageSize ?? 10 + 1;
+            }
+            else
+            {
+                pageNum = totalCount / piEntity.PageSize ?? 10;
+            }
+            if (pageNum == 0)
+            {
+                pageNum = 1;
+            }
+            # endregion
+            return pageNum;
         }
     }
 }

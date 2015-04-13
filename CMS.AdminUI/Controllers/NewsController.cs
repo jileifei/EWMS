@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Services.Discovery;
 using CMS.CommonLib.Extension;
 using CMS.CommonLib.Utils;
 using CMS.Domain;
 using CMS.Service;
+using CMS.Template;
 using Webdiyer.WebControls.Mvc;
 
 namespace CMS.AdminUI.Controllers
@@ -102,6 +106,7 @@ namespace CMS.AdminUI.Controllers
                     ChannelService channelService = new ChannelService();
                     ChannelInfo channelInfo = channelService.GetChannelInfo(newsEntity.ChannelID);
                     string linkUrl =_siteurl+channelInfo.ChannelUrlPart.Remove(channelInfo.ChannelUrlPart.LastIndexOf("/"));
+                  
                     try
                     {
                         NewsService newsService = new NewsService();

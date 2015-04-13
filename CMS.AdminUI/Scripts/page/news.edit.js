@@ -47,10 +47,18 @@
                         url: "/Publish/PublishDetailPage",
                         data: { id: jsonObj.NewsID, channelId: channelID },
                         success: function (msg) {
-                            alert('修改成功');
-                            $.unblockUI();
+                            if (msg.result == "success") {
+                                alert(msg.message);
+                                $.unblockUI();
+                                $.blockUI({ message: "<h2>正在更新列表页，请稍后.....</h2>" });
+                                if (publishList(channelID)) {
+                                    $.unblockUI();
+                                } else {
+                                    $.unblockUI();
+                                }
+                            }
                             // clear form
-                            window.location.href = "/news/";
+                            
                         }
                     });
                     
@@ -68,6 +76,25 @@
         $("#frmEdit").ajaxSubmit(options);
     })
 })
+
+function publishList(channelId) {
+    $.ajax({
+        type: "post",
+        url: "/Publish/PublishListPage",
+        data: { channelId: channelId },
+        success: function (msg) {
+            if (msg.result == "success") {
+                alert(msg.message);
+                window.location.href = "/news/";
+                return true;
+            } else {
+                alert(msg.message);
+                return false;
+            }
+        }
+    });
+    return false;
+}
 
 function SelSpecial() {
     var $dialog = null;

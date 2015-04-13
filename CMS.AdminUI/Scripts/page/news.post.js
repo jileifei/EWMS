@@ -42,18 +42,27 @@
                         url: "/Publish/PublishDetailPage",
                         data: { id: jsonObj.NewsID, channelId: channelID },
                         success: function (msg) {
-                            alert('发表成功');
-                            $.unblockUI();
-                            // clear form
-                            $("#frmPost").clearForm();
-                            $("#txtSpecialID").val('0');
-                            $("#txtSpecialChannelID").val('0');
-                            CKEDITOR.instances.fckContent.setData("");
+                            if (msg.result == "success") {
+                                alert(msg.message);
+                                $.unblockUI();
+                                $.blockUI({ message: "<h2>正在更新列表页，请稍后.....</h2>" });
+                                if (publishList(channelID)) {
+                                    $.unblockUI();
+                                } else {
+                                    $.unblockUI();
+                                }
+                                // clear form
+                                $("#frmPost").clearForm();
+                                $("#txtSpecialID").val('0');
+                                $("#txtSpecialChannelID").val('0');
+                                CKEDITOR.instances.fckContent.setData("");
+                            }
                         }
                     });
                 }
                 else {
                     alert(jsonObj.msg);
+                    $.unblockUI();
                 }
             },
             url: "/news/postnews/",
@@ -64,6 +73,21 @@
         $("#frmPost").ajaxSubmit(options);
     })
 })
+
+function publishList(channelId) {
+    $.ajax({
+        type: "post",
+        url: "/Publish/PublishListPage",
+        data: { channelId: channelId },
+        success: function (msg) {
+            if (msg.result == "success") {
+                alert(msg.message);
+                return true;
+            }
+        }
+    });
+    return false;
+}
 
 function SelSpecial() {
     var $dialog = null;

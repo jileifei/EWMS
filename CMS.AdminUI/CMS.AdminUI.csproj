@@ -573,6 +573,7 @@
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
+    <Content Include="pager.css" />
     <Content Include="Scripts\datagrid-detailview.js" />
     <Content Include="Scripts\easyui-lang-zh_CN.js" />
     <Content Include="Scripts\excolor\bg.png" />

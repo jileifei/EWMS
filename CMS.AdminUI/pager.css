@@ -1,0 +1,8 @@
+﻿/*badoo style*/
+div#badoopager {padding-right: 0px; padding-left: 0px; font-size: 13px; padding-bottom: 10px; color: #48b9ef; padding-top: 10px; font-family: arial, helvetica, sans-serif; background-color: #fff; text-align: center}
+div#badoopager a {border-right: #f0f0f0 2px solid; padding-right: 5px; border-top: #f0f0f0 2px solid; padding-left: 5px; padding-bottom: 2px; margin: 0px 2px; border-left: #f0f0f0 2px solid; color: #48b9ef; padding-top: 2px; border-bottom: #f0f0f0 2px solid; text-decoration: none}
+div#badoopager a:hover {border-right: #ff5a00 2px solid; border-top: #ff5a00 2px solid; border-left: #ff5a00 2px solid; color: #ff5a00; border-bottom: #ff5a00 2px solid}
+div#badoopager a:active {border-right: #ff5a00 2px solid; border-top: #ff5a00 2px solid; border-left: #ff5a00 2px solid; color: #ff5a00; border-bottom: #ff5a00 2px solid}
+div#badoopager span.current {border-right: #ff5a00 2px solid; padding-right: 5px; border-top: #ff5a00 2px solid; padding-left: 5px; font-weight: bold; padding-bottom: 2px; border-left: #ff5a00 2px solid; color: #fff; padding-top: 2px; border-bottom: #ff5a00 2px solid; background-color: #ff6c16}
+div#badoopager a.disabled {display: none}
+div#badoopager input[type=text]{width:30px}

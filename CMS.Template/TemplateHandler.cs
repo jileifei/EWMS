@@ -327,19 +327,19 @@ namespace CMS.Template
                     {
                         if (!hashTagValue.ContainsKey(tagVar))
                         {
-                            if (tagVar == PAGEDATALISTTAG || tagVar == PAGENUMINFOTAG)// 分页列表数据 分页页码
-                            {
-                                PagerHandler pagerHandler = new PagerHandler();
-                                string pageNumList = "";
-                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList,0);
-                                hashTagValue.Add(PAGEDATALISTTAG, listData);
-                                hashTagValue.Add(PAGENUMINFOTAG, pageNumList);
+                            //if (tagVar == PAGEDATALISTTAG || tagVar == PAGENUMINFOTAG)// 分页列表数据 分页页码
+                            //{
+                            //    PagerHandler pagerHandler = new PagerHandler();
+                            //    string pageNumList = "";
+                            //    IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList,0);
+                            //    hashTagValue.Add(PAGEDATALISTTAG, listData);
+                            //    hashTagValue.Add(PAGENUMINFOTAG, pageNumList);
 
-                            }
-                            else
-                            {
+                            //}
+                            //else
+                            //{
                                 hashTagValue.Add(tagVar, TagFactory.TagDeal(tagVar, channelID));
-                            }
+                            //}
                         }
                     }
 
@@ -350,7 +350,7 @@ namespace CMS.Template
         }
 
 
-        public static string DealListTemplate(long? listTemplateID, long? channelID,Int32 currentPage)
+        public static string DealListTemplate(long? listTemplateID, long? channelID,Int32 currentPage,Dictionary<int,string> pageLink )
         {
             // 模板处理结果
             string templateResult = "";
@@ -397,7 +397,7 @@ namespace CMS.Template
                             {
                                 PagerHandler pagerHandler = new PagerHandler();
                                 string pageNumList = "";
-                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList, currentPage);
+                                IList<TemplateDoc> listData = pagerHandler.GetPagerDataList(channelID ?? 0, ref pageNumList, currentPage,pageLink);
                                 hashTagValue.Add(PAGEDATALISTTAG, listData);
                                 hashTagValue.Add(PAGENUMINFOTAG, pageNumList);
                             }
